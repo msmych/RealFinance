@@ -77,17 +77,16 @@ public class HelpProcessorTest {
 
     @Test
     public void testProcess() {
-        List<SendMessage> requests = new ArrayList<>();
+        SendMessage[] sendMessages = { null };
         when(update.message()).thenReturn(message);
         when(message.chat()).thenReturn(chat);
         when(chat.id()).thenReturn(CHAT_ID);
         when(telegramBot.execute(ArgumentMatchers.isA(SendMessage.class)))
                 .then(invocationOnMock -> {
-                    Arrays.stream(invocationOnMock.getArguments()).forEach(
-                            argument -> requests.add((SendMessage) argument));
+                    sendMessages[0] = invocationOnMock.getArgument(0);
                     return sendResponse;
                 });
         helpProcessor.process(update);
-        assertEquals(1, requests.size());
+        assertEquals(1, sendMessages.length);
     }
 }

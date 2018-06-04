@@ -1,8 +1,10 @@
 package finance.bot.chat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import finance.bot.user.BotUser;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public final class BotChat {
@@ -19,8 +21,10 @@ public final class BotChat {
     @Column
     String username;
 
-    @Column
-    String title;
-
-
+    @ManyToMany
+    @JoinTable(
+            name = "bot_chat_bot_user",
+            joinColumns = { @JoinColumn(name = "bot_chat_id") },
+            inverseJoinColumns = { @JoinColumn(name = "bot_user_id") })
+    Set<BotUser> users = new HashSet<>();
 }
