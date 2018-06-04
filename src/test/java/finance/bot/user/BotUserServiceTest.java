@@ -50,8 +50,16 @@ public class BotUserServiceTest {
         BotUser existingBotUser = new BotUser();
         existingBotUser.id = 1;
         setBotUserRepositoryAnswers(acts, Optional.of(existingBotUser));
-        BotUser savedBotUser = botUserService.saveBotUser(update);
-        assertSavedBotUser(acts, savedBotUser, null);
+        assertSavedBotUser(acts, botUserService.saveBotUser(update), null);
+    }
+
+    @Test
+    public void testFindById() {
+        BotUser botUser = new BotUser();
+        botUser.id = 1;
+        when(botUserRepository.findById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.of(botUser));
+        assertEquals(1, botUserService.findById(1).get().id);
     }
 
     private void assertSavedBotUser(boolean[] acts, BotUser botUser, UserAction expectedUserAction) {
@@ -64,15 +72,23 @@ public class BotUserServiceTest {
     }
 
     private void setBotUserRepositoryAnswers(boolean[] acts, Optional<BotUser> optionalBotUser) {
-        when(botUserRepository.findById(ArgumentMatchers.anyInt()))
-                .then(invocationOnMock -> {
-                    acts[0] = true;
-                    return optionalBotUser;
-                });
+        setBotUserRepositoryFindByIdAnswer(acts, optionalBotUser);
+        setBotUserRepositorySaveAnswer(acts);
+    }
+
+    private void setBotUserRepositorySaveAnswer(boolean[] acts) {
         when(botUserRepository.save(ArgumentMatchers.isA(BotUser.class)))
                 .then(invocationOnMock -> {
                     acts[1] = true;
                     return invocationOnMock.getArgument(0);
+                });
+    }
+
+    private void setBotUserRepositoryFindByIdAnswer(boolean[] acts, Optional<BotUser> optionalBotUser) {
+        when(botUserRepository.findById(ArgumentMatchers.anyInt()))
+                .then(invocationOnMock -> {
+                    acts[0] = true;
+                    return optionalBotUser;
                 });
     }
 }

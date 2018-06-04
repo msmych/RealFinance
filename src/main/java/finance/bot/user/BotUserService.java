@@ -38,4 +38,8 @@ public class BotUserService {
         }
         return botUser;
     }
+
+    public Optional<BotUser> findById(int id) {
+        return botUserRepository.findById(id);
+    }
 }

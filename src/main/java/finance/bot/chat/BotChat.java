@@ -10,21 +10,21 @@ import java.util.Set;
 public final class BotChat {
 
     @Id
-    long id;
+    public long id;
 
     @Column
-    String firstName;
+    public String firstName;
 
     @Column
-    String lastName;
+    public String lastName;
 
     @Column
-    String username;
+    public String username;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "bot_chat_bot_user",
             joinColumns = { @JoinColumn(name = "bot_chat_id") },
-            inverseJoinColumns = { @JoinColumn(name = "bot_user_id") })
-    Set<BotUser> users = new HashSet<>();
+            inverseJoinColumns = { @JoinColumn(name = "bot_user_id")})
+    public Set<BotUser> users = new HashSet<>();
 }

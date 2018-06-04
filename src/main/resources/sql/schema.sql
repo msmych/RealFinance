@@ -1,3 +1,6 @@
+create sequence expense_id_seq
+  increment by 50;
+
 create table bot_chat
 (
   id         bigint not null
@@ -5,7 +8,6 @@ create table bot_chat
     primary key,
   first_name varchar(255),
   last_name  varchar(255),
-  title      varchar(255),
   username   varchar(255)
 );
 
@@ -30,5 +32,21 @@ create table bot_chat_bot_user
     references bot_user,
   constraint bot_chat_bot_user_pkey
   primary key (bot_chat_id, bot_user_id)
+);
+
+create table expense
+(
+  id          bigint not null
+    constraint expense_pkey
+    primary key,
+  amount      integer,
+  currency    varchar(255),
+  type        varchar(255),
+  bot_chat_id bigint
+    constraint fko7iakdufufk59ro2pgp4k8qrx
+    references bot_chat,
+  bot_user_id integer
+    constraint fkbkff7f7a2togeb9dshvoub9b6
+    references bot_user
 );
 

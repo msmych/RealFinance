@@ -6,19 +6,19 @@ import javax.persistence.*;
 public final class BotUser {
 
     @Id
-    int id;
+    public int id;
 
     @Column
     @Enumerated(EnumType.STRING)
-    UserAction userAction;
+    public UserAction userAction;
 
     @Column
-    String firstName;
+    public String firstName;
 
     @Column
-    String lastName;
+    public String lastName;
 
     @Column
-    String username;
+    public String username;
 
 }

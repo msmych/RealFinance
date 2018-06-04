@@ -42,4 +42,7 @@ public class BotChatService {
         return botChat;
     }
 
+    public Optional<BotChat> findById(long id) {
+        return botChatRepository.findById(id);
+    }
 }

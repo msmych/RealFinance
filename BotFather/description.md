@@ -1,3 +1,3 @@
 Hello
 
-I help counting expenses
+I am real finance bot, and I help remembering expenses

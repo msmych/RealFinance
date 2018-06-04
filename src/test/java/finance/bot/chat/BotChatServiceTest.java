@@ -56,6 +56,15 @@ public class BotChatServiceTest {
         assertSavedBotChat(acts, savedBotChat);
     }
 
+    @Test
+    public void testFindById() {
+        BotChat botChat = new BotChat();
+        botChat.id = 1L;
+        when(botChatRepository.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(botChat));
+        assertEquals(1L, botChatService.findById(1L).get().id);
+    }
+
     private void setBotChatRepositoryAnswers(boolean[] acts, Optional<BotChat> optionalBotChat) {
         when(botChatRepository.findById(ArgumentMatchers.anyLong()))
                 .then(invocationOnMock -> {
