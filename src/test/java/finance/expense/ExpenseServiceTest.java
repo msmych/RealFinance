@@ -45,7 +45,7 @@ public class ExpenseServiceTest {
     public void testSaveExpense() {
         boolean[] acts = {false};
         setReturnsAndAnswers(acts);
-        assertExpense(acts, expenseService.save(update, "1500"));
+        assertExpense(acts, expenseService.save(update, 1500));
     }
 
     private void setReturnsAndAnswers(boolean[] acts) {

@@ -49,8 +49,9 @@ public class BotUserServiceTest {
         boolean[] acts = {false, false};
         BotUser existingBotUser = new BotUser();
         existingBotUser.id = 1;
+        existingBotUser.userAction = UserAction.NONE;
         setBotUserRepositoryAnswers(acts, Optional.of(existingBotUser));
-        assertSavedBotUser(acts, botUserService.saveBotUser(update), null);
+        assertSavedBotUser(acts, botUserService.saveBotUser(update), UserAction.NONE);
     }
 
     @Test

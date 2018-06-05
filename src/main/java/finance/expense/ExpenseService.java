@@ -23,11 +23,11 @@ public class ExpenseService {
         this.botUserService = botUserService;
     }
 
-    public Expense save(Update update, String amount) {
+    public Expense save(Update update, int amount) {
         Expense expense = new Expense();
         expense.botChat = botChatService.findById(getChat(update).id()).get();
         expense.botUser = botUserService.findById(getFrom(update).id()).get();
-        expense.amount = Integer.valueOf(amount);
+        expense.amount = amount;
         return expenseRepository.save(expense);
     }
 }

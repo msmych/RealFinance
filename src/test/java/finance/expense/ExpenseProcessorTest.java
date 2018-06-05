@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.model.Update;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -19,8 +20,36 @@ public class ExpenseProcessorTest {
 
     @Test
     public void testMessageTextInt() {
-        setMessageTextAmount("15");
-        assertTrue(expenseProcessor.appliesTo(update));
+        int[] acts = {0};
+        boolean applies = checkIfAppliesAndProcess(acts, "15");
+        assertIfAppliesAndProcess(applies, 1500, acts);
+    }
+
+    @Test
+    public void testMessageTextDecimal() {
+        int[] acts = {0};
+        boolean applies = checkIfAppliesAndProcess(acts, "3.50");
+        assertIfAppliesAndProcess(applies, 350, acts);
+    }
+
+    @Test
+    public void testMessageTextLessThatOne() {
+        int[] acts = {0};
+        boolean applies = checkIfAppliesAndProcess(acts, "0.12");
+        assertIfAppliesAndProcess(applies, 12, acts);
+    }
+
+    private void assertIfAppliesAndProcess(boolean applies, int expectedAmount, int[] acts) {
+        assertTrue(applies);
+        assertEquals(expectedAmount, acts[0]);
+    }
+
+    private boolean checkIfAppliesAndProcess(int[] acts, String amount) {
+        setMessageTextAmount(amount);
+        setExpenseServiceAnswer(acts);
+        boolean applies = expenseProcessor.appliesTo(update);
+        expenseProcessor.process(update);
+        return applies;
     }
 
     @Test
@@ -43,20 +72,10 @@ public class ExpenseProcessorTest {
         assertFalse(expenseProcessor.appliesTo(update));
     }
 
-    @Test
-    public void testProcess() {
-        boolean[] acts = {false};
-        setMessageTextAmount("15");
-        expenseProcessor.appliesTo(update);
-        setExpenseServiceAnswer(acts);
-        expenseProcessor.process(update);
-        assertTrue(acts[0]);
-    }
-
-    private void setExpenseServiceAnswer(boolean[] acts) {
-        when(expenseService.save(ArgumentMatchers.isA(Update.class), ArgumentMatchers.anyString()))
+    private void setExpenseServiceAnswer(int[] acts) {
+        when(expenseService.save(ArgumentMatchers.isA(Update.class), ArgumentMatchers.anyInt()))
                 .then(invocationOnMock -> {
-                    acts[0] = true;
+                    acts[0] = invocationOnMock.getArgument(1);
                     return new Expense();
                 });
     }
