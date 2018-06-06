@@ -6,6 +6,7 @@ import finance.bot.user.BotUserService;
 import finance.expense.total.ExpenseTotal;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static finance.update.UpdateUtils.getChat;
@@ -34,7 +35,12 @@ public class ExpenseService {
         return expenseRepository.save(expense);
     }
 
-    public List<ExpenseTotal> getTotal(long chatId) {
-        return expenseRepository.totalByBotChatId(chatId);
+    public List<ExpenseTotal> getTotal(long botChatId) {
+        return expenseRepository.totalByBotChatId(botChatId);
+    }
+
+    @Transactional
+    public void deleteByBotChatId(long botChatId) {
+        expenseRepository.deleteByBotChatId(botChatId);
     }
 }

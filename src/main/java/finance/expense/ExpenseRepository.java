@@ -15,4 +15,6 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long> {
                     "where bot_chat_id = :botChatId " +
                     "group by currency")
     List<ExpenseTotal> totalByBotChatId(@Param("botChatId") long botChatId);
+
+    void deleteByBotChatId(long botChatId);
 }

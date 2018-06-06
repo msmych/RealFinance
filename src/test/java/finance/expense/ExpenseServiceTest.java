@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -55,6 +56,15 @@ public class ExpenseServiceTest {
         when(expenseRepository.totalByBotChatId(ArgumentMatchers.anyLong()))
                 .thenReturn(Arrays.asList(null, null, null));
         assertEquals(3, expenseService.getTotal(1L).size());
+    }
+
+    @Test
+    public void testDeleteByBotChatId() {
+        boolean[] acts = {false};
+        doAnswer(invocationOnMock -> acts[0] = true)
+                .when(expenseRepository).deleteByBotChatId(ArgumentMatchers.anyLong());
+        expenseService.deleteByBotChatId(1L);
+        assertTrue(acts[0]);
     }
 
     private void setReturnsAndAnswers(boolean[] acts) {

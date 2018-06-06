@@ -1,3 +1,4 @@
 Hello
 
-I am real finance bot, and I help keeping track of your expenses
+I am real finance bot
+Send me your expenses to see how much you spend

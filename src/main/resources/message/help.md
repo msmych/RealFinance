@@ -1,7 +1,9 @@
 *Real finance help*
 
-  <amount> - Save new expense. _Examples:_ `100`, `12.50`, `0.45`
+  `amount` - Save new expense. Examples: `100`, `12.50`, `0.45`
 
-  /total - Total expenses amount by chat
+  /total - Total chat expenses
+
+  /clear - Clear chat expenses
 
   /help - This help message
