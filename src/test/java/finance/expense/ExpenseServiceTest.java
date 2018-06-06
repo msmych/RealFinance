@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -50,17 +51,10 @@ public class ExpenseServiceTest {
     }
 
     @Test
-    public void testGetZeroTotalByChatId() {
-        when(expenseRepository.sumAmountByBotChat(ArgumentMatchers.anyLong()))
-                .thenReturn(Optional.empty());
-        assertEquals(0L, expenseService.getTotal(1L));
-    }
-
-    @Test
     public void testGetTotalByChatId() {
-        when(expenseRepository.sumAmountByBotChat(ArgumentMatchers.anyLong()))
-                .thenReturn(Optional.of(TOTAL));
-        assertEquals(TOTAL, expenseService.getTotal(1L));
+        when(expenseRepository.totalByBotChatId(ArgumentMatchers.anyLong()))
+                .thenReturn(Arrays.asList(null, null, null));
+        assertEquals(3, expenseService.getTotal(1L).size());
     }
 
     private void setReturnsAndAnswers(boolean[] acts) {

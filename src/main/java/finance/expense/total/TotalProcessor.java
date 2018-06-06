@@ -1,4 +1,4 @@
-package finance.command;
+package finance.expense.total;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
@@ -10,7 +10,8 @@ import finance.update.UpdateProcessor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import static finance.expense.ExpenseUtils.formatAmount;
+import java.util.stream.Collectors;
+
 import static finance.update.UpdateUtils.getChat;
 import static finance.update.UpdateUtils.isCommand;
 
@@ -44,8 +45,10 @@ public final class TotalProcessor implements UpdateProcessor {
     }
 
     private String getTotalText(long chatId) {
-        String totalText = "Total: ";
-        totalText += formatAmount(expenseService.getTotal(chatId));
+        String totalText = "*Total*\n";
+        totalText += expenseService.getTotal(chatId).stream()
+                .map(TotalUtils::formatTotal)
+                .collect(Collectors.joining("\n"));
         return totalText;
     }
 }

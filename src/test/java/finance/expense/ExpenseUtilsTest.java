@@ -9,16 +9,16 @@ public class ExpenseUtilsTest {
 
     @Test
     public void testAmountLong() {
-        assertEquals("`15.00`", formatAmount(1500L));
+        assertEquals("15.00", formatAmount(1500L));
     }
 
     @Test
     public void testAmountLessThanOne() {
-        assertEquals("`0.12`", formatAmount(12L));
+        assertEquals("0.12", formatAmount(12L));
     }
 
     @Test
     public void testAmountZero() {
-        assertEquals("`0.00`", formatAmount(0L));
+        assertEquals("0.00", formatAmount(0L));
     }
 }

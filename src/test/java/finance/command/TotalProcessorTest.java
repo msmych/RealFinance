@@ -9,9 +9,12 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import finance.bot.Bot;
 import finance.expense.ExpenseService;
+import finance.expense.total.TotalProcessor;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
+
+import java.util.Collections;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
@@ -52,7 +55,7 @@ public class TotalProcessorTest {
         when(expenseService.getTotal(ArgumentMatchers.anyLong()))
                 .then(invocationOnMock -> {
                     acts[0] = true;
-                    return TOTAL;
+                    return Collections.emptyList();
                 });
         when(telegramBot.execute(ArgumentMatchers.isA(SendMessage.class)))
                 .then(invocationOnMock -> {

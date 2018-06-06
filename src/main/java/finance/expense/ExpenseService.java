@@ -3,7 +3,10 @@ package finance.expense;
 import com.pengrad.telegrambot.model.Update;
 import finance.bot.chat.BotChatService;
 import finance.bot.user.BotUserService;
+import finance.expense.total.ExpenseTotal;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static finance.update.UpdateUtils.getChat;
 import static finance.update.UpdateUtils.getFrom;
@@ -31,8 +34,7 @@ public class ExpenseService {
         return expenseRepository.save(expense);
     }
 
-    public long getTotal(long chatId) {
-        return expenseRepository.sumAmountByBotChat(chatId)
-                .orElse(0L);
+    public List<ExpenseTotal> getTotal(long chatId) {
+        return expenseRepository.totalByBotChatId(chatId);
     }
 }
