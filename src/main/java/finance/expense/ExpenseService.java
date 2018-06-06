@@ -30,4 +30,9 @@ public class ExpenseService {
         expense.amount = amount;
         return expenseRepository.save(expense);
     }
+
+    public long getTotal(long chatId) {
+        return expenseRepository.sumAmountByBotChat(chatId)
+                .orElse(0L);
+    }
 }

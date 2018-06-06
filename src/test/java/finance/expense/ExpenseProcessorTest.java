@@ -21,35 +21,32 @@ public class ExpenseProcessorTest {
     @Test
     public void testMessageTextInt() {
         int[] acts = {0};
-        boolean applies = checkIfAppliesAndProcess(acts, "15");
-        assertIfAppliesAndProcess(applies, 1500, acts);
+        when(update.message()).thenReturn(message);
+        when(message.text()).thenReturn("15");
+        boolean applies = expenseProcessor.appliesTo(update);
+        checkProcessAnswer(acts, "15");
+        assertTrue(applies);
+        assertEquals(1500, acts[0]);
     }
 
     @Test
     public void testMessageTextDecimal() {
         int[] acts = {0};
-        boolean applies = checkIfAppliesAndProcess(acts, "3.50");
-        assertIfAppliesAndProcess(applies, 350, acts);
+        checkProcessAnswer(acts, "3.50");
+        assertEquals(350, acts[0]);
     }
 
     @Test
     public void testMessageTextLessThatOne() {
         int[] acts = {0};
-        boolean applies = checkIfAppliesAndProcess(acts, "0.12");
-        assertIfAppliesAndProcess(applies, 12, acts);
+        checkProcessAnswer(acts, "0.12");
+        assertEquals(12, acts[0]);
     }
 
-    private void assertIfAppliesAndProcess(boolean applies, int expectedAmount, int[] acts) {
-        assertTrue(applies);
-        assertEquals(expectedAmount, acts[0]);
-    }
-
-    private boolean checkIfAppliesAndProcess(int[] acts, String amount) {
+    private void checkProcessAnswer(int[] acts, String amount) {
         setMessageTextAmount(amount);
         setExpenseServiceAnswer(acts);
-        boolean applies = expenseProcessor.appliesTo(update);
         expenseProcessor.process(update);
-        return applies;
     }
 
     @Test

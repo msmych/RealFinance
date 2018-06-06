@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 public class ExpenseServiceTest {
 
     private final int AMOUNT = 1500;
+    private final long TOTAL = 1000L;
     private final String EXPENSE_CURRENCY = "EUR";
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
@@ -46,6 +47,20 @@ public class ExpenseServiceTest {
         boolean[] acts = {false};
         setReturnsAndAnswers(acts);
         assertExpense(acts, expenseService.save(update, 1500));
+    }
+
+    @Test
+    public void testGetZeroTotalByChatId() {
+        when(expenseRepository.sumAmountByBotChat(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.empty());
+        assertEquals(0L, expenseService.getTotal(1L));
+    }
+
+    @Test
+    public void testGetTotalByChatId() {
+        when(expenseRepository.sumAmountByBotChat(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(TOTAL));
+        assertEquals(TOTAL, expenseService.getTotal(1L));
     }
 
     private void setReturnsAndAnswers(boolean[] acts) {

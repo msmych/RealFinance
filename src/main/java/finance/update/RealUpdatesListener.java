@@ -29,9 +29,17 @@ public class RealUpdatesListener implements UpdatesListener {
             botChatService.saveBotChat(update);
             updateProcessors.stream()
                     .filter(updateProcessor -> updateProcessor.appliesTo(update))
-                    .forEach(updateProcessor -> updateProcessor.process(update));
+                    .forEach(updateProcessor -> processUpdate(updateProcessor, update));
         });
 
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
+    }
+
+    private void processUpdate(UpdateProcessor updateProcessor, Update update) {
+        try {
+            updateProcessor.process(update);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 }
