@@ -10,6 +10,7 @@ import finance.update.UpdateProcessor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import static finance.expense.ExpenseUtils.formatAmount;
 import static finance.update.UpdateUtils.getChat;
 import static finance.update.UpdateUtils.isCommand;
 
@@ -44,8 +45,7 @@ public final class TotalProcessor implements UpdateProcessor {
 
     private String getTotalText(long chatId) {
         String totalText = "Total: ";
-        String backQuote = "`";
-        totalText += backQuote + expenseService.getTotal(chatId) + backQuote;
+        totalText += formatAmount(expenseService.getTotal(chatId));
         return totalText;
     }
 }

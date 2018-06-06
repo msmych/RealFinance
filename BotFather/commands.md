@@ -1,2 +1,2 @@
-total - Total amount of expenses
+total - Total expenses amount
 help - Help message
