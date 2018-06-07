@@ -20,6 +20,7 @@ public class BotChatServiceTest {
     private final String CHAT_FIRST_NAME = "chatFirstName";
     private final String CHAT_LAST_NAME = "chatLastName";
     private final String CHAT_USERNAME = "chatUsername";
+    private final String CHAT_TITLE = "chatTitle";
 
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
@@ -36,6 +37,7 @@ public class BotChatServiceTest {
         when(chat.firstName()).thenReturn(CHAT_FIRST_NAME);
         when(chat.lastName()).thenReturn(CHAT_LAST_NAME);
         when(chat.username()).thenReturn(CHAT_USERNAME);
+        when(chat.title()).thenReturn(CHAT_TITLE);
     }
 
     @Test
@@ -84,6 +86,7 @@ public class BotChatServiceTest {
         assertEquals(CHAT_FIRST_NAME, savedBotChat.firstName);
         assertEquals(CHAT_LAST_NAME, savedBotChat.lastName);
         assertEquals(CHAT_USERNAME, savedBotChat.username);
+        assertEquals(CHAT_TITLE, savedBotChat.title);
         assertEquals(1, savedBotChat.users.size());
     }
 }

@@ -21,6 +21,9 @@ public final class BotChat {
     @Column
     public String username;
 
+    @Column
+    public String title;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "bot_chat_bot_user",
