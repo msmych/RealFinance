@@ -3,14 +3,16 @@ Personal finance Telegram bot
 
 ### Commands
 
-`amount` - Save new expense. Examples: `100`, `12.50`, `0.45`
+/expense `amount` - Save new expense. Examples: `/expense 100`, `/expense 12.50`, `/expense 0.45`
 
 /total - Total chat expenses
 
 /clear - Clear chat expenses
 
 ###### How to run
-`mvn spring-boot:run`
+Run application: `mvn spring-boot:run &`
+View process: `top`
+Kill process: `kill PID`
 
 ###### app.properties
 ```
@@ -20,7 +22,7 @@ token
 spring.datasource.url
 spring.datasource.username
 spring.datasource.password
-spring.datasource.driver-class-name
+spring.datasource.driver-class-name=org.postgresql.Driver
 #JPA
 spring.jpa.hibernate.ddl-auto
 ```

@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 public class ExpenseProcessorTest {
 
+    private final String COMMAND_EXPENSE = "/expense ";
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
     private final ExpenseService expenseService = mock(ExpenseService.class);
@@ -22,7 +23,7 @@ public class ExpenseProcessorTest {
     public void testMessageTextInt() {
         int[] acts = {0};
         when(update.message()).thenReturn(message);
-        when(message.text()).thenReturn("15");
+        when(message.text()).thenReturn(COMMAND_EXPENSE + "15");
         boolean applies = expenseProcessor.appliesTo(update);
         checkProcessAnswer(acts, "15");
         assertTrue(applies);
@@ -79,6 +80,6 @@ public class ExpenseProcessorTest {
 
     private void setMessageTextAmount(String amount) {
         when(update.message()).thenReturn(message);
-        when(message.text()).thenReturn(amount);
+        when(message.text()).thenReturn(COMMAND_EXPENSE + amount);
     }
 }

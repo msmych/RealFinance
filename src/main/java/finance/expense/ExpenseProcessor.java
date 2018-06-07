@@ -10,7 +10,8 @@ import static finance.update.UpdateUtils.getText;
 @Component
 public final class ExpenseProcessor implements UpdateProcessor {
 
-    private final String AMOUNT_REGEX = "[0-9]+([/.][0-9]{2})?";
+    private final String COMMAND_EXPENSE = "/expense ";
+    private final String AMOUNT_REGEX = "[/]expense [0-9]+([/.][0-9]{2})?";
     private final ExpenseService expenseService;
 
     public ExpenseProcessor(ExpenseService expenseService) {
@@ -32,7 +33,9 @@ public final class ExpenseProcessor implements UpdateProcessor {
     }
 
     private int parseAmount(String text) {
-        String[] amountParts = text.split("\\.");
+        String[] amountParts = text
+                .substring(COMMAND_EXPENSE.length())
+                .split("\\.");
         String amountString = amountParts.length == 1
                 ? amountParts[0] + "00"
                 : amountParts[0] + amountParts[1];
