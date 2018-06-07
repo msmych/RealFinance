@@ -1,6 +1,18 @@
 # Real finance
 Personal finance Telegram bot
 
+### Commands
+
+`amount` - Save new expense. Examples: `100`, `12.50`, `0.45`
+
+/total - Total chat expenses
+
+/clear - Clear chat expenses
+
+###### How to run
+`mvn spring-boot:run`
+
+###### app.properties
 ```
 token
 
