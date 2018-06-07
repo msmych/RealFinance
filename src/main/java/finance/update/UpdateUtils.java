@@ -1,9 +1,6 @@
 package finance.update;
 
-import com.pengrad.telegrambot.model.Chat;
-import com.pengrad.telegrambot.model.Message;
-import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.User;
+import com.pengrad.telegrambot.model.*;
 
 import java.util.Optional;
 
@@ -22,13 +19,17 @@ public final class UpdateUtils {
     public static Chat getChat(Update update) {
         Message message = update.message();
         if (message != null) return message.chat();
-        return update.callbackQuery().message().chat();
+        CallbackQuery callbackQuery = update.callbackQuery();
+        if (callbackQuery != null) return callbackQuery.message().chat();
+        return update.editedMessage().chat();
     }
 
     public static User getFrom(Update update) {
         Message message = update.message();
         if (message != null) return message.from();
-        return update.callbackQuery().from();
+        CallbackQuery callbackQuery = update.callbackQuery();
+        if (callbackQuery != null) return callbackQuery.from();
+        return update.editedMessage().from();
     }
 
     public static Optional<String> getText(Update update) {
