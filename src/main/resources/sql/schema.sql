@@ -1,6 +1,3 @@
-create database real_finance
-;
-
 create sequence expense_id_seq
 	increment by 50
 ;
