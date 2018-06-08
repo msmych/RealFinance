@@ -26,6 +26,7 @@ public class BotChatService {
         botChat.firstName = chat.firstName();
         botChat.lastName = chat.lastName();
         botChat.username = chat.username();
+        botChat.title = chat.title();
         botChat.users.add(botUserService.saveBotUser(update));
         return botChatRepository.save(botChat);
     }
