@@ -3,15 +3,24 @@ Personal finance Telegram bot
 
 ### Commands
 
-/expense `amount` - Save new expense. Examples: `/expense 100`, `/expense 12.50`, `/expense 0.45`
+`/amount` - Save new expense. Examples: `/100`, `/12.50`, `/0.45`
 
 /total - Total chat expenses
 
 /clear - Clear chat expenses
 
 ###### How to run
+
+Create schema:
+```
+sudo -i -u postgres
+psql schema
+```
+
 Run application: `mvn spring-boot:run &`
-View process: `top`
+
+View process: `top | grep java`
+
 Kill process: `kill PID`
 
 ###### app.properties
