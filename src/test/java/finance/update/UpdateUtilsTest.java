@@ -71,16 +71,23 @@ public class UpdateUtilsTest {
     }
 
     @Test
-    public void testHasMessage() {
+    public void testMessage() {
         when(update.message()).thenReturn(message);
         when(update.callbackQuery()).thenReturn(null);
         assertUpdate();
     }
 
     @Test
-    public void testHasCallbackQuery() {
+    public void testCallbackQuery() {
         when(update.message()).thenReturn(null);
         when(update.callbackQuery()).thenReturn(callbackQuery);
+        assertUpdate();
+    }
+
+    @Test
+    public void testEditedMessage() {
+        when(update.message()).thenReturn(null);
+        when(update.editedMessage()).thenReturn(message);
         assertUpdate();
     }
 

@@ -15,6 +15,7 @@ public class ExpenseProcessorTest {
 
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
+    private final User user = mock(User.class);
     private final ExpenseService expenseService = mock(ExpenseService.class);
     private final ExpenseProcessor expenseProcessor = new ExpenseProcessor(expenseService);
 
