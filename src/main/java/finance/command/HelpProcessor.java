@@ -1,6 +1,5 @@
 package finance.command;
 
-import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -17,23 +16,23 @@ public final class HelpProcessor implements UpdateProcessor {
 
     private final String HELP = "help";
 
-    private final TelegramBot telegramBot;
+    private final Bot bot;
     private final String helpMessage;
 
-    public HelpProcessor(@Lazy TelegramBot telegramBot,
+    public HelpProcessor(@Lazy Bot bot,
                          @Qualifier("message-help") String helpMessage) {
-        this.telegramBot = telegramBot;
+        this.bot = bot;
         this.helpMessage = helpMessage;
     }
 
     @Override
     public boolean appliesTo(Update update) {
-        return isCommand(update, HELP, Bot.user.username());
+        return isCommand(update, HELP, bot.getUser().username());
     }
 
     @Override
     public void process(Update update) {
-        telegramBot.execute(getSendMessage(update));
+        bot.execute(getSendMessage(update));
     }
 
     private SendMessage getSendMessage(Update update) {

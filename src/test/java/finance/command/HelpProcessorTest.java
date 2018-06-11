@@ -1,6 +1,5 @@
 package finance.command;
 
-import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
@@ -12,10 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,18 +21,18 @@ public class HelpProcessorTest {
     private final String BOT_USERNAME = "RealFinanceBot";
     private final long CHAT_ID = 0L;
 
-    private final TelegramBot telegramBot = mock(TelegramBot.class);
-    private final HelpProcessor helpProcessor = new HelpProcessor(telegramBot, "help");
+    private final Bot bot = mock(Bot.class);
+    private final HelpProcessor helpProcessor = new HelpProcessor(bot, "help");
 
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
-    private final User user = mock(User.class);
     private final Chat chat = mock(Chat.class);
+    private final User user = mock(User.class);
     private final SendResponse sendResponse = mock(SendResponse.class);
 
     @Before
     public void before() {
-        Bot.user = user;
+        when(bot.getUser()).thenReturn(user);
         when(user.username()).thenReturn(BOT_USERNAME);
     }
 
@@ -81,7 +76,7 @@ public class HelpProcessorTest {
         when(update.message()).thenReturn(message);
         when(message.chat()).thenReturn(chat);
         when(chat.id()).thenReturn(CHAT_ID);
-        when(telegramBot.execute(ArgumentMatchers.isA(SendMessage.class)))
+        when(bot.execute(ArgumentMatchers.isA(SendMessage.class)))
                 .then(invocationOnMock -> {
                     sendMessages[0] = invocationOnMock.getArgument(0);
                     return sendResponse;

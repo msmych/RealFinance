@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class BotUserServiceTest {
+public class BotConfigUserServiceTest {
 
     private final String USER_FIRST_NAME = "userFirstName";
     private final String USER_LAST_NAME = "userLastName";

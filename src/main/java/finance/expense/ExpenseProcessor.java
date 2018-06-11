@@ -2,7 +2,6 @@ package finance.expense;
 
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import finance.bot.Bot;
 import finance.update.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
