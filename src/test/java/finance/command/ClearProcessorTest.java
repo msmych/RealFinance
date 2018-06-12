@@ -19,8 +19,9 @@ public class ClearProcessorTest {
     private final Message message = mock(Message.class);
     private final User user = mock(User.class);
     private final Chat chat = mock(Chat.class);
+    private final Bot bot = mock(Bot.class);
     private final ExpenseService expenseService = mock(ExpenseService.class);
-    private final ClearProcessor clearProcessor = new ClearProcessor(expenseService);
+    private final ClearProcessor clearProcessor = new ClearProcessor(bot, expenseService);
 
     @Before
     public void before() {
@@ -32,7 +33,7 @@ public class ClearProcessorTest {
     @Test
     public void testMessageTextCommandClear() {
         when(message.text()).thenReturn("/clear");
-        Bot.user = user;
+        when(bot.getUser()).thenReturn(user);
         when(user.username()).thenReturn("Bot");
         assertTrue(clearProcessor.appliesTo(update));
     }

@@ -42,6 +42,7 @@ public class BotUserServiceTest {
         setBotUserRepositoryAnswers(acts, Optional.empty());
         BotUser savedBotUser = botUserService.saveBotUser(update);
         assertSavedBotUser(acts, savedBotUser, UserAction.NONE);
+        assertEquals("EUR", savedBotUser.defaultCurrency);
     }
 
     @Test
@@ -50,8 +51,11 @@ public class BotUserServiceTest {
         BotUser existingBotUser = new BotUser();
         existingBotUser.id = 1;
         existingBotUser.userAction = UserAction.NONE;
+        existingBotUser.defaultCurrency = "USD";
         setBotUserRepositoryAnswers(acts, Optional.of(existingBotUser));
-        assertSavedBotUser(acts, botUserService.saveBotUser(update), UserAction.NONE);
+        BotUser savedBotUser = botUserService.saveBotUser(update);
+        assertSavedBotUser(acts, savedBotUser, UserAction.NONE);
+        assertEquals("USD", savedBotUser.defaultCurrency);
     }
 
     @Test

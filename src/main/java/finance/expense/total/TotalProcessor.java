@@ -1,6 +1,5 @@
 package finance.expense.total;
 
-import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -20,22 +19,22 @@ public final class TotalProcessor implements UpdateProcessor {
 
     private final String TOTAL = "total";
 
-    private final TelegramBot telegramBot;
+    private final Bot bot;
     private final ExpenseService expenseService;
 
-    public TotalProcessor(@Lazy TelegramBot telegramBot, ExpenseService expenseService) {
-        this.telegramBot = telegramBot;
+    public TotalProcessor(@Lazy Bot bot, ExpenseService expenseService) {
+        this.bot = bot;
         this.expenseService = expenseService;
     }
 
     @Override
     public boolean appliesTo(Update update) {
-        return isCommand(update, TOTAL, Bot.user.username());
+        return isCommand(update, TOTAL, bot.getUser().username());
     }
 
     @Override
     public void process(Update update) {
-        telegramBot.execute(getSendMessage(update));
+        bot.execute(getSendMessage(update));
     }
 
     private SendMessage getSendMessage(Update update) {

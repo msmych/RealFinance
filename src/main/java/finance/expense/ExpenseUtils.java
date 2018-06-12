@@ -1,9 +1,29 @@
 package finance.expense;
 
+import com.pengrad.telegrambot.model.Update;
+
+import java.util.Optional;
+
+import static finance.expense.CurrencyUtils.isCurrency;
+import static finance.update.UpdateUtils.getText;
+
 public final class ExpenseUtils {
+
+    public static boolean isExpense(Update update) {
+        Optional<String> optionalText = getText(update);
+        if (!optionalText.isPresent()) return false;
+        String[] commandWithArguments = optionalText.get().split(" ");
+        String command = commandWithArguments[0];
+        String amountRegex = "[/][0-9]+([/.][0-9]{2})?";
+        if (!command.matches(amountRegex)) return false;
+        if (commandWithArguments.length == 1) return true;
+        String arg1 = commandWithArguments[1];
+        return isCurrency(arg1) && commandWithArguments.length == 2;
+    }
 
     public static int parseAmount(String text) {
         String[] amountParts = text
+                .split(" ")[0]
                 .substring(1)
                 .split("\\.");
         String amountText = amountParts.length == 1

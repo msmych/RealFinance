@@ -1,12 +1,72 @@
 package finance.expense;
 
+import com.pengrad.telegrambot.model.Message;
+import com.pengrad.telegrambot.model.Update;
+import org.junit.Before;
 import org.junit.Test;
 
-import static finance.expense.ExpenseUtils.formatAmount;
-import static finance.expense.ExpenseUtils.parseAmount;
-import static org.junit.Assert.assertEquals;
+import static finance.expense.ExpenseUtils.*;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ExpenseUtilsTest {
+
+    private final Update update = mock(Update.class);
+    private final Message message = mock(Message.class);
+
+    @Before
+    public void before() {
+        when(update.message()).thenReturn(message);
+    }
+
+    @Test
+    public void testMessageTextCommandExpense() {
+        when(message.text()).thenReturn("/4");
+        assertTrue(isExpense(update));
+    }
+
+    @Test
+    public void testMessageTextCommandDecimalExpense() {
+        when(message.text()).thenReturn("/7.77");
+        assertTrue(isExpense(update));
+    }
+
+    @Test
+    public void testMessageTextCommandExpenseCurrency() {
+        when(message.text()).thenReturn("/81 USD");
+        assertTrue(isExpense(update));
+    }
+
+    @Test
+    public void testMessageTextCommandExpenseLowerCaseCurrency() {
+        when(message.text()).thenReturn("/57.00 usd");
+        assertTrue(isExpense(update));
+    }
+
+    @Test
+    public void testMessageTextCommandExpenseWrongArg1() {
+        when(message.text()).thenReturn("/445 WRONG");
+        assertFalse(isExpense(update));
+    }
+
+    @Test
+    public void testMessageTextCommandExpenseCurrencyWrongArg2() {
+        when(message.text()).thenReturn("/31 USD WRONG");
+        assertFalse(isExpense(update));
+    }
+
+    @Test
+    public void testNoMessage() {
+        when(update.message()).thenReturn(null);
+        assertFalse(isExpense(update));
+    }
+
+    @Test
+    public void testMessageNoText() {
+        when(message.text()).thenReturn(null);
+        assertFalse(isExpense(update));
+    }
 
     @Test
     public void testParseIntAmount() {

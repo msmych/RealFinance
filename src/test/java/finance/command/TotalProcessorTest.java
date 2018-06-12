@@ -1,6 +1,5 @@
 package finance.command;
 
-import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
@@ -29,10 +28,10 @@ public class TotalProcessorTest {
     private final Message message = mock(Message.class);
     private final Chat chat = mock(Chat.class);
     private final User user = mock(User.class);
-    private final TelegramBot telegramBot = mock(TelegramBot.class);
+    private final Bot bot = mock(Bot.class);
     private final SendResponse sendResponse = mock(SendResponse.class);
     private final ExpenseService expenseService = mock(ExpenseService.class);
-    private final TotalProcessor totalProcessor = new TotalProcessor(telegramBot, expenseService);
+    private final TotalProcessor totalProcessor = new TotalProcessor(bot, expenseService);
 
     @Before
     public void before() {
@@ -44,8 +43,8 @@ public class TotalProcessorTest {
     @Test
     public void testMessageTextCommandTotal() {
         when(message.text()).thenReturn(COMMAND_TOTAL);
-        Bot.user = user;
-        when(user.username()).thenReturn("RealFinanceBot");
+        when(bot.getUser()).thenReturn(user);
+        when(user.username()).thenReturn("Bot");
         assertTrue(totalProcessor.appliesTo(update));
     }
 
@@ -57,7 +56,7 @@ public class TotalProcessorTest {
                     acts[0] = true;
                     return Collections.emptyList();
                 });
-        when(telegramBot.execute(ArgumentMatchers.isA(SendMessage.class)))
+        when(bot.execute(ArgumentMatchers.isA(SendMessage.class)))
                 .then(invocationOnMock -> {
                     acts[1] = true;
                     return sendResponse;
