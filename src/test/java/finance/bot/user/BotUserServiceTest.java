@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class BotConfigUserServiceTest {
+public class BotUserServiceTest {
 
     private final String USER_FIRST_NAME = "userFirstName";
     private final String USER_LAST_NAME = "userLastName";
@@ -42,6 +42,7 @@ public class BotConfigUserServiceTest {
         setBotUserRepositoryAnswers(acts, Optional.empty());
         BotUser savedBotUser = botUserService.saveBotUser(update);
         assertSavedBotUser(acts, savedBotUser, UserAction.NONE);
+        assertEquals("EUR", savedBotUser.defaultCurrency);
     }
 
     @Test
@@ -50,8 +51,11 @@ public class BotConfigUserServiceTest {
         BotUser existingBotUser = new BotUser();
         existingBotUser.id = 1;
         existingBotUser.userAction = UserAction.NONE;
+        existingBotUser.defaultCurrency = "USD";
         setBotUserRepositoryAnswers(acts, Optional.of(existingBotUser));
-        assertSavedBotUser(acts, botUserService.saveBotUser(update), UserAction.NONE);
+        BotUser savedBotUser = botUserService.saveBotUser(update);
+        assertSavedBotUser(acts, savedBotUser, UserAction.NONE);
+        assertEquals("USD", savedBotUser.defaultCurrency);
     }
 
     @Test

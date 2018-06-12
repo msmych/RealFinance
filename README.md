@@ -3,7 +3,7 @@ Personal finance Telegram bot
 
 ### Commands
 
-`/amount` - Save new expense. Examples: `/100`, `/12.50`, `/0.45`
+`/amount [currency]` - Save new expense. The default currency is Euro. Examples: `/100`, `/12.50 RUB`, `/0.45 usd`
 
 /total - Total chat expenses
 
@@ -34,6 +34,10 @@ spring.datasource.password
 spring.datasource.driver-class-name=org.postgresql.Driver
 #JPA
 spring.jpa.hibernate.ddl-auto
+#Flyway
+spring.flyway.baseline-on-migrate
+spring.flyway.baseline-version
+spring.flyway.locations
 ```
 
 ### Links

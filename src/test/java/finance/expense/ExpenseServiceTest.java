@@ -24,8 +24,7 @@ import static org.mockito.Mockito.when;
 public class ExpenseServiceTest {
 
     private final int AMOUNT = 1500;
-    private final long TOTAL = 1000L;
-    private final String EXPENSE_CURRENCY = "EUR";
+    private final String EXPENSE_CURRENCY = "USD";
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
     private final Chat chat = mock(Chat.class);
@@ -47,8 +46,25 @@ public class ExpenseServiceTest {
     @Test
     public void testSaveExpense() {
         boolean[] acts = {false};
+        when(message.text()).thenReturn("/15");
         setReturnsAndAnswers(acts);
-        assertExpense(acts, expenseService.save(update, 1500));
+        assertExpense(acts, expenseService.save(update), EXPENSE_CURRENCY);
+    }
+
+    @Test
+    public void testSaveExpenseWithCurrency() {
+        boolean[] acts = {false};
+        when(message.text()).thenReturn("/15 RUB");
+        setReturnsAndAnswers(acts);
+        assertExpense(acts, expenseService.save(update), "RUB");
+    }
+
+    @Test
+    public void testSaveExpenseWithLowerCaseCurrency() {
+        boolean[] acts = {false};
+        when(message.text()).thenReturn("/15 rub");
+        setReturnsAndAnswers(acts);
+        assertExpense(acts, expenseService.save(update), "RUB");
     }
 
     @Test
@@ -84,6 +100,7 @@ public class ExpenseServiceTest {
     private void setBotUserServiceFindByIdReturn() {
         BotUser botUser = new BotUser();
         botUser.id = 1;
+        botUser.defaultCurrency = EXPENSE_CURRENCY;
         when(botUserService.findById(ArgumentMatchers.anyInt()))
                 .thenReturn(Optional.of(botUser));
     }
@@ -95,12 +112,12 @@ public class ExpenseServiceTest {
                 .thenReturn(Optional.of(botChat));
     }
 
-    private void assertExpense(boolean[] acts, Expense expense) {
+    private void assertExpense(boolean[] acts, Expense expense, String expectedCurrency) {
         assertTrue(acts[0]);
         assertEquals(chat.id().longValue(), expense.botChat.id);
         assertEquals(user.id().intValue(), expense.botUser.id);
         assertEquals(AMOUNT, expense.amount);
-        assertEquals(EXPENSE_CURRENCY, expense.currency);
+        assertEquals(expectedCurrency, expense.currency);
         assertEquals(ExpenseType.ANY, expense.type);
     }
 }

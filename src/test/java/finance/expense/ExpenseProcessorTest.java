@@ -2,7 +2,6 @@ package finance.expense;
 
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
@@ -65,7 +64,7 @@ public class ExpenseProcessorTest {
     public void testProcess() {
         boolean[] acts = {false};
         when(message.text()).thenReturn("/7.77");
-        when(expenseService.save(ArgumentMatchers.isA(Update.class), ArgumentMatchers.anyInt()))
+        when(expenseService.save(ArgumentMatchers.isA(Update.class)))
                 .then(invocationOnMock -> {
                     acts[0] = true;
                     return new Expense();

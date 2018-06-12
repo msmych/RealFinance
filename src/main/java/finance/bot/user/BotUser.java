@@ -21,4 +21,6 @@ public final class BotUser {
     @Column
     public String username;
 
+    @Column
+    public String defaultCurrency = "EUR";
 }
