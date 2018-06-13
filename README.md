@@ -9,6 +9,8 @@ Personal finance Telegram bot
 
 /clear - Clear chat expenses
 
+`/currency` - Change user default currency. Examples: `/USD`, `/rub`
+
 ###### How to run
 
 Create schema:
