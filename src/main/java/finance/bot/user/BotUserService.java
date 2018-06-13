@@ -42,4 +42,10 @@ public class BotUserService {
     public Optional<BotUser> findById(int id) {
         return botUserRepository.findById(id);
     }
+
+    public BotUser updateDefaultCurrency(int id, String currency) {
+        BotUser botUser = botUserRepository.findById(id).get();
+        botUser.defaultCurrency = currency.toUpperCase();
+        return botUserRepository.save(botUser);
+    }
 }

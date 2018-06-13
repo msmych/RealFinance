@@ -67,6 +67,20 @@ public class BotUserServiceTest {
         assertEquals(1, botUserService.findById(1).get().id);
     }
 
+    @Test
+    public void testUpdateDefaultCurrency() {
+        when(botUserRepository.findById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.of(new BotUser()));
+        when(botUserRepository.save(ArgumentMatchers.isA(BotUser.class)))
+                .then(invocation -> {
+                    BotUser savedBotUser = new BotUser();
+                    savedBotUser.defaultCurrency =
+                            ((BotUser) invocation.getArgument(0)).defaultCurrency;
+                    return savedBotUser;
+                });
+        assertEquals("USD", botUserService.updateDefaultCurrency(1, "usd").defaultCurrency);
+    }
+
     private void assertSavedBotUser(boolean[] acts, BotUser botUser, UserAction expectedUserAction) {
         assertArrayEquals(new boolean[]{true, true}, acts);
         assertEquals(1, botUser.id);

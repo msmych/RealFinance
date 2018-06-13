@@ -5,5 +5,7 @@
   /total - Total chat expenses
 
   /clear - Clear chat expenses
+  
+  `/currency` - Change user default currency. Examples: `/USD`, `/rub`
 
   /help - This help message

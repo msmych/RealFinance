@@ -25,7 +25,7 @@ public final class ExpenseUtils {
         String[] amountParts = text
                 .split(" ")[0]
                 .substring(1)
-                .split("\\.");
+                .split("[/.]");
         String amountText = amountParts.length == 1
                 ? amountParts[0] + "00"
                 : amountParts[0] + amountParts[1];
