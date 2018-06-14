@@ -118,6 +118,6 @@ public class ExpenseServiceTest {
         assertEquals(user.id().intValue(), expense.botUser.id);
         assertEquals(AMOUNT, expense.amount);
         assertEquals(expectedCurrency, expense.currency);
-        assertEquals(ExpenseType.ANY, expense.type);
+        assertEquals(ExpenseCategory.ANY, expense.type);
     }
 }
