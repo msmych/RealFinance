@@ -29,5 +29,5 @@ public final class Expense {
 
     @Column
     @Enumerated(EnumType.STRING)
-    public ExpenseCategory type = ExpenseCategory.ANY;
+    public ExpenseCategory category = ExpenseCategory.ANY;
 }

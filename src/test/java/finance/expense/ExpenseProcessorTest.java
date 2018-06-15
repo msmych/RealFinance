@@ -36,7 +36,7 @@ public class ExpenseProcessorTest {
     }
 
     @Test
-    public void testMessageTextLessThatOne() {
+    public void testMessageTextLessThanOne() {
         when(message.text()).thenReturn("/0.12");
         assertTrue(expenseProcessor.appliesTo(update));
     }

@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static finance.expense.CurrencyUtils.isCurrency;
+import static finance.expense.ExpenseCategory.ANY;
+import static finance.expense.ExpenseCategory.getByEmoji;
 import static finance.expense.ExpenseUtils.parseAmount;
 import static finance.update.UpdateUtils.*;
 
@@ -39,13 +41,33 @@ public class ExpenseService {
         expense.amount = parseAmount(text.split(" ")[0]);
         expense.currency = getCurrency(text)
                 .orElse(botUser.defaultCurrency);
+        expense.category = getCategory(text)
+                .orElse(ANY);
         return expenseRepository.save(expense);
+    }
+
+    private Optional<ExpenseCategory> getCategory(String text) {
+        String[] textParts = text.split(" ");
+        if (textParts.length > 1) {
+            Optional<ExpenseCategory> optionalExpenseCategory = getByEmoji(textParts[1]);
+            if (optionalExpenseCategory.isPresent()) {
+                return optionalExpenseCategory;
+            }
+            if (textParts.length > 2) {
+                return getByEmoji(textParts[2]);
+            }
+        }
+        return Optional.empty();
     }
 
     private Optional<String> getCurrency(String text) {
         String[] textParts = text.split(" ");
-        if (textParts.length > 1 && isCurrency(textParts[1].toUpperCase()))
-            return Optional.of(textParts[1].toUpperCase());
+        if (textParts.length > 1) {
+            String currencyUpperCase = textParts[1].toUpperCase();
+            if (isCurrency(currencyUpperCase)) {
+                return Optional.of(currencyUpperCase);
+            }
+        }
         return Optional.empty();
     }
 

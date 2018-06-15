@@ -15,16 +15,15 @@ import org.mockito.ArgumentMatchers;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static finance.expense.ExpenseCategory.FUN;
+import static finance.expense.ExpenseCategory.SPORT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ExpenseServiceTest {
 
     private final int AMOUNT = 1500;
-    private final String EXPENSE_CURRENCY = "USD";
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
     private final Chat chat = mock(Chat.class);
@@ -34,8 +33,11 @@ public class ExpenseServiceTest {
     private final BotUserService botUserService = mock(BotUserService.class);
     private final ExpenseService expenseService = new ExpenseService(expenseRepository, botChatService, botUserService);
 
+    private boolean[] acts;
+
     @Before
     public void before() {
+        acts = new boolean[]{false};
         when(update.message()).thenReturn(message);
         when(message.chat()).thenReturn(chat);
         when(chat.id()).thenReturn(1L);
@@ -45,26 +47,37 @@ public class ExpenseServiceTest {
 
     @Test
     public void testSaveExpense() {
-        boolean[] acts = {false};
         when(message.text()).thenReturn("/15");
-        setReturnsAndAnswers(acts);
-        assertExpense(acts, expenseService.save(update), EXPENSE_CURRENCY);
+        setReturnsAndAnswers();
+        assertExpense(expenseService.save(update), "EUR");
     }
 
     @Test
     public void testSaveExpenseWithCurrency() {
-        boolean[] acts = {false};
         when(message.text()).thenReturn("/15 RUB");
-        setReturnsAndAnswers(acts);
-        assertExpense(acts, expenseService.save(update), "RUB");
+        setReturnsAndAnswers();
+        assertExpense(expenseService.save(update), "RUB");
     }
 
     @Test
     public void testSaveExpenseWithLowerCaseCurrency() {
-        boolean[] acts = {false};
         when(message.text()).thenReturn("/15 rub");
-        setReturnsAndAnswers(acts);
-        assertExpense(acts, expenseService.save(update), "RUB");
+        setReturnsAndAnswers();
+        assertExpense(expenseService.save(update), "RUB");
+    }
+
+    @Test
+    public void testSaveExpenseWithCategory() {
+        when(message.text()).thenReturn("/15 \uD83C\uDF89");
+        setReturnsAndAnswers();
+        assertExpense(expenseService.save(update), FUN);
+    }
+
+    @Test
+    public void testSaveExpenseWithCurrencyAndCategory() {
+        when(message.text()).thenReturn("/15 usd \uD83C\uDFCA");
+        setReturnsAndAnswers();
+        assertExpense(expenseService.save(update), "USD", SPORT);
     }
 
     @Test
@@ -76,20 +89,19 @@ public class ExpenseServiceTest {
 
     @Test
     public void testDeleteByBotChatId() {
-        boolean[] acts = {false};
         doAnswer(invocationOnMock -> acts[0] = true)
                 .when(expenseRepository).deleteByBotChatId(ArgumentMatchers.anyLong());
         expenseService.deleteByBotChatId(1L);
         assertTrue(acts[0]);
     }
 
-    private void setReturnsAndAnswers(boolean[] acts) {
+    private void setReturnsAndAnswers() {
         setBotChatServiceFindByIdReturn();
         setBotUserServiceFindByIdReturn();
-        setExpenseRepositorySaveAnswer(acts);
+        setExpenseRepositorySaveAnswer();
     }
 
-    private void setExpenseRepositorySaveAnswer(boolean[] acts) {
+    private void setExpenseRepositorySaveAnswer() {
         when(expenseRepository.save(ArgumentMatchers.isA(Expense.class)))
                 .then(invocationOnMock -> {
                     acts[0] = true;
@@ -100,7 +112,7 @@ public class ExpenseServiceTest {
     private void setBotUserServiceFindByIdReturn() {
         BotUser botUser = new BotUser();
         botUser.id = 1;
-        botUser.defaultCurrency = EXPENSE_CURRENCY;
+        botUser.defaultCurrency = "EUR";
         when(botUserService.findById(ArgumentMatchers.anyInt()))
                 .thenReturn(Optional.of(botUser));
     }
@@ -112,12 +124,25 @@ public class ExpenseServiceTest {
                 .thenReturn(Optional.of(botChat));
     }
 
-    private void assertExpense(boolean[] acts, Expense expense, String expectedCurrency) {
+    private void assertExpense(Expense expense, String expectedCurrency, ExpenseCategory expectedExpenseCategory) {
+        assertExpense(expense, expectedCurrency);
+        assertEquals(expectedExpenseCategory, expense.category);
+    }
+
+    private void assertExpense(Expense expense, String expectedCurrency) {
+        assertExpenseBase(expense);
+        assertEquals(expectedCurrency, expense.currency);
+    }
+
+    private void assertExpense(Expense expense, ExpenseCategory expectedExpenseCategory) {
+        assertExpenseBase(expense);
+        assertEquals(expectedExpenseCategory, expense.category);
+    }
+
+    private void assertExpenseBase(Expense expense) {
         assertTrue(acts[0]);
         assertEquals(chat.id().longValue(), expense.botChat.id);
         assertEquals(user.id().intValue(), expense.botUser.id);
         assertEquals(AMOUNT, expense.amount);
-        assertEquals(expectedCurrency, expense.currency);
-        assertEquals(ExpenseCategory.ANY, expense.type);
     }
 }

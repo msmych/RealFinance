@@ -57,6 +57,42 @@ public class ExpenseUtilsTest {
     }
 
     @Test
+    public void testMessageTextCommandExpenseCategory() {
+        when(message.text()).thenReturn("/63.36 \uD83C\uDFE0");
+        assertTrue(isExpense(update));
+    }
+
+    @Test
+    public void testMessageTextCommandExpenseCurrencyCategory() {
+        when(message.text()).thenReturn("/29 rub \uD83C\uDF5E");
+        assertTrue(isExpense(update));
+    }
+
+    @Test
+    public void testMessageTextCommandExpenseCategoryCurrency() {
+        when(message.text()).thenReturn("/777 \uD83D\uDC8A USD");
+        assertFalse(isExpense(update));
+    }
+
+    @Test
+    public void testMessageTextCommandExpenseCurrencyWrongArg3() {
+        when(message.text()).thenReturn("/43.90 usd ✈️ WRONG");
+        assertFalse(isExpense(update));
+    }
+
+    @Test
+    public void testMessageTextCommandExpenseCurrencyCurrency() {
+        when(message.text()).thenReturn("/552 usd rub");
+        assertFalse(isExpense(update));
+    }
+
+    @Test
+    public void testMessageTextCommandExpenseCategoryCategory() {
+        when(message.text()).thenReturn("/0.99 \uD83C\uDF5E \uD83D\uDC8A");
+        assertFalse(isExpense(update));
+    }
+
+    @Test
     public void testNoMessage() {
         when(update.message()).thenReturn(null);
         assertFalse(isExpense(update));
