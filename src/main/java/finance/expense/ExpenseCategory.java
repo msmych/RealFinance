@@ -13,8 +13,8 @@ public enum ExpenseCategory {
     FUN("Fun", "\uD83C\uDF89"),
     TRAVEL("Travel", "✈️");
 
-    final String name;
-    final String[] emojis;
+    private final String name;
+    private final String[] emojis;
 
     ExpenseCategory(String name, String... emojis) {
         this.name = name;
@@ -26,5 +26,9 @@ public enum ExpenseCategory {
                 .filter(expenseCategory -> Arrays.stream(expenseCategory.emojis)
                         .anyMatch(expenseCategoryEmoji -> expenseCategoryEmoji.equals(emoji)))
                 .findFirst();
+    }
+
+    public String getName() {
+        return name;
     }
 }

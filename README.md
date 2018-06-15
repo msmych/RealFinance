@@ -19,11 +19,14 @@ Possible categories:
 | Sport    | 🏊    |
 | Fun      | 🎉    |
 | Travel   | ✈️   |
+
 /total - Total chat expenses
 
 /clear - Clear chat expenses
 
-`/currency` - Change user default currency. Examples: `/USD`, `/rub`
+`/currency` - Change user default currency.
+
+Examples: `/USD`, `/rub`
 
 ###### How to run
 

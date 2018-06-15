@@ -4,7 +4,8 @@ import com.pengrad.telegrambot.model.Update;
 import finance.bot.chat.BotChatService;
 import finance.bot.user.BotUser;
 import finance.bot.user.BotUserService;
-import finance.expense.total.ExpenseTotal;
+import finance.expense.total.ExpenseTotalCategory;
+import finance.expense.total.ExpenseTotalCurrency;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -71,12 +72,17 @@ public class ExpenseService {
         return Optional.empty();
     }
 
-    public List<ExpenseTotal> getTotal(long botChatId) {
-        return expenseRepository.totalByBotChatId(botChatId);
+    public List<ExpenseTotalCurrency> getTotalCurrency(long botChatId) {
+        return expenseRepository.totalCurrencyByBotChatId(botChatId);
+    }
+
+    public List<ExpenseTotalCategory> getTotalCategory(long botChatId, String currency) {
+        return expenseRepository.totalCategoryByBotChatIdAndCurrency(botChatId, currency);
     }
 
     @Transactional
     public void deleteByBotChatId(long botChatId) {
         expenseRepository.deleteByBotChatId(botChatId);
     }
+
 }

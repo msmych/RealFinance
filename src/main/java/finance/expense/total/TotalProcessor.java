@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+import static finance.expense.total.TotalUtils.formatTotalCurrency;
 import static finance.update.UpdateUtils.getChat;
 import static finance.update.UpdateUtils.isCommand;
 
@@ -34,20 +35,26 @@ public final class TotalProcessor implements UpdateProcessor {
 
     @Override
     public void process(Update update) {
-        bot.execute(getSendMessage(update));
+        bot.execute(getSendTotalMessage(update));
     }
 
-    private SendMessage getSendMessage(Update update) {
+    private SendMessage getSendTotalMessage(Update update) {
         long chatId = getChat(update).id();
         return new SendMessage(chatId, getTotalText(chatId))
                 .parseMode(ParseMode.Markdown);
     }
 
     private String getTotalText(long chatId) {
-        String totalText = "*Total*\n";
-        totalText += expenseService.getTotal(chatId).stream()
-                .map(TotalUtils::formatTotal)
-                .collect(Collectors.joining("\n"));
+        String totalText = "*Total*\n\n";
+        totalText += expenseService.getTotalCurrency(chatId).stream()
+                .map(expenseTotalCurrency -> {
+                    String totalExpense = formatTotalCurrency(expenseTotalCurrency) + "\n";
+                    totalExpense += expenseService.getTotalCategory(chatId, expenseTotalCurrency.getCurrency()).stream()
+                            .map(TotalUtils::formatTotalCategory)
+                            .collect(Collectors.joining("\n"));
+                    return totalExpense;
+                })
+                .collect(Collectors.joining("\n\n"));
         return totalText;
     }
 }

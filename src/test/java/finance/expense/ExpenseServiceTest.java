@@ -81,10 +81,18 @@ public class ExpenseServiceTest {
     }
 
     @Test
-    public void testGetTotalByChatId() {
-        when(expenseRepository.totalByBotChatId(ArgumentMatchers.anyLong()))
+    public void testGetTotalCurrencyByChatId() {
+        when(expenseRepository.totalCurrencyByBotChatId(ArgumentMatchers.anyLong()))
                 .thenReturn(Arrays.asList(null, null, null));
-        assertEquals(3, expenseService.getTotal(1L).size());
+        assertEquals(3, expenseService.getTotalCurrency(1L).size());
+    }
+
+    @Test
+    public void testGetTotalCategoryByChatIdAndCurrency() {
+        when(expenseRepository.totalCategoryByBotChatIdAndCurrency(
+                ArgumentMatchers.anyLong(), ArgumentMatchers.anyString()))
+                .thenReturn(Arrays.asList(null, null, null));
+        assertEquals(3, expenseService.getTotalCategory(1L, "USD").size());
     }
 
     @Test
