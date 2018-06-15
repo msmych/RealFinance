@@ -3,13 +3,18 @@ Personal finance Telegram bot
 
 ### Commands
 
-`/amount [currency] [category]` - Save new expense.
+`/amount [currency] [category]` - Save new expense
 
-Examples: `/100`, `/12.50 RUB`, `/0.45 usd`, `/777 🏊`, `/0.99 usd 🎉`
+Examples:
+```
+/100
+/12.50 RUB
+/0.45 usd
+/777 🏊
+/0.99 usd 🎉
+```
 
-The default currency is Euro.
-
-The default category is "Any".
+The default currency is Euro. The default category is *Any*.
 
 Possible categories:
 
@@ -26,13 +31,17 @@ Possible categories:
 
 /clear - Clear chat expenses
 
-`/currency` - Change user default currency.
+`/currency` - Change user default currency
 
-Examples: `/USD`, `/rub`
+Examples:
+```
+/USD
+/rub
+```
 
 ###### How to run
 
-Create schema:
+Access PostgreSQL:
 ```
 sudo -i -u postgres
 psql schema
@@ -54,11 +63,12 @@ spring.datasource.username
 spring.datasource.password
 spring.datasource.driver-class-name=org.postgresql.Driver
 #JPA
-spring.jpa.hibernate.ddl-auto
+spring.jpa.hibernate.ddl-auto=validate
 #Flyway
+spring.flyway.enabled=true
 spring.flyway.baseline-on-migrate
-spring.flyway.baseline-version
-spring.flyway.locations
+spring.flyway.baseline-version=0
+spring.flyway.locations=classpath:sql/migration
 ```
 
 ### Links
