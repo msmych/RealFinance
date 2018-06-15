@@ -8,12 +8,15 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import finance.bot.Bot;
 import finance.expense.ExpenseService;
+import finance.expense.total.ExpenseTotalCurrency;
 import finance.expense.total.TotalProcessor;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
@@ -23,7 +26,6 @@ import static org.mockito.Mockito.when;
 public class TotalProcessorTest {
 
     private final String COMMAND_TOTAL = "/total";
-    private final long TOTAL = 1000L;
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
     private final Chat chat = mock(Chat.class);
@@ -50,18 +52,26 @@ public class TotalProcessorTest {
 
     @Test
     public void testProcess() {
-        boolean[] acts = {false, false};
-        when(expenseService.getTotal(ArgumentMatchers.anyLong()))
+        Object[] acts = {false, 0, false};
+        ExpenseTotalCurrency totalCurrency = mock(ExpenseTotalCurrency.class);
+        when(totalCurrency.getCurrency()).thenReturn("USD");
+        List<ExpenseTotalCurrency> expenseTotalCurrencies = Arrays.asList(totalCurrency, totalCurrency);
+        when(expenseService.getTotalCurrency(ArgumentMatchers.anyLong()))
                 .then(invocationOnMock -> {
                     acts[0] = true;
+                    return expenseTotalCurrencies;
+                });
+        when(expenseService.getTotalCategory(ArgumentMatchers.anyLong(), ArgumentMatchers.anyString()))
+                .then(invocation -> {
+                    acts[1] = (int) acts[1] + 1;
                     return Collections.emptyList();
                 });
         when(bot.execute(ArgumentMatchers.isA(SendMessage.class)))
                 .then(invocationOnMock -> {
-                    acts[1] = true;
+                    acts[2] = true;
                     return sendResponse;
                 });
         totalProcessor.process(update);
-        assertArrayEquals(new boolean[]{true, true}, acts);
+        assertArrayEquals(new Object[]{true, expenseTotalCurrencies.size(), true}, acts);
     }
 }

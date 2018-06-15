@@ -1,6 +1,18 @@
 *Real finance help*
-  `/amount [currency]` - Save new expense. The default currency is Euro. Examples: `/100`, `/12.50 RUB`, `/0.45 usd`
+  `/amount [currency] [category]` - Save new expense.
+  Examples: `/100`, `/12.50 RUB`, `/0.45 usd`, `/777 🏊`, `/0.99 usd 🎉`
+  The default currency is Euro.
+  The default category is "Any"
+  Possible categories:
+  House: 🏠
+  Food: 🍞
+  Health: 💊
+  Sport: 🏊
+  Fun: 🎉
+  Travel: ✈️
+  
   /total - Total chat expenses
   /clear - Clear chat expenses
-  `/currency` - Change user default currency. Examples: `/USD`, `/rub`
+  `/currency` - Change user default currency.
+  Examples: `/USD`, `/rub`
   /help - This help message

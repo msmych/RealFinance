@@ -1,20 +1,30 @@
 package finance.expense.total;
 
+import finance.expense.ExpenseCategory;
 import org.junit.Test;
 
-import static finance.expense.total.TotalUtils.formatTotal;
+import static finance.expense.total.TotalUtils.formatTotalCategory;
+import static finance.expense.total.TotalUtils.formatTotalCurrency;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TotalUtilsTest {
 
-    private final ExpenseTotal total = mock(ExpenseTotal.class);
+    private final ExpenseTotalCurrency totalCurrency = mock(ExpenseTotalCurrency.class);
+    private final ExpenseTotalCategory totalCategory = mock(ExpenseTotalCategory.class);
 
     @Test
     public void testFormatTotalEur() {
-        when(total.getAmount()).thenReturn(1500L);
-        when(total.getCurrency()).thenReturn("EUR");
-        assertEquals("`15.00 EUR`", formatTotal(total));
+        when(totalCurrency.getAmount()).thenReturn(1500L);
+        when(totalCurrency.getCurrency()).thenReturn("EUR");
+        assertEquals("`15.00 EUR`", formatTotalCurrency(totalCurrency));
+    }
+
+    @Test
+    public void testFormatTotalHouse() {
+        when(totalCategory.getAmount()).thenReturn(10000L);
+        when(totalCategory.getCategory()).thenReturn(ExpenseCategory.HOUSE);
+        assertEquals("House: `100.00`", formatTotalCategory(totalCategory));
     }
 }

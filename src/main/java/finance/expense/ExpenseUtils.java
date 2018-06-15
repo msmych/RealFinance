@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.model.Update;
 import java.util.Optional;
 
 import static finance.expense.CurrencyUtils.isCurrency;
+import static finance.expense.ExpenseCategory.getByEmoji;
 import static finance.update.UpdateUtils.getText;
 
 public final class ExpenseUtils {
@@ -18,7 +19,12 @@ public final class ExpenseUtils {
         if (!command.matches(amountRegex)) return false;
         if (commandWithArguments.length == 1) return true;
         String arg1 = commandWithArguments[1];
-        return isCurrency(arg1) && commandWithArguments.length == 2;
+        if (commandWithArguments.length == 2) {
+            return isCurrency(arg1) || getByEmoji(arg1).isPresent();
+        }
+        String arg2 = commandWithArguments[2];
+        return getByEmoji(arg2).isPresent() && !getByEmoji(arg1).isPresent()
+                && commandWithArguments.length == 3;
     }
 
     public static int parseAmount(String text) {
