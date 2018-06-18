@@ -10,8 +10,8 @@ Examples:
 /100
 /12.50 RUB
 /0.45 usd
-/777 🏊
-/0.99 usd 🎉
+/36.6 💊
+/10 usd 🍕
 ```
 
 The default currency is Euro. The default category is *Any*.
@@ -20,9 +20,10 @@ Possible categories:
 
 | Category | Emoji |
 |----------|-------|
+| Any:     | ☕️   |
 | House    | 🏠    |
-| Food     | 🍞    |
-| Health   | 💊    |
+| Food     | 🍞🍕🍌 |
+| Health   | 💊💉🌡 |
 | Sport    | 🏊    |
 | Fun      | 🎉    |
 | Travel   | ✈️   |

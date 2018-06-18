@@ -2,3 +2,5 @@
 .idea/*
 
 src/main/resources/app.properties
+
+**.log

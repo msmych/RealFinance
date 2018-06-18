@@ -1,4 +1,7 @@
 Hello
 
 I am real finance bot
-Send me your expenses to see how much you spend
+
+Keep track of your expenses by sending them to me
+
+I support different currencies and provide several expense categories
