@@ -5,10 +5,10 @@ import java.util.Optional;
 
 public enum ExpenseCategory {
 
-    ANY("Any"),
+    ANY("Any", "☕️"),
     HOUSE("House", "\uD83C\uDFE0"),
-    FOOD("Food", "\uD83C\uDF5E"),
-    HEALTH("Health", "\uD83D\uDC8A"),
+    FOOD("Food", "\uD83C\uDF5E", "\uD83C\uDF55", "\uD83C\uDF4C"),
+    HEALTH("Health", "\uD83D\uDC8A", "\uD83D\uDC89", "\uD83C\uDF21"),
     SPORT("Sport", "\uD83C\uDFCA"),
     FUN("Fun", "\uD83C\uDF89"),
     TRAVEL("Travel", "✈️");
