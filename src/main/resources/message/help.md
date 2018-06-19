@@ -28,7 +28,7 @@
   `/currency` - Change user default currency
   
   Examples:
-  `/USD`,
+  `/USD`
   `/rub`
   
   /help - This help message
