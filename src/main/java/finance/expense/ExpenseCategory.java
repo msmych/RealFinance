@@ -9,9 +9,9 @@ public enum ExpenseCategory {
     HOUSE("House", "\uD83C\uDFE0"),
     FOOD("Food", "\uD83C\uDF5E", "\uD83C\uDF55", "\uD83C\uDF4C"),
     HEALTH("Health", "\uD83D\uDC8A", "\uD83D\uDC89", "\uD83C\uDF21"),
-    SPORT("Sport", "\uD83C\uDFCA"),
-    FUN("Fun", "\uD83C\uDF89"),
-    TRAVEL("Travel", "✈️");
+    SPORT("Sport", "⚽️", "\uD83C\uDFF8", "\uD83C\uDFC4"),
+    FUN("Fun", "\uD83C\uDF89", "\uD83C\uDF7A", "\uD83C\uDFB8"),
+    TRAVEL("Travel", "\uD83D\uDE95", "\uD83D\uDE82", "✈️");
 
     private final String name;
     private final String[] emojis;

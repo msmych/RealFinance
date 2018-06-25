@@ -75,7 +75,7 @@ public class ExpenseServiceTest {
 
     @Test
     public void testSaveExpenseWithCurrencyAndCategory() {
-        when(message.text()).thenReturn("/15 usd \uD83C\uDFCA");
+        when(message.text()).thenReturn("/15 usd \uD83C\uDFC4");
         setReturnsAndAnswers();
         assertExpense(expenseService.save(update), "USD", SPORT);
     }

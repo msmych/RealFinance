@@ -12,7 +12,7 @@ public class ExpenseCategoryTest {
         assertEquals(HOUSE, getByEmoji("\uD83C\uDFE0").get());
         assertEquals(FOOD, getByEmoji("\uD83C\uDF5E").get());
         assertEquals(HEALTH, getByEmoji("\uD83D\uDC8A").get());
-        assertEquals(SPORT, getByEmoji("\uD83C\uDFCA").get());
+        assertEquals(SPORT, getByEmoji("\uD83C\uDFF8").get());
         assertEquals(FUN, getByEmoji("\uD83C\uDF89").get());
         assertEquals(TRAVEL, getByEmoji("✈️").get());
     }

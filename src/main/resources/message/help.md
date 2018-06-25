@@ -17,9 +17,9 @@
   _House:_ 🏠
   _Food:_ 🍞🍕🍌
   _Health:_ 💊💉🌡
-  _Sport:_ 🏊
-  _Fun:_ 🎉
-  _Travel:_ ✈️
+  _Sport:_ ⚽️🏸🏄
+  _Fun:_ 🎉🍺🎸
+  _Travel:_ 🚕🚂✈️
   
   /total - Total chat expenses
   

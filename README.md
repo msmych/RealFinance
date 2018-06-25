@@ -24,9 +24,9 @@ Possible categories:
 | House    | 🏠    |
 | Food     | 🍞🍕🍌 |
 | Health   | 💊💉🌡 |
-| Sport    | 🏊    |
-| Fun      | 🎉    |
-| Travel   | ✈️   |
+| Sport    | ⚽️🏸🏄 |
+| Fun      | 🎉🍺🎸 |
+| Travel   | 🚕🚂✈️ |
 
 /total - Total chat expenses
 
@@ -54,22 +54,19 @@ View process: `top | grep java`
 
 Kill process: `kill PID`
 
-###### app.properties
+###### properties.yml
 ```
-token
-
-#Datasource
-spring.datasource.url
-spring.datasource.username
-spring.datasource.password
-spring.datasource.driver-class-name=org.postgresql.Driver
-#JPA
-spring.jpa.hibernate.ddl-auto=validate
-#Flyway
-spring.flyway.enabled=true
-spring.flyway.baseline-on-migrate
-spring.flyway.baseline-version=0
-spring.flyway.locations=classpath:sql/migration
+token:
+spring:
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name: org.postgresql.Driver
+  jpa.hibernate.ddl-auto: validate
+  flyway:
+    baseline-on-migrate:
+    baseline-version:
 ```
 
 ### Links
