@@ -10,11 +10,9 @@ import com.pengrad.telegrambot.response.GetMeResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @Service
-@PropertySource("app.properties")
 public class Bot {
 
     private final Logger logger = LogManager.getLogger();

@@ -1,6 +1,6 @@
 **.iml
 .idea/*
 
-src/main/resources/app.properties
+src/main/resources/application.yml
 
 **.log
