@@ -21,6 +21,8 @@
   _Fun:_ 🎉🍺🎸
   _Travel:_ 🚕🚂✈️
   
+  To modify an expense, just modify its message
+  
   /total - Total chat expenses
   
   /clear - Clear chat expenses

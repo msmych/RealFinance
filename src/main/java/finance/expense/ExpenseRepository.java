@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ExpenseRepository extends CrudRepository<Expense, Long> {
 
@@ -26,4 +27,6 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long> {
                                                                    @Param("currency") String currency);
 
     void deleteByBotChatId(long botChatId);
+
+    Optional<Expense> findOneByBotChatIdAndMessageId(long botChatId, int messageId);
 }

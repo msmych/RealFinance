@@ -34,10 +34,14 @@ public class ExpenseService {
     }
 
     public Expense save(Update update) {
-        Expense expense = new Expense();
-        expense.botChat = botChatService.findById(getChat(update).id()).get();
+        long chatId = getChat(update).id();
+        int messageId = getMessage(update).get().messageId();
+        Expense expense = getExpenseByBotChatIdAndMessageId(chatId, messageId)
+                .orElse(new Expense());
+        expense.botChat = botChatService.findById(chatId).get();
         BotUser botUser = botUserService.findById(getFrom(update).id()).get();
         expense.botUser = botUser;
+        expense.messageId = messageId;
         String text = getText(update).get();
         expense.amount = parseAmount(text.split(" ")[0]);
         expense.currency = getCurrency(text)
@@ -85,4 +89,7 @@ public class ExpenseService {
         expenseRepository.deleteByBotChatId(botChatId);
     }
 
+    public Optional<Expense> getExpenseByBotChatIdAndMessageId(long botChatId, int messageId) {
+        return expenseRepository.findOneByBotChatIdAndMessageId(botChatId, messageId);
+    }
 }

@@ -39,6 +39,7 @@ public class ExpenseServiceTest {
     public void before() {
         acts = new boolean[]{false};
         when(update.message()).thenReturn(message);
+        when(message.messageId()).thenReturn(1);
         when(message.chat()).thenReturn(chat);
         when(chat.id()).thenReturn(1L);
         when(message.from()).thenReturn(user);
@@ -103,6 +104,13 @@ public class ExpenseServiceTest {
         assertTrue(acts[0]);
     }
 
+    @Test
+    public void getExpenseByBotChatIdAndMessageId() {
+        when(expenseRepository.findOneByBotChatIdAndMessageId(ArgumentMatchers.anyLong(), ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.of(new Expense()));
+        assertTrue(expenseService.getExpenseByBotChatIdAndMessageId(1L, 1).isPresent());
+    }
+
     private void setReturnsAndAnswers() {
         setBotChatServiceFindByIdReturn();
         setBotUserServiceFindByIdReturn();
@@ -151,6 +159,7 @@ public class ExpenseServiceTest {
         assertTrue(acts[0]);
         assertEquals(chat.id().longValue(), expense.botChat.id);
         assertEquals(user.id().intValue(), expense.botUser.id);
+        assertEquals(message.messageId(), expense.messageId);
         assertEquals(AMOUNT, expense.amount);
     }
 }
