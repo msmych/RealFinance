@@ -22,6 +22,9 @@ public final class Expense {
     public BotUser botUser;
 
     @Column
+    public Integer messageId;
+
+    @Column
     public int amount;
 
     @Column

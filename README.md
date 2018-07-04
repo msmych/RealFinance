@@ -13,7 +13,6 @@ Examples:
 /36.6 💊
 /10 usd 🍕
 ```
-
 The default currency is Euro. The default category is *Any*.
 
 Possible categories:
@@ -27,6 +26,8 @@ Possible categories:
 | Sport    | ⚽️🏸🏄 |
 | Fun      | 🎉🍺🎸 |
 | Travel   | 🚕🚂✈️ |
+
+To modify an expense, just modify its message
 
 /total - Total chat expenses
 
