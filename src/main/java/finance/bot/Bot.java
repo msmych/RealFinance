@@ -7,15 +7,16 @@ import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.GetMe;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.GetMeResponse;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import static org.apache.logging.log4j.LogManager.getLogger;
+
 @Service
 public class Bot {
 
-    private final Logger logger = LogManager.getLogger();
+    private final Logger logger = getLogger();
 
     private final TelegramBot telegramBot;
     private final User user;

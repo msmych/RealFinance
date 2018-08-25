@@ -16,9 +16,11 @@
   _Any:_ ☕️
   _House:_ 🏠
   _Food:_ 🍞🍕🍌
+  _Dress:_ 👔👠👖
   _Health:_ 💊💉🌡
-  _Sport:_ ⚽️🏸🏄
-  _Fun:_ 🎉🍺🎸
+  _Education:_ 🎓📚
+  _Sport:_ ⚽️🏸
+  _Fun:_ 🎉🍺🎁
   _Travel:_ 🚕🚂✈️
   
   To modify an expense, just modify its message
