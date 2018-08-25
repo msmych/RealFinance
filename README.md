@@ -22,9 +22,11 @@ Possible categories:
 | Any:     | ☕️   |
 | House    | 🏠    |
 | Food     | 🍞🍕🍌 |
+| Dress    | 👔👠👖 |
 | Health   | 💊💉🌡 |
-| Sport    | ⚽️🏸🏄 |
-| Fun      | 🎉🍺🎸 |
+| Education| 🎓📚 |
+| Sport    | ⚽️🏸 |
+| Fun      | 🎉🍺🎁 |
 | Travel   | 🚕🚂✈️ |
 
 To modify an expense, just modify its message
