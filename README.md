@@ -1,5 +1,5 @@
 # Real finance
-Personal finance Telegram bot
+*Personal finance Telegram bot*
 
 ### Commands
 
@@ -56,21 +56,6 @@ Run application: `mvn spring-boot:run &`
 View process: `top | grep java`
 
 Kill process: `kill PID`
-
-###### properties.yml
-```
-token:
-spring:
-  datasource:
-    url:
-    username:
-    password:
-    driver-class-name: org.postgresql.Driver
-  jpa.hibernate.ddl-auto: validate
-  flyway:
-    baseline-on-migrate:
-    baseline-version:
-```
 
 ### Links
 [Java API for Telegram Bots and Gaming Platform](https://github.com/pengrad/java-telegram-bot-api)

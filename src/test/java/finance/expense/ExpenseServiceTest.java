@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static finance.expense.ExpenseCategory.FUN;
-import static finance.expense.ExpenseCategory.SPORT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -72,13 +71,6 @@ public class ExpenseServiceTest {
         when(message.text()).thenReturn("/15 \uD83C\uDF89");
         setReturnsAndAnswers();
         assertExpense(expenseService.save(update), FUN);
-    }
-
-    @Test
-    public void testSaveExpenseWithCurrencyAndCategory() {
-        when(message.text()).thenReturn("/15 usd \uD83C\uDFC4");
-        setReturnsAndAnswers();
-        assertExpense(expenseService.save(update), "USD", SPORT);
     }
 
     @Test
