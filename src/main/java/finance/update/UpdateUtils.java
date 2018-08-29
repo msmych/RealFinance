@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.model.*;
 
 import java.util.Optional;
 
-public final class UpdateUtils {
+public class UpdateUtils {
 
     public static boolean isCommand(Update update, String command, String botUsername) {
         Message message = update.message();

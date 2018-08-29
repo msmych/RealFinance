@@ -3,47 +3,32 @@ package finance.command;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.User;
+import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
 import finance.expense.ExpenseService;
-import org.junit.Before;
+import finance.expense.clear.ClearProcessor;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
 
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class ClearProcessorTest {
 
-    private final Update update = mock(Update.class);
-    private final Message message = mock(Message.class);
-    private final User user = mock(User.class);
-    private final Chat chat = mock(Chat.class);
-    private final Bot bot = mock(Bot.class);
-    private final ExpenseService expenseService = mock(ExpenseService.class);
-    private final ClearProcessor clearProcessor = new ClearProcessor(bot, expenseService);
+    private Bot bot = mock(Bot.class);
+    private ExpenseService es = mock(ExpenseService.class);
+    ClearProcessor cp = new ClearProcessor(bot, es);
 
-    @Before
-    public void before() {
+    @Test
+    public void sendingMessage() {
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        Chat chat = mock(Chat.class);
         when(update.message()).thenReturn(message);
         when(message.chat()).thenReturn(chat);
         when(chat.id()).thenReturn(1L);
-    }
-
-    @Test
-    public void testMessageTextCommandClear() {
-        when(message.text()).thenReturn("/clear");
-        when(bot.getUser()).thenReturn(user);
-        when(user.username()).thenReturn("Bot");
-        assertTrue(clearProcessor.appliesTo(update));
-    }
-
-    @Test
-    public void testProcess() {
-        boolean[] acts = {false};
-        doAnswer(invocationOnMock -> acts[0] = true)
-                .when(expenseService).deleteByBotChatId(ArgumentMatchers.anyLong());
-        clearProcessor.process(update);
-        assertTrue(acts[0]);
+        cp.process(update);
+        verify(bot).execute(isA(SendMessage.class));
     }
 }

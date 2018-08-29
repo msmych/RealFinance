@@ -10,7 +10,7 @@ public enum ExpenseCategory {
     ANY("Any", "☕️"),
     HOUSE("House", "\uD83C\uDFE0"),
     FOOD("Food", "\uD83C\uDF5E", "\uD83C\uDF55", "\uD83C\uDF4C"),
-    DRESS("Dress", "\uD83D\uDC54", "\uD83D\uDC60", "\uD83D\uDC56"),
+    CLOTHES("Clothes", "\uD83D\uDC54", "\uD83D\uDC60", "\uD83D\uDC56"),
     HEALTH("Health", "\uD83D\uDC8A", "\uD83D\uDC89", "\uD83C\uDF21"),
     EDUCATION("Education", "\uD83C\uDF93", "\uD83D\uDCDA"),
     SPORT("Sport", "⚽️", "\uD83C\uDFF8"),

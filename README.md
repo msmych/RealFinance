@@ -22,7 +22,7 @@ Possible categories:
 | Any:     | ☕️   |
 | House    | 🏠    |
 | Food     | 🍞🍕🍌 |
-| Dress    | 👔👠👖 |
+| Clothes  | 👔👠👖 |
 | Health   | 💊💉🌡 |
 | Education| 🎓📚 |
 | Sport    | ⚽️🏸 |
