@@ -1,26 +1,26 @@
 package finance.bot;
 
 import com.pengrad.telegrambot.response.BaseResponse;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
+import static org.apache.logging.log4j.LogManager.getLogger;
+
 @Aspect
 @Component
-public final class BotAspect {
+public class BotAspect {
 
-    private final Logger logger = LogManager.getLogger(BotAspect.class);
+    private final Logger logger = getLogger(BotAspect.class);
 
     @AfterReturning(pointcut = "execution(public * com.pengrad.telegrambot.TelegramBot.execute(..))",
             returning = "response")
-    void logExecutionResponse(Object response) {
-        BaseResponse baseResponse = (BaseResponse) response;
-        if (baseResponse.isOk()) {
-            logger.info(baseResponse);
+    void logExecutionResponse(BaseResponse response) {
+        if (response.isOk()) {
+            logger.info(response);
         } else {
-            logger.error(baseResponse.description());
+            logger.error(response.description());
         }
     }
 }
