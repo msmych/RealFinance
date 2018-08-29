@@ -3,7 +3,6 @@ package finance.expense.clear;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
-import finance.expense.ExpenseService;
 import finance.update.UpdateProcessor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -15,12 +14,9 @@ import static finance.update.UpdateUtils.isCommand;
 public class ClearProcessor implements UpdateProcessor {
 
     private final Bot bot;
-    private final ExpenseService expenseService;
 
-    public ClearProcessor(@Lazy Bot bot,
-                          ExpenseService expenseService) {
+    public ClearProcessor(@Lazy Bot bot) {
         this.bot = bot;
-        this.expenseService = expenseService;
     }
 
     @Override

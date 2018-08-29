@@ -5,20 +5,16 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
-import finance.expense.ExpenseService;
 import finance.expense.clear.ClearProcessor;
 import org.junit.Test;
 
 import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ClearProcessorTest {
 
     private Bot bot = mock(Bot.class);
-    private ExpenseService es = mock(ExpenseService.class);
-    ClearProcessor cp = new ClearProcessor(bot, es);
+    ClearProcessor cp = new ClearProcessor(bot);
 
     @Test
     public void sendingMessage() {
