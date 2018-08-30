@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import static finance.update.UpdateUtils.isCommand;
 
 @Component
-public final class HelpProcessor implements UpdateProcessor {
+public class HelpProcessor implements UpdateProcessor {
 
     private final String HELP = "help";
 

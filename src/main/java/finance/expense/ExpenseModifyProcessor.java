@@ -10,7 +10,7 @@ import static finance.expense.ExpenseUtils.isExpense;
 import static finance.update.UpdateUtils.getChat;
 
 @Component
-public final class ExpenseModifyProcessor implements UpdateProcessor {
+public class ExpenseModifyProcessor implements UpdateProcessor {
 
     private final ExpenseService expenseService;
 

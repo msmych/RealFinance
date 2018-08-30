@@ -4,17 +4,17 @@ import java.util.Currency;
 
 import static finance.expense.ExpenseUtils.formatAmount;
 
-public final class TotalUtils {
+public class TotalUtils {
 
-    public static String formatTotalCurrency(ExpenseTotalCurrency expenseTotalCurrency) {
+    public static String formatTotalCurrency(CurrencyExpenseTotal currencyExpenseTotal) {
         return "`"
-                + formatAmount(expenseTotalCurrency.getAmount())
-                + " " + Currency.getInstance(expenseTotalCurrency.getCurrency()).getSymbol()
+                + formatAmount(currencyExpenseTotal.getAmount())
+                + " " + Currency.getInstance(currencyExpenseTotal.getCurrency()).getSymbol()
                 + "`";
     }
 
-    public static String formatTotalCategory(ExpenseTotalCategory expenseTotalCategory) {
-        return expenseTotalCategory.getCategory().getName() + ": "
-                + "`" + formatAmount(expenseTotalCategory.getAmount()) + "`";
+    public static String formatTotalCategory(CurrencyCategoryExpenseTotal currencyCategoryExpenseTotal) {
+        return currencyCategoryExpenseTotal.getCategory().getName() + ": "
+                + "`" + formatAmount(currencyCategoryExpenseTotal.getAmount()) + "`";
     }
 }

@@ -11,7 +11,7 @@ import static finance.update.UpdateUtils.getFrom;
 import static finance.update.UpdateUtils.getText;
 
 @Component
-public final class CurrencyProcessor implements UpdateProcessor {
+public class CurrencyProcessor implements UpdateProcessor {
 
     private final BotUserService botUserService;
 

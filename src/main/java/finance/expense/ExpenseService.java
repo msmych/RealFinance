@@ -4,18 +4,21 @@ import com.pengrad.telegrambot.model.Update;
 import finance.bot.chat.BotChatService;
 import finance.bot.user.BotUser;
 import finance.bot.user.BotUserService;
-import finance.expense.total.ExpenseTotalCategory;
-import finance.expense.total.ExpenseTotalCurrency;
+import finance.expense.total.TotalUtils;
+import finance.expense.total.selector.AllExpenseTotalsSelector;
+import finance.expense.total.selector.ExpenseTotalsSelector;
+import finance.expense.total.selector.LastMonthExpenseTotalsSelector;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static finance.expense.CurrencyUtils.isCurrency;
 import static finance.expense.ExpenseCategory.ANY;
 import static finance.expense.ExpenseCategory.getByEmoji;
 import static finance.expense.ExpenseUtils.parseAmount;
+import static finance.expense.total.TotalUtils.formatTotalCurrency;
 import static finance.update.UpdateUtils.*;
 
 @Service
@@ -76,12 +79,21 @@ public class ExpenseService {
         return Optional.empty();
     }
 
-    public List<ExpenseTotalCurrency> getTotalCurrency(long botChatId) {
-        return expenseRepository.totalCurrencyByBotChatId(botChatId);
+    public String getAllTotalText(long botChatId) {
+        return getTotalText(new AllExpenseTotalsSelector(expenseRepository, botChatId));
     }
 
-    public List<ExpenseTotalCategory> getTotalCategory(long botChatId, String currency) {
-        return expenseRepository.totalCategoryByBotChatIdAndCurrency(botChatId, currency);
+    public String getMonthlyReportText(long botChatId) {
+        return getTotalText(new LastMonthExpenseTotalsSelector(expenseRepository, botChatId));
+    }
+
+    private String getTotalText(ExpenseTotalsSelector expenseTotalsSelector) {
+        return expenseTotalsSelector.getCurrencyExpenseTotals().stream()
+                .map(etc -> formatTotalCurrency(etc) +
+                        "\n" + expenseTotalsSelector.getCurrencyCategoryExpenseTotals(etc.getCurrency()).stream()
+                                .map(TotalUtils::formatTotalCategory)
+                                .collect(Collectors.joining("\n")))
+                .collect(Collectors.joining("\n\n"));
     }
 
     @Transactional

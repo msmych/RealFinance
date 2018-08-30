@@ -6,25 +6,19 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.FetchType.EAGER;
+
 @Entity
-public final class BotChat {
+public class BotChat {
 
-    @Id
-    public long id;
+    @Id public long id;
+    @Column public String firstName;
+    @Column public String lastName;
+    @Column public String username;
+    @Column public String title;
+    @Column public boolean monthlyReport = false;
 
-    @Column
-    public String firstName;
-
-    @Column
-    public String lastName;
-
-    @Column
-    public String username;
-
-    @Column
-    public String title;
-
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = EAGER)
     @JoinTable(
             name = "bot_chat_bot_user",
             joinColumns = { @JoinColumn(name = "bot_chat_id") },

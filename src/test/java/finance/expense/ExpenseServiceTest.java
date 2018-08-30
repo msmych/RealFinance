@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import static finance.expense.ExpenseCategory.FUN;
@@ -71,21 +70,6 @@ public class ExpenseServiceTest {
         when(message.text()).thenReturn("/15 \uD83C\uDF89");
         setReturnsAndAnswers();
         assertExpense(expenseService.save(update), FUN);
-    }
-
-    @Test
-    public void testGetTotalCurrencyByChatId() {
-        when(expenseRepository.totalCurrencyByBotChatId(ArgumentMatchers.anyLong()))
-                .thenReturn(Arrays.asList(null, null, null));
-        assertEquals(3, expenseService.getTotalCurrency(1L).size());
-    }
-
-    @Test
-    public void testGetTotalCategoryByChatIdAndCurrency() {
-        when(expenseRepository.totalCategoryByBotChatIdAndCurrency(
-                ArgumentMatchers.anyLong(), ArgumentMatchers.anyString()))
-                .thenReturn(Arrays.asList(null, null, null));
-        assertEquals(3, expenseService.getTotalCategory(1L, "USD").size());
     }
 
     @Test

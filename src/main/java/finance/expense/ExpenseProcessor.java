@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import static finance.expense.ExpenseUtils.isExpense;
 
 @Component
-public final class ExpenseProcessor implements UpdateProcessor {
+public class ExpenseProcessor implements UpdateProcessor {
 
     private final ExpenseService expenseService;
 

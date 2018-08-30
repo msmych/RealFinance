@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.model.Update;
 import finance.bot.user.BotUserService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import static finance.update.UpdateUtils.getChat;
@@ -45,5 +46,9 @@ public class BotChatService {
 
     public Optional<BotChat> findById(long id) {
         return botChatRepository.findById(id);
+    }
+
+    public List<Long> getBotChatIdsForMonthlyReport() {
+        return botChatRepository.findIdByMonthlyReportTrue();
     }
 }

@@ -3,7 +3,7 @@ package finance.bot.user;
 import javax.persistence.*;
 
 @Entity
-public final class BotUser {
+public class BotUser {
 
     @Id
     public int id;
