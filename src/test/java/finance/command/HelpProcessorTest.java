@@ -7,6 +7,7 @@ import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import finance.bot.Bot;
+import finance.bot.update.UpdateService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
@@ -20,9 +21,9 @@ public class HelpProcessorTest {
     private final String HELP = "/help";
     private final String BOT_USERNAME = "RealFinanceBot";
     private final long CHAT_ID = 0L;
-
+    UpdateService us = mock(UpdateService.class);
     private final Bot bot = mock(Bot.class);
-    private final HelpProcessor helpProcessor = new HelpProcessor(bot, "help");
+    private final HelpProcessor helpProcessor = new HelpProcessor(us, bot, "help");
 
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
@@ -34,20 +35,6 @@ public class HelpProcessorTest {
     public void before() {
         when(bot.getUser()).thenReturn(user);
         when(user.username()).thenReturn(BOT_USERNAME);
-    }
-
-    @Test
-    public void testCommandHelp() {
-        when(update.message()).thenReturn(message);
-        when(message.text()).thenReturn(HELP);
-        assertTrue(helpProcessor.appliesTo(update));
-    }
-
-    @Test
-    public void testCommandHelpAtBotUsername() {
-        when(update.message()).thenReturn(message);
-        when(message.text()).thenReturn(HELP + "@" + BOT_USERNAME);
-        assertTrue(helpProcessor.appliesTo(update));
     }
 
     @Test

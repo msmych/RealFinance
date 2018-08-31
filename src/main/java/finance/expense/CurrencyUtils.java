@@ -2,7 +2,7 @@ package finance.expense;
 
 import java.util.Currency;
 
-public final class CurrencyUtils {
+public class CurrencyUtils {
 
     public static boolean isCurrency(String code) {
         try {

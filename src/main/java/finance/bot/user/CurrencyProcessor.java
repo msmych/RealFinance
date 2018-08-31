@@ -1,17 +1,17 @@
 package finance.bot.user;
 
 import com.pengrad.telegrambot.model.Update;
-import finance.update.UpdateProcessor;
+import finance.bot.update.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 import static finance.expense.CurrencyUtils.isCurrency;
-import static finance.update.UpdateUtils.getFrom;
-import static finance.update.UpdateUtils.getText;
+import static finance.bot.update.UpdateUtils.getFrom;
+import static finance.bot.update.UpdateUtils.getText;
 
 @Component
-public final class CurrencyProcessor implements UpdateProcessor {
+public class CurrencyProcessor implements UpdateProcessor {
 
     private final BotUserService botUserService;
 

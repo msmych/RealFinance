@@ -11,8 +11,8 @@ import static org.mockito.Mockito.when;
 
 public class TotalUtilsTest {
 
-    private final ExpenseTotalCurrency totalCurrency = mock(ExpenseTotalCurrency.class);
-    private final ExpenseTotalCategory totalCategory = mock(ExpenseTotalCategory.class);
+    private final CurrencyExpenseTotal totalCurrency = mock(CurrencyExpenseTotal.class);
+    private final CurrencyCategoryExpenseTotal totalCategory = mock(CurrencyCategoryExpenseTotal.class);
 
     @Test
     public void testFormatTotalEur() {

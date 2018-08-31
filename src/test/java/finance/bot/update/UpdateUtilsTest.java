@@ -1,11 +1,10 @@
-package finance.update;
+package finance.bot.update;
 
 import com.pengrad.telegrambot.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import static finance.update.UpdateUtils.getText;
-import static finance.update.UpdateUtils.isCommand;
+import static finance.bot.update.UpdateUtils.getText;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -34,23 +33,8 @@ public class UpdateUtilsTest {
     }
 
     @Test
-    public void testMessageTextCommand() {
-        when(update.message()).thenReturn(message);
-        when(message.text()).thenReturn(SLASH_COMMAND);
-        assertTrue(isCommand(update, COMMAND, BOT_USERNAME));
-    }
-
-    @Test
-    public void testMessageTextCommandAtBotUsername() {
-        when(update.message()).thenReturn(message);
-        when(message.text()).thenReturn(SLASH_COMMAND + AT_BOT_USERNAME);
-        assertTrue(isCommand(update, COMMAND, BOT_USERNAME));
-    }
-
-    @Test
     public void testNoMessage() {
         when(update.message()).thenReturn(null);
-        assertFalse(isCommand(update, COMMAND, BOT_USERNAME));
         assertFalse(getText(update).isPresent());
     }
 
@@ -58,7 +42,6 @@ public class UpdateUtilsTest {
     public void testMessageNoText() {
         when(update.message()).thenReturn(message);
         when(message.text()).thenReturn(null);
-        assertFalse(isCommand(update, COMMAND, BOT_USERNAME));
         assertFalse(getText(update).isPresent());
     }
 
@@ -66,7 +49,6 @@ public class UpdateUtilsTest {
     public void testMessageText() {
         when(update.message()).thenReturn(message);
         when(message.text()).thenReturn("TEXT");
-        assertFalse(isCommand(update, COMMAND, BOT_USERNAME));
         assertTrue(getText(update).isPresent());
     }
 

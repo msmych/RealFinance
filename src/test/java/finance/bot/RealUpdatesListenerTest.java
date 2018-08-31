@@ -3,8 +3,8 @@ package finance.bot;
 import com.pengrad.telegrambot.model.Update;
 import finance.bot.chat.BotChat;
 import finance.bot.chat.BotChatService;
-import finance.update.RealUpdatesListener;
-import finance.update.UpdateProcessor;
+import finance.bot.update.RealUpdatesListener;
+import finance.bot.update.UpdateProcessor;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 

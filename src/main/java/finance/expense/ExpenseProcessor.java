@@ -1,13 +1,13 @@
 package finance.expense;
 
 import com.pengrad.telegrambot.model.Update;
-import finance.update.UpdateProcessor;
+import finance.bot.update.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
 import static finance.expense.ExpenseUtils.isExpense;
 
 @Component
-public final class ExpenseProcessor implements UpdateProcessor {
+public class ExpenseProcessor implements UpdateProcessor {
 
     private final ExpenseService expenseService;
 

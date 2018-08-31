@@ -6,9 +6,9 @@ import java.util.Optional;
 
 import static finance.expense.CurrencyUtils.isCurrency;
 import static finance.expense.ExpenseCategory.getByEmoji;
-import static finance.update.UpdateUtils.getText;
+import static finance.bot.update.UpdateUtils.getText;
 
-public final class ExpenseUtils {
+public class ExpenseUtils {
 
     public static boolean isExpense(Update update) {
         Optional<String> optionalText = getText(update);

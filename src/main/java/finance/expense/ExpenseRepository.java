@@ -1,11 +1,12 @@
 package finance.expense;
 
-import finance.expense.total.ExpenseTotalCategory;
-import finance.expense.total.ExpenseTotalCurrency;
+import finance.expense.total.CurrencyCategoryExpenseTotal;
+import finance.expense.total.CurrencyExpenseTotal;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,15 +17,38 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long> {
                     "from Expense " +
                     "where bot_chat_id = :botChatId " +
                     "group by currency")
-    List<ExpenseTotalCurrency> totalCurrencyByBotChatId(@Param("botChatId") long botChatId);
+    List<CurrencyExpenseTotal> totalCurrencyByBotChatId(@Param("botChatId") long botChatId);
 
     @Query(nativeQuery = true,
             value = "select sum(amount) as amount, category " +
                     "from Expense " +
                     "where bot_chat_id = :botChatId and currency = :currency " +
                     "group by category")
-    List<ExpenseTotalCategory> totalCategoryByBotChatIdAndCurrency(@Param("botChatId") long botChatId,
-                                                                   @Param("currency") String currency);
+    List<CurrencyCategoryExpenseTotal> totalCategoryByBotChatIdAndCurrency(@Param("botChatId") long botChatId,
+                                                                           @Param("currency") String currency);
+
+    @Query(nativeQuery = true,
+            value = "select sum(amount) as amount, currency as currency " +
+                    "from expense " +
+                    "where bot_chat_id = :botChatId " +
+                    "and date > :startDate " +
+                    "and date < :endDate " +
+                    "group by currency")
+    List<CurrencyExpenseTotal> totalCurrencyByBotChatIdPeriod(@Param("botChatId") long botChatId,
+                                                              @Param("startDate") Date startDate,
+                                                              @Param("endDate") Date endDate);
+
+    @Query(nativeQuery = true,
+            value = "select sum(amount) as amount, category " +
+                    "from Expense " +
+                    "where bot_chat_id = :botChatId and currency = :currency " +
+                    "and date > :startDate " +
+                    "and date < :endDate " +
+                    "group by currency")
+    List<CurrencyCategoryExpenseTotal> totalCategoryByBotChatIdAndCurrencyPeriod(@Param("botChatId") long botChatId,
+                                                                                 @Param("currency") String currency,
+                                                                                 @Param("startDate") Date startDate,
+                                                                                 @Param("endDate") Date endDate);
 
     void deleteByBotChatId(long botChatId);
 

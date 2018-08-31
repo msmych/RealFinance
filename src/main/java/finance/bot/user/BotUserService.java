@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static finance.update.UpdateUtils.getFrom;
+import static finance.bot.update.UpdateUtils.getFrom;
 
 @Service
 public class BotUserService {
