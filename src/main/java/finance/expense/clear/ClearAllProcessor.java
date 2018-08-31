@@ -5,7 +5,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.DeleteMessage;
 import finance.bot.Bot;
 import finance.expense.ExpenseService;
-import finance.update.UpdateProcessor;
+import finance.bot.update.UpdateProcessor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 

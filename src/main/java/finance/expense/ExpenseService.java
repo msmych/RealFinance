@@ -19,7 +19,7 @@ import static finance.expense.ExpenseCategory.ANY;
 import static finance.expense.ExpenseCategory.getByEmoji;
 import static finance.expense.ExpenseUtils.parseAmount;
 import static finance.expense.total.TotalUtils.formatTotalCurrency;
-import static finance.update.UpdateUtils.*;
+import static finance.bot.update.UpdateUtils.*;
 
 @Service
 public class ExpenseService {

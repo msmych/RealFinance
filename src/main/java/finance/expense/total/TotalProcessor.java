@@ -3,28 +3,30 @@ package finance.expense.total;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
+import finance.bot.update.UpdateProcessor;
+import finance.bot.update.UpdateService;
 import finance.expense.ExpenseService;
-import finance.update.UpdateProcessor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import static com.pengrad.telegrambot.model.request.ParseMode.Markdown;
-import static finance.update.UpdateUtils.isCommand;
 
 @Component
 public class TotalProcessor implements UpdateProcessor {
 
+    private final UpdateService updateService;
     private final Bot bot;
     private final ExpenseService expenseService;
 
-    public TotalProcessor(@Lazy Bot bot, ExpenseService expenseService) {
+    public TotalProcessor(UpdateService updateService, @Lazy Bot bot, ExpenseService expenseService) {
+        this.updateService = updateService;
         this.bot = bot;
         this.expenseService = expenseService;
     }
 
     @Override
     public boolean appliesTo(Update update) {
-        return isCommand(update, "total", bot.getUser().username());
+        return updateService.isCommand(update, "total");
     }
 
     @Override

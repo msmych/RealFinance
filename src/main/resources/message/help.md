@@ -29,6 +29,10 @@
   
   /clear - Clear chat expenses
   
+  /reports - Chat reports settings
+  
+  If you want to receive monthly reports, check _Monthly_ option
+  
   `/currency` - Change user default currency
   
   Examples:

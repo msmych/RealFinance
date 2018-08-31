@@ -1,20 +1,10 @@
-package finance.update;
+package finance.bot.update;
 
 import com.pengrad.telegrambot.model.*;
 
 import java.util.Optional;
 
 public class UpdateUtils {
-
-    public static boolean isCommand(Update update, String command, String botUsername) {
-        Message message = update.message();
-        if (message == null) return false;
-        String text = message.text();
-        if (text == null) return false;
-        String slash = "/";
-        return text.equals(slash + command)
-                || text.equals(slash + command + "@" + botUsername);
-    }
 
     public static Chat getChat(Update update) {
         Message message = update.message();

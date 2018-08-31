@@ -4,6 +4,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
 import finance.bot.chat.BotChatService;
 import finance.expense.ExpenseService;
+import finance.expense.total.report.ReportTask;
 import org.junit.Test;
 
 import java.util.List;
@@ -11,12 +12,12 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.*;
 
-public class TotalTaskTest {
+public class ReportTaskTest {
 
     private BotChatService bcs = mock(BotChatService.class);
     ExpenseService es = mock(ExpenseService.class);
     private Bot bot = mock(Bot.class);
-    TotalTask tt = new TotalTask(bcs, es, bot);
+    ReportTask tt = new ReportTask(bcs, es, bot);
 
     @Test
     public void reportingMonth() {
@@ -24,7 +25,7 @@ public class TotalTaskTest {
         when(bcs.getBotChatIdsForMonthlyReport()).thenReturn(chatIds);
         tt.reportMonth();
         verify(bcs).getBotChatIdsForMonthlyReport();
-        verify(es, times(chatIds.size())).getAllTotalText(anyLong());
+        verify(es, times(chatIds.size())).getMonthlyReportText(anyLong());
         verify(bot, times(chatIds.size())).execute(isA(SendMessage.class));
     }
 

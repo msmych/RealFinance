@@ -35,6 +35,10 @@ To modify an expense, just modify its message
 
 /clear - Clear chat expenses
 
+/reports - Chat reports settings
+  
+If you want to receive monthly reports, check *Monthly* option
+
 `/currency` - Change user default currency
 
 Examples:

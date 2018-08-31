@@ -4,30 +4,29 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
-import finance.update.UpdateProcessor;
+import finance.bot.update.UpdateProcessor;
+import finance.bot.update.UpdateService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import static finance.update.UpdateUtils.isCommand;
-
 @Component
 public class HelpProcessor implements UpdateProcessor {
 
-    private final String HELP = "help";
-
+    private final UpdateService updateService;
     private final Bot bot;
     private final String helpMessage;
 
-    public HelpProcessor(@Lazy Bot bot,
+    public HelpProcessor(UpdateService updateService, @Lazy Bot bot,
                          @Qualifier("message-help") String helpMessage) {
+        this.updateService = updateService;
         this.bot = bot;
         this.helpMessage = helpMessage;
     }
 
     @Override
     public boolean appliesTo(Update update) {
-        return isCommand(update, HELP, bot.getUser().username());
+        return updateService.isCommand(update, "help");
     }
 
     @Override

@@ -26,18 +26,9 @@ public class Expense {
     @JoinColumn(name = "bot_user_id", referencedColumnName = "id")
     public BotUser botUser;
 
-    @Column
-    public Integer messageId;
-
-    @Column
-    public int amount;
-
-    @Column
-    public String currency = "EUR";
-
-    @Column
-    @Enumerated(STRING)
-    public ExpenseCategory category = ANY;
-
+    @Column public Integer messageId;
+    @Column public int amount;
+    @Column public String currency = "EUR";
+    @Enumerated(STRING) public ExpenseCategory category = ANY;
     @Column public Date date = new Date();
 }

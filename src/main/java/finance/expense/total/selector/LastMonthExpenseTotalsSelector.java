@@ -4,12 +4,11 @@ import finance.expense.ExpenseRepository;
 import finance.expense.total.CurrencyCategoryExpenseTotal;
 import finance.expense.total.CurrencyExpenseTotal;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import static java.util.Calendar.*;
+import static finance.DateUtils.getLastMonthFirstDay;
+import static finance.DateUtils.getThisMonthFirstDay;
 
 public class LastMonthExpenseTotalsSelector implements ExpenseTotalsSelector {
 
@@ -26,23 +25,6 @@ public class LastMonthExpenseTotalsSelector implements ExpenseTotalsSelector {
         this.thisMonthFirstDay = getThisMonthFirstDay();
         expenseTotalsCurrency =
                 expenseRepository.totalCurrencyByBotChatIdPeriod(botChatId, lastMonthFirstDay, thisMonthFirstDay);
-    }
-
-    private Date getLastMonthFirstDay() {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(getThisMonthFirstDay());
-        calendar.add(MONTH, -1);
-        return calendar.getTime();
-    }
-
-    private Date getThisMonthFirstDay() {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.set(DAY_OF_MONTH, 1);
-        calendar.set(HOUR, 0);
-        calendar.set(MINUTE, 0);
-        calendar.set(SECOND, 0);
-        calendar.set(MILLISECOND, 0);
-        return calendar.getTime();
     }
 
     @Override

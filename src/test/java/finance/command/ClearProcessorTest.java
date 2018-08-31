@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
+import finance.bot.update.UpdateService;
 import finance.expense.clear.ClearProcessor;
 import org.junit.Test;
 
@@ -13,8 +14,9 @@ import static org.mockito.Mockito.*;
 
 public class ClearProcessorTest {
 
+    UpdateService us = mock(UpdateService.class);
     private Bot bot = mock(Bot.class);
-    ClearProcessor cp = new ClearProcessor(bot);
+    ClearProcessor cp = new ClearProcessor(us, bot);
 
     @Test
     public void sendingMessage() {
