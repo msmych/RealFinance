@@ -34,7 +34,7 @@ public class ReportsProcessor implements UpdateProcessor {
     @Override
     public void process(Update update) {
         long botChatId = update.message().chat().id();
-        bot.execute(new SendMessage(botChatId, "Chat reports settings")
+        bot.execute(new SendMessage(botChatId, "Chat reports")
                 .replyMarkup(getReportsSettingsMarkup(botChatService.getBotChatReportType(botChatId))));
     }
 }
