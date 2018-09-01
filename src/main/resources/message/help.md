@@ -6,7 +6,7 @@
   `/14`
   `/999.90 RUB`
   `/0.99 usd`
-  `/36.6 💊`
+  `/36.60 💊`
   `/10 usd 🍕`
   
   The default currency is Euro

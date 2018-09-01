@@ -4,18 +4,21 @@ import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
 import finance.bot.chat.BotChatService;
 import finance.expense.ExpenseService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.Locale;
 
-import static java.util.Calendar.LONG;
-import static java.util.Calendar.MONTH;
-import static java.util.Calendar.YEAR;
+import static com.pengrad.telegrambot.model.request.ParseMode.Markdown;
+import static java.util.Calendar.*;
 
 @Component
 public class ReportTask {
+
+    private final Logger logger = LogManager.getLogger(ReportTask.class);
 
     private final BotChatService botChatService;
     private final ExpenseService expenseService;
@@ -28,10 +31,12 @@ public class ReportTask {
     }
 
     @Scheduled(cron = "0 0 9 1 * ?")
-    public void reportMonth() {
+    public void reportMonthly() {
+        logger.info("Monthly report");
         botChatService.getBotChatIdsForMonthlyReport().forEach(chatId ->
                 bot.execute(new SendMessage(chatId,
-                        "#total " + getLastMonthNameAndYear() + "\n\n" + expenseService.getMonthlyReportText(chatId))));
+                        "#total " + getLastMonthNameAndYear() + "\n\n" + expenseService.getMonthlyReportText(chatId))
+                        .parseMode(Markdown)));
     }
 
     private String getLastMonthNameAndYear() {

@@ -13,22 +13,22 @@ import java.util.Optional;
 public interface ExpenseRepository extends CrudRepository<Expense, Long> {
 
     @Query(nativeQuery = true,
-            value = "select sum(amount) as amount, currency as currency " +
-                    "from Expense " +
+            value = "select sum(amount) as amount, currency " +
+                    "from expense " +
                     "where bot_chat_id = :botChatId " +
                     "group by currency")
     List<CurrencyExpenseTotal> totalCurrencyByBotChatId(@Param("botChatId") long botChatId);
 
     @Query(nativeQuery = true,
             value = "select sum(amount) as amount, category " +
-                    "from Expense " +
+                    "from expense " +
                     "where bot_chat_id = :botChatId and currency = :currency " +
                     "group by category")
     List<CurrencyCategoryExpenseTotal> totalCategoryByBotChatIdAndCurrency(@Param("botChatId") long botChatId,
                                                                            @Param("currency") String currency);
 
     @Query(nativeQuery = true,
-            value = "select sum(amount) as amount, currency as currency " +
+            value = "select sum(amount) as amount, currency " +
                     "from expense " +
                     "where bot_chat_id = :botChatId " +
                     "and date > :startDate " +
@@ -40,11 +40,11 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long> {
 
     @Query(nativeQuery = true,
             value = "select sum(amount) as amount, category " +
-                    "from Expense " +
+                    "from expense " +
                     "where bot_chat_id = :botChatId and currency = :currency " +
                     "and date > :startDate " +
                     "and date < :endDate " +
-                    "group by currency")
+                    "group by category")
     List<CurrencyCategoryExpenseTotal> totalCategoryByBotChatIdAndCurrencyPeriod(@Param("botChatId") long botChatId,
                                                                                  @Param("currency") String currency,
                                                                                  @Param("startDate") Date startDate,

@@ -10,7 +10,7 @@ Examples:
 /100
 /12.50 RUB
 /0.45 usd
-/36.6 💊
+/36.60 💊
 /10 usd 🍕
 ```
 The default currency is Euro. The default category is *Any*.
