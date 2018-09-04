@@ -6,7 +6,6 @@ import finance.bot.Bot;
 import finance.bot.update.UpdateProcessor;
 import finance.bot.update.UpdateService;
 import finance.expense.ExpenseService;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import static com.pengrad.telegrambot.model.request.ParseMode.Markdown;
@@ -18,7 +17,7 @@ public class TotalProcessor implements UpdateProcessor {
     private final Bot bot;
     private final ExpenseService expenseService;
 
-    public TotalProcessor(UpdateService updateService, @Lazy Bot bot, ExpenseService expenseService) {
+    public TotalProcessor(UpdateService updateService, Bot bot, ExpenseService expenseService) {
         this.updateService = updateService;
         this.bot = bot;
         this.expenseService = expenseService;

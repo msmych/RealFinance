@@ -7,7 +7,6 @@ import finance.bot.chat.BotChat.ReportType;
 import finance.bot.chat.BotChatService;
 import finance.bot.update.UpdateProcessor;
 import finance.bot.update.UpdateService;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import static finance.bot.chat.BotChat.ReportType.MONTHLY;
@@ -22,7 +21,7 @@ public class SwitchMonthlyReportProcessor implements UpdateProcessor {
     private final BotChatService botChatService;
     private final Bot bot;
 
-    public SwitchMonthlyReportProcessor(UpdateService updateService, BotChatService botChatService, @Lazy Bot bot) {
+    public SwitchMonthlyReportProcessor(UpdateService updateService, BotChatService botChatService, Bot bot) {
         this.updateService = updateService;
         this.botChatService = botChatService;
         this.bot = bot;

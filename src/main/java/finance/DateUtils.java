@@ -17,7 +17,7 @@ public class DateUtils {
     public static Date getThisMonthFirstDay() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(DAY_OF_MONTH, 1);
-        calendar.set(HOUR, 0);
+        calendar.set(HOUR_OF_DAY, 0);
         calendar.set(MINUTE, 0);
         calendar.set(SECOND, 0);
         calendar.set(MILLISECOND, 0);
