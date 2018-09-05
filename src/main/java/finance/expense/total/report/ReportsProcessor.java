@@ -6,7 +6,6 @@ import finance.bot.Bot;
 import finance.bot.chat.BotChatService;
 import finance.bot.update.UpdateProcessor;
 import finance.bot.update.UpdateService;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import static finance.expense.total.report.ReportUtils.getReportsSettingsMarkup;
@@ -20,7 +19,7 @@ public class ReportsProcessor implements UpdateProcessor {
     private final BotChatService botChatService;
     private final Bot bot;
 
-    public ReportsProcessor(UpdateService updateService, BotChatService botChatService, @Lazy Bot bot) {
+    public ReportsProcessor(UpdateService updateService, BotChatService botChatService, Bot bot) {
         this.updateService = updateService;
         this.botChatService = botChatService;
         this.bot = bot;

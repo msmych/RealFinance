@@ -5,7 +5,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
 import finance.bot.update.UpdateProcessor;
 import finance.bot.update.UpdateService;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import static finance.bot.Bot.CLEAR_MARKUP;
@@ -16,7 +15,7 @@ public class ClearProcessor implements UpdateProcessor {
     private final UpdateService updateService;
     private final Bot bot;
 
-    public ClearProcessor(UpdateService updateService, @Lazy Bot bot) {
+    public ClearProcessor(UpdateService updateService, Bot bot) {
         this.updateService = updateService;
         this.bot = bot;
     }

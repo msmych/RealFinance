@@ -4,9 +4,8 @@ import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.DeleteMessage;
 import finance.bot.Bot;
-import finance.expense.ExpenseService;
 import finance.bot.update.UpdateProcessor;
-import org.springframework.context.annotation.Lazy;
+import finance.expense.ExpenseService;
 import org.springframework.stereotype.Component;
 
 import static finance.bot.Bot.CLEAR_ALL_DATA;
@@ -17,7 +16,7 @@ public class ClearAllProcessor implements UpdateProcessor {
     private final ExpenseService expenseService;
     private final Bot bot;
 
-    public ClearAllProcessor(ExpenseService expenseService, @Lazy Bot bot) {
+    public ClearAllProcessor(ExpenseService expenseService, Bot bot) {
         this.expenseService = expenseService;
         this.bot = bot;
     }

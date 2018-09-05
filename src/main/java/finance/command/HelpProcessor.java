@@ -7,7 +7,6 @@ import finance.bot.Bot;
 import finance.bot.update.UpdateProcessor;
 import finance.bot.update.UpdateService;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,7 +16,7 @@ public class HelpProcessor implements UpdateProcessor {
     private final Bot bot;
     private final String helpMessage;
 
-    public HelpProcessor(UpdateService updateService, @Lazy Bot bot,
+    public HelpProcessor(UpdateService updateService, Bot bot,
                          @Qualifier("message-help") String helpMessage) {
         this.updateService = updateService;
         this.bot = bot;
