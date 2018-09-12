@@ -26,30 +26,39 @@ public class RealUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info(update);
-            if (!saveBotChat(update)) return;
+            if (!tryToSaveBotChat(update)) return;
             updateProcessors.stream()
-                    .filter(updateProcessor -> updateProcessor.appliesTo(update))
-                    .forEach(updateProcessor -> processUpdate(updateProcessor, update));
+                    .filter(updateProcessor -> tryToCheckIfApplies(updateProcessor, update))
+                    .forEach(updateProcessor -> tryToProcessUpdate(updateProcessor, update));
         });
 
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
-    private boolean saveBotChat(Update update) {
+    private boolean tryToSaveBotChat(Update update) {
         try {
             botChatService.saveBotChat(update);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
             return false;
         }
         return true;
     }
 
-    private void processUpdate(UpdateProcessor updateProcessor, Update update) {
+    private boolean tryToCheckIfApplies(UpdateProcessor updateProcessor, Update update) {
+        try {
+            return updateProcessor.appliesTo(update);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    private void tryToProcessUpdate(UpdateProcessor updateProcessor, Update update) {
         try {
             updateProcessor.process(update);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         }
     }
 }
