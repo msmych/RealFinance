@@ -15,8 +15,6 @@ import java.io.InputStreamReader;
 @Configuration
 public class MessageConfig {
 
-    private final String DOUBLE_SPACE = "  ";
-    private final String NEW_ROW = "\n";
     private final Logger logger = LogManager.getLogger(MessageConfig.class);
 
     private final Resource helpResource;
@@ -36,7 +34,7 @@ public class MessageConfig {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                line = line.replace(DOUBLE_SPACE, NEW_ROW);
+                line = line.replace("  ", "\n");
                 message.append(line);
             }
         } catch (IOException e) {
