@@ -1,7 +1,7 @@
 package finance.expense;
 
-import finance.expense.total.CurrencyCategoryExpenseTotal;
-import finance.expense.total.CurrencyExpenseTotal;
+import finance.expense.total.AmountCategoryExpenseTotal;
+import finance.expense.total.AmountCurrencyExpenseTotal;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -17,15 +17,15 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long> {
                     "from expense " +
                     "where bot_chat_id = :botChatId " +
                     "group by currency")
-    List<CurrencyExpenseTotal> totalCurrencyByBotChatId(@Param("botChatId") long botChatId);
+    List<AmountCurrencyExpenseTotal> totalCurrencyByBotChatId(@Param("botChatId") long botChatId);
 
     @Query(nativeQuery = true,
             value = "select sum(amount) as amount, category " +
                     "from expense " +
                     "where bot_chat_id = :botChatId and currency = :currency " +
                     "group by category")
-    List<CurrencyCategoryExpenseTotal> totalCategoryByBotChatIdAndCurrency(@Param("botChatId") long botChatId,
-                                                                           @Param("currency") String currency);
+    List<AmountCategoryExpenseTotal> totalCategoryByBotChatIdAndCurrency(@Param("botChatId") long botChatId,
+                                                                         @Param("currency") String currency);
 
     @Query(nativeQuery = true,
             value = "select sum(amount) as amount, currency " +
@@ -34,9 +34,9 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long> {
                     "and date > :startDate " +
                     "and date < :endDate " +
                     "group by currency")
-    List<CurrencyExpenseTotal> totalCurrencyByBotChatIdPeriod(@Param("botChatId") long botChatId,
-                                                              @Param("startDate") Date startDate,
-                                                              @Param("endDate") Date endDate);
+    List<AmountCurrencyExpenseTotal> totalCurrencyByBotChatIdPeriod(@Param("botChatId") long botChatId,
+                                                                    @Param("startDate") Date startDate,
+                                                                    @Param("endDate") Date endDate);
 
     @Query(nativeQuery = true,
             value = "select sum(amount) as amount, category " +
@@ -45,10 +45,19 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long> {
                     "and date > :startDate " +
                     "and date < :endDate " +
                     "group by category")
-    List<CurrencyCategoryExpenseTotal> totalCategoryByBotChatIdAndCurrencyPeriod(@Param("botChatId") long botChatId,
-                                                                                 @Param("currency") String currency,
-                                                                                 @Param("startDate") Date startDate,
-                                                                                 @Param("endDate") Date endDate);
+    List<AmountCategoryExpenseTotal> totalCategoryByBotChatIdAndCurrencyPeriod(@Param("botChatId") long botChatId,
+                                                                               @Param("currency") String currency,
+                                                                               @Param("startDate") Date startDate,
+                                                                               @Param("endDate") Date endDate);
+
+    @Query(nativeQuery = true,
+            value = "select sum(amount) as amount, currency " +
+                    "from expense " +
+                    "where bot_chat_id = :botChatId " +
+                    "and bot_user_id = :botUserId " +
+                    "group by currency")
+    List<AmountCurrencyExpenseTotal> totalCategoryByBotChatIdAndBotUserId(@Param("botChatId") long botChatId,
+                                                                          @Param("botUserId") int botUserId);
 
     void deleteByBotChatId(long botChatId);
 

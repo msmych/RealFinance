@@ -6,15 +6,15 @@ import static finance.expense.ExpenseUtils.formatAmount;
 
 public class TotalUtils {
 
-    public static String formatTotalCurrency(CurrencyExpenseTotal currencyExpenseTotal) {
+    public static String formatTotalCurrency(AmountCurrencyExpenseTotal amountCurrencyExpenseTotal) {
         return "`"
-                + formatAmount(currencyExpenseTotal.getAmount())
-                + " " + Currency.getInstance(currencyExpenseTotal.getCurrency()).getSymbol()
+                + formatAmount(amountCurrencyExpenseTotal.getAmount())
+                + " " + Currency.getInstance(amountCurrencyExpenseTotal.getCurrency()).getSymbol()
                 + "`";
     }
 
-    public static String formatTotalCategory(CurrencyCategoryExpenseTotal currencyCategoryExpenseTotal) {
-        return currencyCategoryExpenseTotal.getCategory().getName() + ": "
-                + "`" + formatAmount(currencyCategoryExpenseTotal.getAmount()) + "`";
+    public static String formatTotalCategory(AmountCategoryExpenseTotal amountCategoryExpenseTotal) {
+        return amountCategoryExpenseTotal.getCategory().getName() + ": "
+                + "`" + formatAmount(amountCategoryExpenseTotal.getAmount()) + "`";
     }
 }

@@ -1,8 +1,8 @@
 package finance.expense.total.selector;
 
 import finance.expense.ExpenseRepository;
-import finance.expense.total.CurrencyCategoryExpenseTotal;
-import finance.expense.total.CurrencyExpenseTotal;
+import finance.expense.total.AmountCategoryExpenseTotal;
+import finance.expense.total.AmountCurrencyExpenseTotal;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +16,7 @@ public class LastMonthExpenseTotalsSelector implements ExpenseTotalsSelector {
     private final long botChatId;
     private final Date lastMonthFirstDay;
     private final Date thisMonthFirstDay;
-    private final List<CurrencyExpenseTotal> expenseTotalsCurrency;
+    private final List<AmountCurrencyExpenseTotal> expenseTotalsCurrency;
 
     public LastMonthExpenseTotalsSelector(ExpenseRepository expenseRepository, long botChatId) {
         this.expenseRepository = expenseRepository;
@@ -28,12 +28,12 @@ public class LastMonthExpenseTotalsSelector implements ExpenseTotalsSelector {
     }
 
     @Override
-    public List<CurrencyExpenseTotal> getCurrencyExpenseTotals() {
+    public List<AmountCurrencyExpenseTotal> getCurrencyExpenseTotals() {
         return expenseTotalsCurrency;
     }
 
     @Override
-    public List<CurrencyCategoryExpenseTotal> getCurrencyCategoryExpenseTotals(String currency) {
+    public List<AmountCategoryExpenseTotal> getCurrencyCategoryExpenseTotals(String currency) {
         return expenseRepository
                 .totalCategoryByBotChatIdAndCurrencyPeriod(botChatId, currency, lastMonthFirstDay, thisMonthFirstDay);
     }

@@ -4,7 +4,7 @@ import finance.bot.chat.BotChat;
 import finance.bot.chat.BotChatRepository;
 import finance.expense.Expense;
 import finance.expense.ExpenseRepository;
-import finance.expense.total.CurrencyExpenseTotal;
+import finance.expense.total.AmountCurrencyExpenseTotal;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,10 +67,10 @@ public class RepositoryTest {
 
     @Test
     public void selectingLastMonthsExpenses() {
-        List<CurrencyExpenseTotal> currencyExpenseTotals =
+        List<AmountCurrencyExpenseTotal> amountCurrencyExpenseTotals =
                 er.totalCurrencyByBotChatIdPeriod(botChatId, getLastMonthFirstDay(), getThisMonthFirstDay());
-        assertEquals(1, currencyExpenseTotals.size());
-        assertEquals(lastMonthExpense.amount, currencyExpenseTotals.get(0).getAmount());
+        assertEquals(1, amountCurrencyExpenseTotals.size());
+        assertEquals(lastMonthExpense.amount, amountCurrencyExpenseTotals.get(0).getAmount());
     }
 
     private Date getLastYearDate() {
