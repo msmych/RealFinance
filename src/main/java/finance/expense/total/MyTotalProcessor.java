@@ -37,6 +37,8 @@ public class MyTotalProcessor implements UpdateProcessor {
         String text = expenseService.getTotalByBotChatIdAndBotUserId(chatId, userId).stream()
                 .map(TotalUtils::formatTotalCurrency)
                 .collect(Collectors.joining("\n"));
+        if (text.isEmpty())
+            text = "`0.00`";
         bot.execute(new SendMessage(chatId, text).parseMode(Markdown));
     }
 }

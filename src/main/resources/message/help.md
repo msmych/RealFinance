@@ -27,7 +27,7 @@
   
   /total - Total chat expenses
   
-  /my_total - User chat expenses
+  /my\_total - User chat expenses
   
   /clear - Clear chat expenses
   
