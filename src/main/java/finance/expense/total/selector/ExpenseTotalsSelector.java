@@ -1,11 +1,11 @@
 package finance.expense.total.selector;
 
-import finance.expense.total.CurrencyCategoryExpenseTotal;
-import finance.expense.total.CurrencyExpenseTotal;
+import finance.expense.total.AmountCategoryExpenseTotal;
+import finance.expense.total.AmountCurrencyExpenseTotal;
 
 import java.util.List;
 
 public interface ExpenseTotalsSelector {
-    List<CurrencyExpenseTotal> getCurrencyExpenseTotals();
-    List<CurrencyCategoryExpenseTotal> getCurrencyCategoryExpenseTotals(String currency);
+    List<AmountCurrencyExpenseTotal> getCurrencyExpenseTotals();
+    List<AmountCategoryExpenseTotal> getCurrencyCategoryExpenseTotals(String currency);
 }

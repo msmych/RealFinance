@@ -1,6 +1,6 @@
 package finance.expense.total;
 
-public interface CurrencyExpenseTotal {
+public interface AmountCurrencyExpenseTotal {
     long getAmount();
     String getCurrency();
 }

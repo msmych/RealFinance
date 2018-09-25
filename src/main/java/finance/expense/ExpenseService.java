@@ -4,6 +4,7 @@ import com.pengrad.telegrambot.model.Update;
 import finance.bot.chat.BotChatService;
 import finance.bot.user.BotUser;
 import finance.bot.user.BotUserService;
+import finance.expense.total.AmountCurrencyExpenseTotal;
 import finance.expense.total.TotalUtils;
 import finance.expense.total.selector.AllExpenseTotalsSelector;
 import finance.expense.total.selector.ExpenseTotalsSelector;
@@ -11,15 +12,16 @@ import finance.expense.total.selector.LastMonthExpenseTotalsSelector;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static finance.bot.update.UpdateUtils.*;
 import static finance.expense.CurrencyUtils.isCurrency;
 import static finance.expense.ExpenseCategory.ANY;
 import static finance.expense.ExpenseCategory.getByEmoji;
 import static finance.expense.ExpenseUtils.parseAmount;
 import static finance.expense.total.TotalUtils.formatTotalCurrency;
-import static finance.bot.update.UpdateUtils.*;
 
 @Service
 public class ExpenseService {
@@ -103,5 +105,9 @@ public class ExpenseService {
 
     public Optional<Expense> getExpenseByBotChatIdAndMessageId(long botChatId, int messageId) {
         return expenseRepository.findOneByBotChatIdAndMessageId(botChatId, messageId);
+    }
+
+    public List<AmountCurrencyExpenseTotal> getTotalByBotChatIdAndBotUserId(long botChatId, int botUserId) {
+        return expenseRepository.totalCategoryByBotChatIdAndBotUserId(botChatId, botUserId);
     }
 }

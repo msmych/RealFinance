@@ -31,35 +31,23 @@ Possible categories:
 
 To modify an expense, just modify its message
 
-/total - Total chat expenses
+`/total` -- Total chat expenses
 
-/clear - Clear chat expenses
+`/my_total` -- User chat expenses
 
-/reports - Chat reports settings
+`/clear` -- Clear chat expenses
+
+/reports -- Chat reports settings
   
 If you want to receive monthly reports, check *Monthly* option
 
-`/currency` - Change user default currency
+`/currency` -- Change user default currency
 
 Examples:
 ```
 /USD
 /rub
 ```
-
-###### How to run
-
-Access PostgreSQL:
-```
-sudo -i -u postgres
-psql schema
-```
-
-Run application: `mvn spring-boot:run &`
-
-View process: `top | grep java`
-
-Kill process: `kill PID`
 
 ### Links
 [Java API for Telegram Bots and Gaming Platform](https://github.com/pengrad/java-telegram-bot-api)

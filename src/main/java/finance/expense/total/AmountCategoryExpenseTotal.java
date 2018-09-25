@@ -2,7 +2,7 @@ package finance.expense.total;
 
 import finance.expense.ExpenseCategory;
 
-public interface CurrencyCategoryExpenseTotal {
+public interface AmountCategoryExpenseTotal {
     long getAmount();
     ExpenseCategory getCategory();
 }
