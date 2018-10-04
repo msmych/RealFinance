@@ -12,8 +12,8 @@ public enum ExpenseCategory {
     FOOD("Food", "\uD83C\uDF5E", "\uD83C\uDF55", "\uD83C\uDF4C"),
     CLOTHES("Clothes", "\uD83D\uDC54", "\uD83D\uDC60", "\uD83D\uDC56"),
     HEALTH("Health", "\uD83D\uDC8A", "\uD83D\uDC89", "\uD83C\uDF21"),
-    EDUCATION("Education", "\uD83C\uDF93", "\uD83D\uDCDA"),
-    SPORT("Sport", "⚽️", "\uD83C\uDFF8"),
+    CAREER("Career", "\uD83C\uDF93", "\uD83D\uDCDA", "\uD83D\uDCBB"),
+    SPORT("Sport", "⚽️", "\uD83C\uDFBE", "\uD83C\uDFF8"),
     FUN("Fun", "\uD83C\uDF89", "\uD83C\uDF7A", "\uD83C\uDF81"),
     TRAVEL("Travel", "\uD83D\uDE95", "\uD83D\uDE82", "✈️");
 

@@ -1,0 +1,1 @@
+update expense set category = 'CAREER' where category = 'EDUCATION'
