@@ -24,8 +24,8 @@ Possible categories:
 | Food     | 🍞🍕🍌 |
 | Clothes  | 👔👠👖 |
 | Health   | 💊💉🌡 |
-| Education| 🎓📚 |
-| Sport    | ⚽️🏸 |
+| Career   | 🎓📚💻 |
+| Sport    | ⚽🎾️🏸 |
 | Fun      | 🎉🍺🎁 |
 | Travel   | 🚕🚂✈️ |
 
@@ -37,11 +37,11 @@ To modify an expense, just modify its message
 
 `/clear` -- Clear chat expenses
 
-/reports -- Chat reports settings
+`/reports` -- Chat reports settings
   
 If you want to receive monthly reports, check *Monthly* option
 
-`/currency` -- Change user default currency
+`/[currency]` -- Change user default currency
 
 Examples:
 ```

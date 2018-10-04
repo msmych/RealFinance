@@ -18,8 +18,8 @@
   _Food:_ 🍞🍕🍌
   _Clothes:_ 👔👠👖
   _Health:_ 💊💉🌡
-  _Education:_ 🎓📚
-  _Sport:_ ⚽️🏸
+  _Career:_ 🎓📚💻
+  _Sport:_ ⚽🎾️🏸
   _Fun:_ 🎉🍺🎁
   _Travel:_ 🚕🚂✈️
   
@@ -35,7 +35,7 @@
   
   If you want to receive monthly reports, check _Monthly_ option
   
-  `/currency` - Change user default currency
+  `/[currency]` - Change user default currency
   
   Examples:
   `/USD`
