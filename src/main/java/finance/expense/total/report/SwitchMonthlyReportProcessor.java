@@ -29,7 +29,7 @@ public class SwitchMonthlyReportProcessor implements UpdateProcessor {
 
     @Override
     public boolean appliesTo(Update update) {
-        return updateService.isCallbackQueryData(update, SWITCH_MONTHLY_REPORT_DATA);
+        return updateService.equalsCallbackQueryData(SWITCH_MONTHLY_REPORT_DATA, update);
     }
 
     @Override
