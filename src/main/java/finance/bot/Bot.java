@@ -4,7 +4,6 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
-import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.GetMe;
 import com.pengrad.telegrambot.response.GetMeResponse;
 import org.apache.logging.log4j.LogManager;
@@ -24,8 +23,6 @@ public class Bot extends TelegramBot {
     public final static String CLEAR_ALL_DATA = "clear_all";
     public final static InlineKeyboardButton CLEAR_ALL_BUTTON =
             new InlineKeyboardButton("All chat").callbackData(CLEAR_ALL_DATA);
-    public final static InlineKeyboardMarkup CLEAR_MARKUP = new InlineKeyboardMarkup(
-            new InlineKeyboardButton[] { CLEAR_ALL_BUTTON });
 
     private final User user;
 
