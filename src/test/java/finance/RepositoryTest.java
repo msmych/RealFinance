@@ -67,7 +67,8 @@ public class RepositoryTest {
     @Test
     public void selectingLastMonthsExpenses() {
         List<AmountCurrencyExpenseTotal> amountCurrencyExpenseTotals =
-                er.totalCurrencyByBotChatIdPeriod(botChatId,
+                er.totalCurrencyByBotChatIdPeriod(
+                        botChatId,
                         new DateTime().minusMonths(1).withDayOfMonth(1).withMillisOfDay(0).toDate(),
                         new DateTime().withDayOfMonth(1).withMillisOfDay(0).toDate());
         assertEquals(1, amountCurrencyExpenseTotals.size());
