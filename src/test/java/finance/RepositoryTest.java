@@ -5,6 +5,7 @@ import finance.bot.chat.BotChatRepository;
 import finance.expense.Expense;
 import finance.expense.ExpenseRepository;
 import finance.expense.total.AmountCurrencyExpenseTotal;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +19,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static finance.DateUtils.getLastMonthFirstDay;
-import static finance.DateUtils.getThisMonthFirstDay;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 import static org.junit.Assert.assertEquals;
@@ -68,7 +67,9 @@ public class RepositoryTest {
     @Test
     public void selectingLastMonthsExpenses() {
         List<AmountCurrencyExpenseTotal> amountCurrencyExpenseTotals =
-                er.totalCurrencyByBotChatIdPeriod(botChatId, getLastMonthFirstDay(), getThisMonthFirstDay());
+                er.totalCurrencyByBotChatIdPeriod(botChatId,
+                        new DateTime().minusMonths(1).withDayOfMonth(1).withMillisOfDay(0).toDate(),
+                        new DateTime().withDayOfMonth(1).withMillisOfDay(0).toDate());
         assertEquals(1, amountCurrencyExpenseTotals.size());
         assertEquals(lastMonthExpense.amount, amountCurrencyExpenseTotals.get(0).getAmount());
     }

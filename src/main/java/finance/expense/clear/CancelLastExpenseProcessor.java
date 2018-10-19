@@ -1,5 +1,6 @@
 package finance.expense.clear;
 
+import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.EditMessageText;
@@ -35,8 +36,9 @@ public class CancelLastExpenseProcessor implements UpdateProcessor {
 
     @Override
     public void process(Update update) {
-        expenseService.deleteById(Long.valueOf(update.callbackQuery().data().replace("clear_", "")));
-        Message message = update.callbackQuery().message();
+        CallbackQuery callbackQuery = update.callbackQuery();
+        expenseService.deleteById(Long.valueOf(callbackQuery.data().replace("clear_", "")));
+        Message message = callbackQuery.message();
         bot.execute(new EditMessageText(message.chat().id(), message.messageId(), "Canceled last expense"));
     }
 }

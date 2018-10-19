@@ -3,12 +3,10 @@ package finance.expense.total.selector;
 import finance.expense.ExpenseRepository;
 import finance.expense.total.AmountCategoryExpenseTotal;
 import finance.expense.total.AmountCurrencyExpenseTotal;
+import org.joda.time.DateTime;
 
 import java.util.Date;
 import java.util.List;
-
-import static finance.DateUtils.getLastMonthFirstDay;
-import static finance.DateUtils.getThisMonthFirstDay;
 
 public class LastMonthExpenseTotalsSelector implements ExpenseTotalsSelector {
 
@@ -21,8 +19,8 @@ public class LastMonthExpenseTotalsSelector implements ExpenseTotalsSelector {
     public LastMonthExpenseTotalsSelector(ExpenseRepository expenseRepository, long botChatId) {
         this.expenseRepository = expenseRepository;
         this.botChatId = botChatId;
-        this.lastMonthFirstDay = getLastMonthFirstDay();
-        this.thisMonthFirstDay = getThisMonthFirstDay();
+        this.lastMonthFirstDay = new DateTime().minusMonths(1).withDayOfMonth(1).withMillisOfDay(0).toDate();
+        this.thisMonthFirstDay = new DateTime().withDayOfMonth(1).withMillisOfDay(0).toDate();
         expenseTotalsCurrency =
                 expenseRepository.totalCurrencyByBotChatIdPeriod(botChatId, lastMonthFirstDay, thisMonthFirstDay);
     }
