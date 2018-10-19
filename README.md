@@ -49,5 +49,15 @@ Examples:
 /rub
 ```
 
-### Links
-[Java API for Telegram Bots and Gaming Platform](https://github.com/pengrad/java-telegram-bot-api)
+### Technologies
+* Java 8
+* Maven
+* Spring Boot
+    * Data JPA
+    * AOP
+    * Test
+* [Java API for Telegram Bots and Gaming Platform](https://github.com/pengrad/java-telegram-bot-api)
+* PostgreSQL
+* FlyWay
+* Joda Time
+* H2

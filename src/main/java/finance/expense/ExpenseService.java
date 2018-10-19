@@ -110,4 +110,12 @@ public class ExpenseService {
     public List<AmountCurrencyExpenseTotal> getTotalByBotChatIdAndBotUserId(long botChatId, int botUserId) {
         return expenseRepository.totalCategoryByBotChatIdAndBotUserId(botChatId, botUserId);
     }
+
+    public Optional<Expense> getLastBotUserIdExpense(long botChatId, int botUserId) {
+        return expenseRepository.findTopByBotChatIdAndBotUserIdOrderByDateDesc(botChatId, botUserId);
+    }
+
+    public void deleteById(long expenseId) {
+        expenseRepository.deleteById(expenseId);
+    }
 }

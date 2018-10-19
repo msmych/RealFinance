@@ -4,6 +4,7 @@ import finance.bot.chat.BotChat;
 import finance.bot.user.BotUser;
 
 import javax.persistence.*;
+import java.util.Currency;
 import java.util.Date;
 
 import static finance.expense.ExpenseCategory.ANY;
@@ -31,4 +32,12 @@ public class Expense {
     @Column public String currency = "EUR";
     @Enumerated(STRING) public ExpenseCategory category = ANY;
     @Column public Date date = new Date();
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s",
+                ExpenseUtils.formatAmount(amount),
+                Currency.getInstance(currency).getSymbol(),
+                category.getName());
+    }
 }
