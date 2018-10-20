@@ -14,20 +14,17 @@ public class LastMonthExpenseTotalsSelector implements ExpenseTotalsSelector {
     private final long botChatId;
     private final Date lastMonthFirstDay;
     private final Date thisMonthFirstDay;
-    private final List<AmountCurrencyExpenseTotal> expenseTotalsCurrency;
 
     public LastMonthExpenseTotalsSelector(ExpenseRepository expenseRepository, long botChatId) {
         this.expenseRepository = expenseRepository;
         this.botChatId = botChatId;
         this.lastMonthFirstDay = new DateTime().minusMonths(1).withDayOfMonth(1).withMillisOfDay(0).toDate();
         this.thisMonthFirstDay = new DateTime().withDayOfMonth(1).withMillisOfDay(0).toDate();
-        expenseTotalsCurrency =
-                expenseRepository.totalCurrencyByBotChatIdPeriod(botChatId, lastMonthFirstDay, thisMonthFirstDay);
     }
 
     @Override
     public List<AmountCurrencyExpenseTotal> getCurrencyExpenseTotals() {
-        return expenseTotalsCurrency;
+        return expenseRepository.totalCurrencyByBotChatIdPeriod(botChatId, lastMonthFirstDay, thisMonthFirstDay);
     }
 
     @Override

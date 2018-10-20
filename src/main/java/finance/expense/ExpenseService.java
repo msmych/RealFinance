@@ -9,6 +9,8 @@ import finance.expense.total.TotalUtils;
 import finance.expense.total.selector.AllExpenseTotalsSelector;
 import finance.expense.total.selector.ExpenseTotalsSelector;
 import finance.expense.total.selector.LastMonthExpenseTotalsSelector;
+import finance.expense.total.selector.FromDateExpenseTotalSelector;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -96,6 +98,13 @@ public class ExpenseService {
                                 .map(TotalUtils::formatTotalCategory)
                                 .collect(Collectors.joining("\n")))
                 .collect(Collectors.joining("\n\n"));
+    }
+
+    public String getTotalMonthText(long botChatId) {
+        return getTotalText(new FromDateExpenseTotalSelector(
+                expenseRepository,
+                botChatId,
+                new DateTime().withDayOfMonth(1).withMillisOfDay(0).toDate()));
     }
 
     @Transactional

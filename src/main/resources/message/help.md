@@ -29,6 +29,8 @@
   
   /my\_total - User chat expenses
   
+  /month - This month expenses
+  
   /clear - Clear chat expenses
   
   /reports - Chat reports settings
