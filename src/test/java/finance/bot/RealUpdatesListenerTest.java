@@ -9,79 +9,38 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class RealUpdatesListenerTest {
 
     private final UpdatePreProcessor updatePreProcessor = mock(UpdatePreProcessor.class);
     private final List<UpdatePreProcessor> updatePreProcessors = Arrays.asList(updatePreProcessor, updatePreProcessor);
+    private final UpdateProcessor updateProcessor = mock(UpdateProcessor.class);
     private final Update update = mock(Update.class);
 
     @Test
     public void testCheckedAllUpdatesOnAllProcessors() {
-        List<UpdateProcessor> updateProcessors = Arrays.asList(
-                new NotAppliedUpdateProcessor(), new NotAppliedUpdateProcessor(), new NotAppliedUpdateProcessor());
+        List<UpdateProcessor> updateProcessors =
+                Arrays.asList(updateProcessor, updateProcessor, updateProcessor);
+        when(updateProcessor.appliesTo(isA(Update.class))).thenReturn(false);
         RealUpdatesListener realUpdatesListener = new RealUpdatesListener(updatePreProcessors, updateProcessors);
         List<Update> updates = Arrays.asList(update, update, update, update);
         realUpdatesListener.process(updates);
-        updateProcessors.forEach(updateProcessor ->
-                assertEquals(updates.size(), ((NotAppliedUpdateProcessor) updateProcessor).checkedCount));
+        verify(updatePreProcessor, times(updatePreProcessors.size() * updates.size()))
+                .preProcess(isA(Update.class));
+        verify(updateProcessor, times(updates.size() * updateProcessors.size()))
+                .appliesTo(isA(Update.class));
+        verify(updateProcessor, never()).process(isA(Update.class));
     }
 
     @Test
     public void testAllAppliedProcessed() {
-        List<UpdateProcessor> updateProcessors = Arrays.asList(
-                new AppliedUpdateProcessor(), new AppliedUpdateProcessor());
+        when(updateProcessor.appliesTo(isA(Update.class))).thenReturn(true);
+        List<UpdateProcessor> updateProcessors = Arrays.asList(updateProcessor, updateProcessor);
         RealUpdatesListener realUpdatesListener = new RealUpdatesListener(updatePreProcessors, updateProcessors);
         List<Update> updates = Arrays.asList(update, update, update);
         realUpdatesListener.process(updates);
-        updateProcessors.forEach(updateProcessor ->
-                assertEquals(updates.size(), ((AppliedUpdateProcessor) updateProcessor).processedCount));
-    }
-
-    @Test
-    public void testNoneNotAppliedProcessed() {
-        List<UpdateProcessor> updateProcessors = Arrays.asList(
-                new NotAppliedUpdateProcessor(), new NotAppliedUpdateProcessor());
-        RealUpdatesListener realUpdatesListener = new RealUpdatesListener(updatePreProcessors, updateProcessors);
-        List<Update> updates = Arrays.asList(update, update, update);
-        realUpdatesListener.process(updates);
-        updateProcessors.forEach(updateProcessor ->
-                assertEquals(0, ((NotAppliedUpdateProcessor) updateProcessor).processedCount));
-    }
-}
-
-class AppliedUpdateProcessor implements UpdateProcessor {
-
-    int checkedCount = 0;
-    int processedCount = 0;
-
-    @Override
-    public boolean appliesTo(Update update) {
-        checkedCount++;
-        return true;
-    }
-
-    @Override
-    public void process(Update update) {
-        processedCount++;
-    }
-}
-
-class NotAppliedUpdateProcessor implements UpdateProcessor {
-
-    int checkedCount = 0;
-    int processedCount = 0;
-
-    @Override
-    public boolean appliesTo(Update update) {
-        checkedCount++;
-        return false;
-    }
-
-    @Override
-    public void process(Update update) {
-        processedCount++;
+        verify(updateProcessor, times(updateProcessors.size() * updates.size()))
+                .process(isA(Update.class));
     }
 }

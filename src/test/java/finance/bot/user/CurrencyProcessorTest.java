@@ -5,19 +5,19 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class CurrencyProcessorTest {
+
+    private final BotUserService botUserService = mock(BotUserService.class);
+
+    private final CurrencyProcessor currencyProcessor = new CurrencyProcessor(botUserService);
 
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
     private final User user = mock(User.class);
-    private final BotUserService botUserService = mock(BotUserService.class);
-    private final CurrencyProcessor currencyProcessor = new CurrencyProcessor(botUserService);
 
     @Before
     public void setUp() {
@@ -34,13 +34,7 @@ public class CurrencyProcessorTest {
 
     @Test
     public void testProcess() {
-        boolean[] acts = {false};
-        when(botUserService.updateDefaultCurrency(ArgumentMatchers.anyInt(), ArgumentMatchers.anyString()))
-                .then(invocation -> {
-                    acts[0] = true;
-                    return new BotUser();
-                });
         currencyProcessor.process(update);
-        assertTrue(acts[0]);
+        verify(botUserService).updateDefaultCurrency(anyInt(), anyString());
     }
 }
