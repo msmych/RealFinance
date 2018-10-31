@@ -5,55 +5,52 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class BotUserServiceTest {
 
-    private final String USER_FIRST_NAME = "userFirstName";
-    private final String USER_LAST_NAME = "userLastName";
-    private final String USER_USERNAME = "userUsername";
+    private final BotUserRepository botUserRepository = mock(BotUserRepository.class);
+
+    private final BotUserService botUserService = new BotUserService(botUserRepository);
 
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
     private final User user = mock(User.class);
-    private final BotUserRepository botUserRepository = mock(BotUserRepository.class);
-    private final BotUserService botUserService = new BotUserService(botUserRepository);
 
     @Before
     public void before() {
         when(update.message()).thenReturn(message);
         when(message.from()).thenReturn(user);
         when(user.id()).thenReturn(1);
-        when(user.firstName()).thenReturn(USER_FIRST_NAME);
-        when(user.lastName()).thenReturn(USER_LAST_NAME);
-        when(user.username()).thenReturn(USER_USERNAME);
+        when(user.firstName()).thenReturn("userFirstName");
+        when(user.lastName()).thenReturn("userLastName");
+        when(user.username()).thenReturn("userUsername");
+        when(botUserRepository.save(isA(BotUser.class)))
+                .then(invocationOnMock -> invocationOnMock.getArgument(0));
     }
 
     @Test
     public void testSaveNewBotUser() {
-        boolean[] acts = {false, false};
-        setBotUserRepositoryAnswers(acts, Optional.empty());
         BotUser savedBotUser = botUserService.saveBotUser(update);
-        assertSavedBotUser(acts, savedBotUser);
+        assertSavedBotUser(savedBotUser);
         assertEquals("EUR", savedBotUser.defaultCurrency);
     }
 
     @Test
     public void testSaveExistingBotUser() {
-        boolean[] acts = {false, false};
         BotUser existingBotUser = new BotUser();
         existingBotUser.id = 1;
         existingBotUser.defaultCurrency = "USD";
-        setBotUserRepositoryAnswers(acts, Optional.of(existingBotUser));
+        when(botUserRepository.findById(anyInt())).thenReturn(Optional.of(existingBotUser));
         BotUser savedBotUser = botUserService.saveBotUser(update);
-        assertSavedBotUser(acts, savedBotUser);
+        assertSavedBotUser(savedBotUser);
         assertEquals("USD", savedBotUser.defaultCurrency);
     }
 
@@ -61,16 +58,16 @@ public class BotUserServiceTest {
     public void testFindById() {
         BotUser botUser = new BotUser();
         botUser.id = 1;
-        when(botUserRepository.findById(ArgumentMatchers.anyInt()))
+        when(botUserRepository.findById(anyInt()))
                 .thenReturn(Optional.of(botUser));
         assertEquals(1, botUserService.findById(1).get().id);
     }
 
     @Test
     public void testUpdateDefaultCurrency() {
-        when(botUserRepository.findById(ArgumentMatchers.anyInt()))
+        when(botUserRepository.findById(anyInt()))
                 .thenReturn(Optional.of(new BotUser()));
-        when(botUserRepository.save(ArgumentMatchers.isA(BotUser.class)))
+        when(botUserRepository.save(isA(BotUser.class)))
                 .then(invocation -> {
                     BotUser savedBotUser = new BotUser();
                     savedBotUser.defaultCurrency =
@@ -80,32 +77,10 @@ public class BotUserServiceTest {
         assertEquals("USD", botUserService.updateDefaultCurrency(1, "usd").defaultCurrency);
     }
 
-    private void assertSavedBotUser(boolean[] acts, BotUser botUser) {
-        assertArrayEquals(new boolean[]{true, true}, acts);
+    private void assertSavedBotUser(BotUser botUser) {
         assertEquals(1, botUser.id);
-        assertEquals(USER_FIRST_NAME, botUser.firstName);
-        assertEquals(USER_LAST_NAME, botUser.lastName);
-        assertEquals(USER_USERNAME, botUser.username);
-    }
-
-    private void setBotUserRepositoryAnswers(boolean[] acts, Optional<BotUser> optionalBotUser) {
-        setBotUserRepositoryFindByIdAnswer(acts, optionalBotUser);
-        setBotUserRepositorySaveAnswer(acts);
-    }
-
-    private void setBotUserRepositorySaveAnswer(boolean[] acts) {
-        when(botUserRepository.save(ArgumentMatchers.isA(BotUser.class)))
-                .then(invocationOnMock -> {
-                    acts[1] = true;
-                    return invocationOnMock.getArgument(0);
-                });
-    }
-
-    private void setBotUserRepositoryFindByIdAnswer(boolean[] acts, Optional<BotUser> optionalBotUser) {
-        when(botUserRepository.findById(ArgumentMatchers.anyInt()))
-                .then(invocationOnMock -> {
-                    acts[0] = true;
-                    return optionalBotUser;
-                });
+        assertEquals("userFirstName", botUser.firstName);
+        assertEquals("userLastName", botUser.lastName);
+        assertEquals("userUsername", botUser.username);
     }
 }
