@@ -6,7 +6,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
-import finance.bot.update.UpdateService;
+import finance.update.UpdateService;
 import finance.expense.ExpenseService;
 import finance.expense.clear.ClearProcessor;
 import org.junit.Before;

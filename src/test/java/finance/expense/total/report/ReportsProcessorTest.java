@@ -6,7 +6,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
 import finance.bot.chat.BotChatService;
-import finance.bot.update.UpdateService;
+import finance.update.UpdateService;
 import org.junit.Before;
 import org.junit.Test;
 

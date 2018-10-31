@@ -1,49 +1,39 @@
 package finance.bot;
 
 import com.pengrad.telegrambot.model.Update;
-import finance.bot.chat.BotChat;
-import finance.bot.chat.BotChatService;
-import finance.bot.update.RealUpdatesListener;
-import finance.bot.update.UpdateProcessor;
+import finance.update.RealUpdatesListener;
+import finance.update.pre_processor.UpdatePreProcessor;
+import finance.update.processor.UpdateProcessor;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class RealUpdatesListenerTest {
 
+    private final UpdatePreProcessor updatePreProcessor = mock(UpdatePreProcessor.class);
+    private final List<UpdatePreProcessor> updatePreProcessors = Arrays.asList(updatePreProcessor, updatePreProcessor);
     private final Update update = mock(Update.class);
-    private final BotChatService botChatService = mock(BotChatService.class);
 
     @Test
     public void testCheckedAllUpdatesOnAllProcessors() {
-        boolean[] acts = {false};
         List<UpdateProcessor> updateProcessors = Arrays.asList(
                 new NotAppliedUpdateProcessor(), new NotAppliedUpdateProcessor(), new NotAppliedUpdateProcessor());
-        RealUpdatesListener realUpdatesListener = new RealUpdatesListener(updateProcessors, botChatService);
+        RealUpdatesListener realUpdatesListener = new RealUpdatesListener(updatePreProcessors, updateProcessors);
         List<Update> updates = Arrays.asList(update, update, update, update);
-        when(botChatService.saveBotChat(ArgumentMatchers.isA(Update.class)))
-                .then(invocationOnMock -> {
-                    acts[0] = true;
-                    return new BotChat();
-                });
         realUpdatesListener.process(updates);
         updateProcessors.forEach(updateProcessor ->
                 assertEquals(updates.size(), ((NotAppliedUpdateProcessor) updateProcessor).checkedCount));
-        assertTrue(acts[0]);
     }
 
     @Test
     public void testAllAppliedProcessed() {
         List<UpdateProcessor> updateProcessors = Arrays.asList(
                 new AppliedUpdateProcessor(), new AppliedUpdateProcessor());
-        RealUpdatesListener realUpdatesListener = new RealUpdatesListener(updateProcessors, botChatService);
+        RealUpdatesListener realUpdatesListener = new RealUpdatesListener(updatePreProcessors, updateProcessors);
         List<Update> updates = Arrays.asList(update, update, update);
         realUpdatesListener.process(updates);
         updateProcessors.forEach(updateProcessor ->
@@ -54,7 +44,7 @@ public class RealUpdatesListenerTest {
     public void testNoneNotAppliedProcessed() {
         List<UpdateProcessor> updateProcessors = Arrays.asList(
                 new NotAppliedUpdateProcessor(), new NotAppliedUpdateProcessor());
-        RealUpdatesListener realUpdatesListener = new RealUpdatesListener(updateProcessors, botChatService);
+        RealUpdatesListener realUpdatesListener = new RealUpdatesListener(updatePreProcessors, updateProcessors);
         List<Update> updates = Arrays.asList(update, update, update);
         realUpdatesListener.process(updates);
         updateProcessors.forEach(updateProcessor ->

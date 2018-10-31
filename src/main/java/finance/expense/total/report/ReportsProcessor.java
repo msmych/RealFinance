@@ -4,8 +4,8 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
 import finance.bot.chat.BotChatService;
-import finance.bot.update.UpdateProcessor;
-import finance.bot.update.UpdateService;
+import finance.update.processor.UpdateProcessor;
+import finance.update.UpdateService;
 import org.springframework.stereotype.Component;
 
 import static finance.expense.total.report.ReportUtils.getReportsSettingsMarkup;

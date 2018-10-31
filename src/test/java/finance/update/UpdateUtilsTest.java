@@ -1,10 +1,10 @@
-package finance.bot.update;
+package finance.update;
 
 import com.pengrad.telegrambot.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import static finance.bot.update.UpdateUtils.getText;
+import static finance.update.UpdateUtils.getText;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

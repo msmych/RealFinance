@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static finance.bot.chat.BotChat.ReportType.NONE;
-import static finance.bot.update.UpdateUtils.getChat;
+import static finance.update.UpdateUtils.getChat;
 
 @Service
 public class BotChatService {

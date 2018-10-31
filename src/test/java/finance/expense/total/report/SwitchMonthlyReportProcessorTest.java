@@ -8,7 +8,7 @@ import com.pengrad.telegrambot.request.EditMessageReplyMarkup;
 import finance.bot.Bot;
 import finance.bot.chat.BotChat;
 import finance.bot.chat.BotChatService;
-import finance.bot.update.UpdateService;
+import finance.update.UpdateService;
 import org.junit.Test;
 
 import static org.mockito.ArgumentMatchers.anyLong;

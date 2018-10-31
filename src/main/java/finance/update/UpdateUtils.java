@@ -1,4 +1,4 @@
-package finance.bot.update;
+package finance.update;
 
 import com.pengrad.telegrambot.model.*;
 

@@ -7,7 +7,7 @@ import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import finance.bot.Bot;
-import finance.bot.update.UpdateService;
+import finance.update.UpdateService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
