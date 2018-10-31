@@ -19,14 +19,17 @@ import static org.mockito.Mockito.when;
 
 public class SwitchMonthlyReportProcessorTest {
 
-    private UpdateService us = mock(UpdateService.class);
-    private BotChatService bcs = mock(BotChatService.class);
+    private UpdateService updateService = mock(UpdateService.class);
+    private BotChatService botChatService = mock(BotChatService.class);
     private Bot bot = mock(Bot.class);
-    SwitchMonthlyReportProcessor smrp = new SwitchMonthlyReportProcessor(us, bcs, bot);
+
+    private SwitchMonthlyReportProcessor switchMonthlyReportProcessor =
+            new SwitchMonthlyReportProcessor(updateService, botChatService, bot);
+
     private Update update = mock(Update.class);
-    CallbackQuery callbackQuery = mock(CallbackQuery.class);
-    Message message = mock(Message.class);
-    Chat chat = mock(Chat.class);
+    private CallbackQuery callbackQuery = mock(CallbackQuery.class);
+    private Message message = mock(Message.class);
+    private Chat chat = mock(Chat.class);
 
     @Test
     public void switchingMonthlyReportAndEditingMessage() {
@@ -34,9 +37,9 @@ public class SwitchMonthlyReportProcessorTest {
         when(callbackQuery.message()).thenReturn(message);
         when(message.chat()).thenReturn(chat);
         when(chat.id()).thenReturn(1L);
-        smrp.process(update);
-        verify(bcs).getBotChatReportType(anyLong());
-        verify(bcs).updateReportType(anyLong(), isA(BotChat.ReportType.class));
+        switchMonthlyReportProcessor.process(update);
+        verify(botChatService).getBotChatReportType(anyLong());
+        verify(botChatService).updateReportType(anyLong(), isA(BotChat.ReportType.class));
         verify(bot).execute(isA(EditMessageReplyMarkup.class));
     }
 

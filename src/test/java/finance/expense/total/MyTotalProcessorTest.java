@@ -18,15 +18,16 @@ import static org.mockito.Mockito.*;
 
 public class MyTotalProcessorTest {
 
-    private UpdateService us = mock(UpdateService.class);
-    private ExpenseService es = mock(ExpenseService.class);
+    private UpdateService updateService = mock(UpdateService.class);
+    private ExpenseService expenseService = mock(ExpenseService.class);
     private Bot bot = mock(Bot.class);
-    MyTotalProcessor myTotalProcessor = new MyTotalProcessor(us, es, bot);
 
-    Update update = mock(Update.class);
-    Message message = mock(Message.class);
+    private MyTotalProcessor myTotalProcessor = new MyTotalProcessor(updateService, expenseService, bot);
+
+    private Update update = mock(Update.class);
+    private Message message = mock(Message.class);
     private Chat chat = mock(Chat.class);
-    User user = mock(User.class);
+    private User user = mock(User.class);
 
     @Before
     public void setUp() {
@@ -38,7 +39,7 @@ public class MyTotalProcessorTest {
     @Test
     public void processing() {
         myTotalProcessor.process(update);
-        verify(es).getTotalByBotChatIdAndBotUserId(anyLong(), anyInt());
+        verify(expenseService).getTotalByBotChatIdAndBotUserId(anyLong(), anyInt());
         verify(bot).execute(isA(SendMessage.class));
     }
 
