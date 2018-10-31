@@ -34,7 +34,6 @@ public class BotUserService {
         } else {
             botUser = new BotUser();
             botUser.id = userId;
-            botUser.userAction = UserAction.NONE;
         }
         return botUser;
     }

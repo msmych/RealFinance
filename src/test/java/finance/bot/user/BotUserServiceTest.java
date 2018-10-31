@@ -41,7 +41,7 @@ public class BotUserServiceTest {
         boolean[] acts = {false, false};
         setBotUserRepositoryAnswers(acts, Optional.empty());
         BotUser savedBotUser = botUserService.saveBotUser(update);
-        assertSavedBotUser(acts, savedBotUser, UserAction.NONE);
+        assertSavedBotUser(acts, savedBotUser);
         assertEquals("EUR", savedBotUser.defaultCurrency);
     }
 
@@ -50,11 +50,10 @@ public class BotUserServiceTest {
         boolean[] acts = {false, false};
         BotUser existingBotUser = new BotUser();
         existingBotUser.id = 1;
-        existingBotUser.userAction = UserAction.NONE;
         existingBotUser.defaultCurrency = "USD";
         setBotUserRepositoryAnswers(acts, Optional.of(existingBotUser));
         BotUser savedBotUser = botUserService.saveBotUser(update);
-        assertSavedBotUser(acts, savedBotUser, UserAction.NONE);
+        assertSavedBotUser(acts, savedBotUser);
         assertEquals("USD", savedBotUser.defaultCurrency);
     }
 
@@ -81,10 +80,9 @@ public class BotUserServiceTest {
         assertEquals("USD", botUserService.updateDefaultCurrency(1, "usd").defaultCurrency);
     }
 
-    private void assertSavedBotUser(boolean[] acts, BotUser botUser, UserAction expectedUserAction) {
+    private void assertSavedBotUser(boolean[] acts, BotUser botUser) {
         assertArrayEquals(new boolean[]{true, true}, acts);
         assertEquals(1, botUser.id);
-        assertEquals(expectedUserAction, botUser.userAction);
         assertEquals(USER_FIRST_NAME, botUser.firstName);
         assertEquals(USER_LAST_NAME, botUser.lastName);
         assertEquals(USER_USERNAME, botUser.username);
