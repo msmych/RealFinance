@@ -1,5 +1,5 @@
 Real finance bot
-version 0.7.0
+version 0.7.2
 
 By @msmych
-GitHub: https://github.com/msmych/RealFinance
+https://matvey.page

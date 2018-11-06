@@ -4,22 +4,22 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ExpenseProcessorTest {
 
-    private final Update update = mock(Update.class);
-    private final Message message = mock(Message.class);
     private final ExpenseService expenseService = mock(ExpenseService.class);
+
     private final ExpenseProcessor expenseProcessor = new ExpenseProcessor(expenseService);
 
+    private final Update update = mock(Update.class);
+    private final Message message = mock(Message.class);
+
     @Before
-    public void before() {
+    public void setUp() {
         when(update.message()).thenReturn(message);
     }
 
@@ -62,15 +62,9 @@ public class ExpenseProcessorTest {
 
     @Test
     public void testProcess() {
-        boolean[] acts = {false};
         when(message.text()).thenReturn("/7.77");
-        when(expenseService.save(ArgumentMatchers.isA(Update.class)))
-                .then(invocationOnMock -> {
-                    acts[0] = true;
-                    return new Expense();
-                });
         expenseProcessor.process(update);
-        assertTrue(acts[0]);
+        verify(expenseService).save(isA(Update.class));
     }
 
 }

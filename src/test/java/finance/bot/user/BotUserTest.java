@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class BotUserTest {
 
-    BotUser botUser = new BotUser();
+    private BotUser botUser = new BotUser();
 
     @Test public void onlyUsername() {
         botUser.username = "Username";

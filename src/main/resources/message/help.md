@@ -1,5 +1,8 @@
 *Real finance help*
   
+  *What's new*
+  Nothing special, just added /start command for new users
+  
   `/amount [currency] [category]` - Save new expense
   
   Examples:

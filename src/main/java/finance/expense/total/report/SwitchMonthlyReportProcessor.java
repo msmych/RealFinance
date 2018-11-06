@@ -5,8 +5,8 @@ import com.pengrad.telegrambot.request.EditMessageReplyMarkup;
 import finance.bot.Bot;
 import finance.bot.chat.BotChat.ReportType;
 import finance.bot.chat.BotChatService;
-import finance.bot.update.UpdateProcessor;
-import finance.bot.update.UpdateService;
+import finance.update.processor.UpdateProcessor;
+import finance.update.UpdateService;
 import org.springframework.stereotype.Component;
 
 import static finance.bot.chat.BotChat.ReportType.MONTHLY;

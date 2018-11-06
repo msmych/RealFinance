@@ -14,18 +14,18 @@ import static org.mockito.Mockito.*;
 
 public class ReportTaskTest {
 
-    private BotChatService bcs = mock(BotChatService.class);
-    ExpenseService es = mock(ExpenseService.class);
+    private BotChatService botChatService = mock(BotChatService.class);
+    private ExpenseService expenseService = mock(ExpenseService.class);
     private Bot bot = mock(Bot.class);
-    ReportTask tt = new ReportTask(bcs, es, bot);
+    private ReportTask reportTask = new ReportTask(botChatService, expenseService, bot);
 
     @Test
     public void reportingMonth() {
         List<Long> chatIds = asList(1L, 2L, 3L, 4L);
-        when(bcs.getBotChatIdsForMonthlyReport()).thenReturn(chatIds);
-        tt.reportMonthly();
-        verify(bcs).getBotChatIdsForMonthlyReport();
-        verify(es, times(chatIds.size())).getMonthlyReportText(anyLong());
+        when(botChatService.getBotChatIdsForMonthlyReport()).thenReturn(chatIds);
+        reportTask.reportMonthly();
+        verify(botChatService).getBotChatIdsForMonthlyReport();
+        verify(expenseService, times(chatIds.size())).getMonthlyReportText(anyLong());
         verify(bot, times(chatIds.size())).execute(isA(SendMessage.class));
     }
 

@@ -20,13 +20,15 @@ import static org.mockito.Mockito.when;
 
 public class ClearAllProcessorTest {
 
-    private ExpenseService es = mock(ExpenseService.class);
+    private ExpenseService expenseService = mock(ExpenseService.class);
     private Bot bot = mock(Bot.class);
-    ClearAllProcessor cap = new ClearAllProcessor(es, bot);
-    Update update = mock(Update.class);
-    CallbackQuery callbackQuery = mock(CallbackQuery.class);
-    Message message = mock(Message.class);
-    Chat chat = mock(Chat.class);
+
+    private ClearAllProcessor cap = new ClearAllProcessor(expenseService, bot);
+
+    private Update update = mock(Update.class);
+    private CallbackQuery callbackQuery = mock(CallbackQuery.class);
+    private Message message = mock(Message.class);
+    private Chat chat = mock(Chat.class);
 
     @Before
     public void setUp() {
@@ -63,7 +65,7 @@ public class ClearAllProcessorTest {
     @Test
     public void clearingAll() {
         cap.process(update);
-        verify(es).deleteByBotChatId(anyLong());
+        verify(expenseService).deleteByBotChatId(anyLong());
         verify(bot).execute(isA(DeleteMessage.class));
     }
 

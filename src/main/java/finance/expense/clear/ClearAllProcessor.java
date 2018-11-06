@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.DeleteMessage;
 import finance.bot.Bot;
-import finance.bot.update.UpdateProcessor;
+import finance.update.processor.UpdateProcessor;
 import finance.expense.ExpenseService;
 import org.springframework.stereotype.Component;
 

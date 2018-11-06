@@ -21,63 +21,58 @@ import static org.mockito.Mockito.*;
 
 public class ExpenseServiceTest {
 
-    private final int AMOUNT = 1500;
+    private final ExpenseRepository expenseRepository = mock(ExpenseRepository.class);
+    private final BotChatService botChatService = mock(BotChatService.class);
+    private final BotUserService botUserService = mock(BotUserService.class);
+
+    private final ExpenseService expenseService = new ExpenseService(expenseRepository, botChatService, botUserService);
+
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
     private final Chat chat = mock(Chat.class);
     private final User user = mock(User.class);
-    private final ExpenseRepository expenseRepository = mock(ExpenseRepository.class);
-    private final BotChatService botChatService = mock(BotChatService.class);
-    private final BotUserService botUserService = mock(BotUserService.class);
-    private final ExpenseService expenseService = new ExpenseService(expenseRepository, botChatService, botUserService);
-
-    private boolean[] acts;
 
     @Before
-    public void before() {
-        acts = new boolean[]{false};
+    public void setUp() {
         when(update.message()).thenReturn(message);
         when(message.messageId()).thenReturn(1);
         when(message.chat()).thenReturn(chat);
         when(chat.id()).thenReturn(1L);
         when(message.from()).thenReturn(user);
         when(user.id()).thenReturn(1);
+        when(botChatService.findById(anyLong())).thenReturn(Optional.of(new BotChat(){{ id = 1L; }}));
+        when(botUserService.findById(anyInt())).thenReturn(Optional.of(new BotUser(){{ id = 1; }}));
+        when(expenseRepository.save(isA(Expense.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
     }
 
     @Test
     public void testSaveExpense() {
         when(message.text()).thenReturn("/15");
-        setReturnsAndAnswers();
         assertExpense(expenseService.save(update), "EUR");
     }
 
     @Test
     public void testSaveExpenseWithCurrency() {
         when(message.text()).thenReturn("/15 RUB");
-        setReturnsAndAnswers();
         assertExpense(expenseService.save(update), "RUB");
     }
 
     @Test
     public void testSaveExpenseWithLowerCaseCurrency() {
         when(message.text()).thenReturn("/15 rub");
-        setReturnsAndAnswers();
         assertExpense(expenseService.save(update), "RUB");
     }
 
     @Test
     public void testSaveExpenseWithCategory() {
         when(message.text()).thenReturn("/15 \uD83C\uDF89");
-        setReturnsAndAnswers();
         assertExpense(expenseService.save(update), FUN);
     }
 
     @Test
     public void testDeleteByBotChatId() {
-        doAnswer(invocationOnMock -> acts[0] = true)
-                .when(expenseRepository).deleteByBotChatId(ArgumentMatchers.anyLong());
         expenseService.deleteByBotChatId(1L);
-        assertTrue(acts[0]);
+        verify(expenseRepository).deleteByBotChatId(anyLong());
     }
 
     @Test
@@ -85,40 +80,6 @@ public class ExpenseServiceTest {
         when(expenseRepository.findOneByBotChatIdAndMessageId(ArgumentMatchers.anyLong(), ArgumentMatchers.anyInt()))
                 .thenReturn(Optional.of(new Expense()));
         assertTrue(expenseService.getExpenseByBotChatIdAndMessageId(1L, 1).isPresent());
-    }
-
-    private void setReturnsAndAnswers() {
-        setBotChatServiceFindByIdReturn();
-        setBotUserServiceFindByIdReturn();
-        setExpenseRepositorySaveAnswer();
-    }
-
-    private void setExpenseRepositorySaveAnswer() {
-        when(expenseRepository.save(ArgumentMatchers.isA(Expense.class)))
-                .then(invocationOnMock -> {
-                    acts[0] = true;
-                    return invocationOnMock.getArgument(0);
-                });
-    }
-
-    private void setBotUserServiceFindByIdReturn() {
-        BotUser botUser = new BotUser();
-        botUser.id = 1;
-        botUser.defaultCurrency = "EUR";
-        when(botUserService.findById(ArgumentMatchers.anyInt()))
-                .thenReturn(Optional.of(botUser));
-    }
-
-    private void setBotChatServiceFindByIdReturn() {
-        BotChat botChat = new BotChat();
-        botChat.id = 1L;
-        when(botChatService.findById(ArgumentMatchers.anyLong()))
-                .thenReturn(Optional.of(botChat));
-    }
-
-    private void assertExpense(Expense expense, String expectedCurrency, ExpenseCategory expectedExpenseCategory) {
-        assertExpense(expense, expectedCurrency);
-        assertEquals(expectedExpenseCategory, expense.category);
     }
 
     private void assertExpense(Expense expense, String expectedCurrency) {
@@ -132,10 +93,9 @@ public class ExpenseServiceTest {
     }
 
     private void assertExpenseBase(Expense expense) {
-        assertTrue(acts[0]);
         assertEquals(chat.id().longValue(), expense.botChat.id);
         assertEquals(user.id().intValue(), expense.botUser.id);
         assertEquals(message.messageId(), expense.messageId);
-        assertEquals(AMOUNT, expense.amount);
+        assertEquals(1500, expense.amount);
     }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static finance.bot.update.UpdateUtils.*;
+import static finance.update.UpdateUtils.*;
 import static finance.expense.CurrencyUtils.isCurrency;
 import static finance.expense.ExpenseCategory.ANY;
 import static finance.expense.ExpenseCategory.getByEmoji;

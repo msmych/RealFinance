@@ -1,0 +1,1 @@
+alter table bot_user drop column user_action;

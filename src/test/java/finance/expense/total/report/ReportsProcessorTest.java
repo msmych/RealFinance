@@ -6,7 +6,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
 import finance.bot.chat.BotChatService;
-import finance.bot.update.UpdateService;
+import finance.update.UpdateService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,13 +18,15 @@ import static org.mockito.Mockito.when;
 
 public class ReportsProcessorTest {
 
-    private UpdateService us = mock(UpdateService.class);
-    BotChatService bcs = mock(BotChatService.class);
+    private UpdateService updateService = mock(UpdateService.class);
+    private BotChatService botChatService = mock(BotChatService.class);
     private Bot bot = mock(Bot.class);
-    ReportsProcessor rp = new ReportsProcessor(us, bcs, bot);
+
+    private ReportsProcessor reportsProcessor = new ReportsProcessor(updateService, botChatService, bot);
+
     private Update update = mock(Update.class);
-    Message message = mock(Message.class);
-    Chat chat = mock(Chat.class);
+    private Message message = mock(Message.class);
+    private Chat chat = mock(Chat.class);
 
     @Before
     public void setUp() {
@@ -35,8 +37,8 @@ public class ReportsProcessorTest {
 
     @Test
     public void sendingMessage() {
-        rp.process(update);
-        verify(bcs).getBotChatReportType(anyLong());
+        reportsProcessor.process(update);
+        verify(botChatService).getBotChatReportType(anyLong());
         verify(bot).execute(isA(SendMessage.class));
     }
 

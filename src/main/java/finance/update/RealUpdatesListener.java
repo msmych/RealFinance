@@ -1,8 +1,9 @@
-package finance.bot.update;
+package finance.update;
 
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
-import finance.bot.chat.BotChatService;
+import finance.update.pre_processor.UpdatePreProcessor;
+import finance.update.processor.UpdateProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -14,38 +15,34 @@ public class RealUpdatesListener implements UpdatesListener {
 
     private final Logger logger = LogManager.getLogger(RealUpdatesListener.class);
 
+    private final List<UpdatePreProcessor> updatePreProcessors;
     private final List<UpdateProcessor> updateProcessors;
-    private final BotChatService botChatService;
 
-    public RealUpdatesListener(List<UpdateProcessor> updateProcessors, BotChatService botChatService) {
+    public RealUpdatesListener(List<UpdatePreProcessor> updatePreProcessors,
+                               List<UpdateProcessor> updateProcessors) {
+        this.updatePreProcessors = updatePreProcessors;
         this.updateProcessors = updateProcessors;
-        this.botChatService = botChatService;
     }
 
     @Override
     public int process(List<Update> updates) {
         updates.forEach(update -> {
-            logger.info(update);
-            if (!tryToSaveBotChat(update)) return;
+            updatePreProcessors.forEach(updatePreProcessor -> tryPreProcess(updatePreProcessor, update));
             updateProcessors.stream()
-                    .filter(updateProcessor -> tryToCheckIfApplies(updateProcessor, update))
-                    .forEach(updateProcessor -> tryToProcessUpdate(updateProcessor, update));
-        });
-
-        return UpdatesListener.CONFIRMED_UPDATES_ALL;
+                    .filter(updateProcessor -> tryCheckIfProcessorApplies(updateProcessor, update))
+                    .forEach(updateProcessor -> tryProcess(updateProcessor, update)); });
+        return CONFIRMED_UPDATES_ALL;
     }
 
-    private boolean tryToSaveBotChat(Update update) {
+    private void tryPreProcess(UpdatePreProcessor updatePreProcessor, Update update) {
         try {
-            botChatService.saveBotChat(update);
+            updatePreProcessor.preProcess(update);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return false;
         }
-        return true;
     }
 
-    private boolean tryToCheckIfApplies(UpdateProcessor updateProcessor, Update update) {
+    private boolean tryCheckIfProcessorApplies(UpdateProcessor updateProcessor, Update update) {
         try {
             return updateProcessor.appliesTo(update);
         } catch (Exception e) {
@@ -54,7 +51,7 @@ public class RealUpdatesListener implements UpdatesListener {
         }
     }
 
-    private void tryToProcessUpdate(UpdateProcessor updateProcessor, Update update) {
+    private void tryProcess(UpdateProcessor updateProcessor, Update update) {
         try {
             updateProcessor.process(update);
         } catch (Exception e) {

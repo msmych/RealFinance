@@ -1,16 +1,14 @@
 package finance.bot.user;
 
-import javax.persistence.*;
-
-import static javax.persistence.EnumType.STRING;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class BotUser {
 
     @Id
     public int id;
-    @Enumerated(STRING)
-    public UserAction userAction;
     @Column
     public String firstName;
     @Column

@@ -6,7 +6,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.EditMessageText;
 import finance.bot.Bot;
-import finance.bot.update.UpdateService;
+import finance.update.UpdateService;
 import finance.expense.ExpenseService;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,12 +17,12 @@ import static org.mockito.Mockito.*;
 
 public class CancelLastExpenseProcessorTest {
 
-    private UpdateService udpateService = mock(UpdateService.class);
+    private UpdateService updateService = mock(UpdateService.class);
     private ExpenseService expenseService = mock(ExpenseService.class);
     private Bot bot = mock(Bot.class);
 
     private CancelLastExpenseProcessor cancelLastExpenseProcessor =
-            new CancelLastExpenseProcessor(udpateService, expenseService, bot);
+            new CancelLastExpenseProcessor(updateService, expenseService, bot);
 
     private Update update = mock(Update.class);
     private CallbackQuery callbackQuery = mock(CallbackQuery.class);
