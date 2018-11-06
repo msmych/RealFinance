@@ -54,6 +54,15 @@ To do so,
   
   The default category _Any_ under the dollar total should become _Fun_
   
+  *Remove expenses*
+  
+  Call `/clear`
+  
+  The top option is your last expense. 
+Click it to remove and call `/total`
+  Now call `/clear` again and choose _All chat_ to clear all expenses. 
+Call `/total` to check that you have no expenses anymore
+  
   *Set reports*
   
   Call `/reports`
