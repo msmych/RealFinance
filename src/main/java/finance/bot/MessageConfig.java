@@ -14,8 +14,8 @@ public class MessageConfig {
     public MessageConfig(IOService ioService,
                          @Value("message/help.md") Resource helpResource,
                          @Value("message/start.md") Resource startResource) {
-        this.helpMessage = ioService.loadFrom(helpResource);
-        this.startMessage = ioService.loadFrom(startResource);
+        helpMessage = ioService.loadFrom(helpResource);
+        startMessage = ioService.loadFrom(startResource);
     }
 
     @Bean("message-help")

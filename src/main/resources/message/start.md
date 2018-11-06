@@ -1,15 +1,64 @@
-So, let's start
+If you are the first-time user, let's go through the next simple steps to get started
   
-  I would recommend you to go through the next simple steps 
-to get familiar with my functionality. 
-However, you can find the full description by calling /help
+  *Set your currency*
+  The default currency is Euro. 
+To change it, send me `/` followed by [currency code](https://www.iban.com/currency-codes)
   
-  Let's say you ordered one coffee on the go and paid 1 euro. 
-To save this expense, send me /1. Your expense is now saved
+  Example: `/usd`
   
-  Now your friend arrived and you offered a cappuccino for 1.50 euro. 
-To save this one, send me /1.50
+  *Add some expenses*
+  Let's say your currency is Euro. 
+Now, you ordered one coffee for one euro. 
+To save this, 
   
-  If you call a /total command, you will see the total of 2.50 euro,
-followed by _Any_. 
-_Euro_ is the default currency and _Any_ is the default category
+  send me `/1`
+  
+  Then you offered cappuccino to your friend and paid 1.50 euro. 
+To save this, 
+  
+  send `/1.50`
+  _Note: for decimal expenses, put both digits after '.'_
+  
+  After that, you bought some mobile app and paid 2.99 $. 
+Since US dollar is not your default currency, add `usd` after the expense amount. 
+  
+  Send `/2.99 usd`
+  _Note: mind space between the amount and the currency code_
+  
+  For the lunch, you ordered a pizza for 5 euro. 
+To save this with food category, add 🍕 after the expense amount. 
+  
+  Send `/5 🍕`
+  _Note: mind space between the amount and the category emoji_
+  
+  You can find all category emojis by calling /help
+  
+  *See total*
+  
+  Call /total. 
+  
+  You will see the totals for different currencies and categories. 
+After some time, you may want to see only current months' total. 
+To do so, 
+  
+  call /month
+  
+  *Edit expense*
+  Now let's say you want to change the category of the mobile app purchase from default to _Fun_. 
+To do so, 
+  
+  go to the message `/2.99 usd` and edit it so that it becomes `/2.99 usd 🎉`
+  _Note: mind spaces between the amount, the currency, and the category emoji_
+  
+  Now call `/total` again
+  
+  The default category _Any_ under the dollar total should become _Fun_
+  
+  *Set reports*
+  
+  Call `/reports`
+  
+  If you want to receive monthly total reports, click the _Monthly_ button
+  
+  *Also*
+  Add me to your group chat if you want to save common expenses

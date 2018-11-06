@@ -31,6 +31,8 @@ public class StartProcessor implements UpdateProcessor {
 
     @Override
     public void process(Update update) {
-        bot.execute(new SendMessage(update.message().chat().id(), startMessage).parseMode(Markdown));
+        bot.execute(new SendMessage(update.message().chat().id(), startMessage)
+                .parseMode(Markdown)
+                .disableWebPagePreview(true));
     }
 }
