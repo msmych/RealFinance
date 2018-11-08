@@ -4,6 +4,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
+import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.GetMe;
 import com.pengrad.telegrambot.response.GetMeResponse;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +20,12 @@ import javax.annotation.PostConstruct;
 public class Bot extends TelegramBot {
 
     private final Logger logger = LogManager.getLogger(Bot.class);
+
+    public final static String TOTAL_ALL = "total_all";
+    public final static String TOTAL_MONTH = "total_month";
+    public final static InlineKeyboardMarkup TOTAL_MARKUP = new InlineKeyboardMarkup(new InlineKeyboardButton[][]{
+            {new InlineKeyboardButton("This month").callbackData(TOTAL_MONTH)},
+            {new InlineKeyboardButton("All chat").callbackData(TOTAL_ALL)}});
 
     public final static String CLEAR_ALL_DATA = "clear_all";
     public final static InlineKeyboardButton CLEAR_ALL_BUTTON =

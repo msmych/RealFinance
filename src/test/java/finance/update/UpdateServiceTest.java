@@ -68,27 +68,27 @@ public class UpdateServiceTest {
     @Test
     public void callbackQueryDataData() {
         when(callbackQuery.data()).thenReturn("data");
-        assertTrue(updateService.equalsCallbackQueryData("data", update));
+        assertTrue(updateService.callbackQueryDataEquals("data", update));
         assertTrue(updateService.getCallbackQueryData(update).isPresent());
     }
 
     @Test
     public void callbackQueryDataWrong() {
         when(callbackQuery.data()).thenReturn("WRONG");
-        assertFalse(updateService.equalsCallbackQueryData("data", update));
+        assertFalse(updateService.callbackQueryDataEquals("data", update));
     }
 
     @Test
     public void noCallbackQuery() {
         when(update.callbackQuery()).thenReturn(null);
-        assertFalse(updateService.equalsCallbackQueryData("data", update));
+        assertFalse(updateService.callbackQueryDataEquals("data", update));
         assertFalse(updateService.getCallbackQueryData(update).isPresent());
     }
 
     @Test
     public void callbackQueryNoData() {
         when(callbackQuery.data()).thenReturn(null);
-        assertFalse(updateService.equalsCallbackQueryData("data", update));
+        assertFalse(updateService.callbackQueryDataEquals("data", update));
         assertFalse(updateService.getCallbackQueryData(update).isPresent());
     }
 }

@@ -32,7 +32,7 @@ public class UpdateService {
         return Optional.ofNullable(data);
     }
 
-    public boolean equalsCallbackQueryData(String data, Update update) {
+    public boolean callbackQueryDataEquals(String data, Update update) {
         CallbackQuery callbackQuery = update.callbackQuery();
         if (callbackQuery == null) return false;
         String text = callbackQuery.data();

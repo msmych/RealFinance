@@ -1,5 +1,7 @@
 *What's new*
-  Nothing special, just added /start command for new users
+  Modified total interface. 
+Now /total command opens the list of options, 
+and `/month` became one of the options
   
   *Real finance commands*
   
@@ -32,13 +34,9 @@
   
   /my\_total - User chat expenses
   
-  /month - This month expenses
-  
   /clear - Clear chat expenses
   
   /reports - Chat reports settings
-  
-  If you want to receive monthly reports, check _Monthly_ option
   
   `/<currency>` - Change user default currency
   
