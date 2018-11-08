@@ -26,7 +26,7 @@ public class StartProcessor implements UpdateProcessor {
 
     @Override
     public boolean appliesTo(Update update) {
-        return updateService.isCommand(update, "start");
+        return updateService.isCommand("start", update);
     }
 
     @Override

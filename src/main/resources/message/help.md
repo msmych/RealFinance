@@ -1,9 +1,9 @@
-*Real finance help*
-  
-  *What's new*
+*What's new*
   Nothing special, just added /start command for new users
   
-  `/amount [currency] [category]` - Save new expense
+  *Real finance commands*
+  
+  `/<amount> [<currency>] [<category>]` - Save new expense
   
   Examples:
   `/14`
@@ -40,7 +40,7 @@
   
   If you want to receive monthly reports, check _Monthly_ option
   
-  `/[currency]` - Change user default currency
+  `/<currency>` - Change user default currency
   
   Examples:
   `/USD`

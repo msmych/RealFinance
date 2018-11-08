@@ -25,7 +25,7 @@ public class TotalProcessor implements UpdateProcessor {
 
     @Override
     public boolean appliesTo(Update update) {
-        return updateService.isCommand(update, "total");
+        return updateService.isCommand("total", update);
     }
 
     @Override

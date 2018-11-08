@@ -17,7 +17,7 @@ public class UpdateService {
         this.bot = bot;
     }
 
-    public boolean isCommand(Update update, String command) {
+    public boolean isCommand(String command, Update update) {
         Message message = update.message();
         if (message == null) return false;
         String text = message.text();

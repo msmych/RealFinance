@@ -27,7 +27,7 @@ public class ReportsProcessor implements UpdateProcessor {
 
     @Override
     public boolean appliesTo(Update update) {
-        return updateService.isCommand(update, "reports");
+        return updateService.isCommand("reports", update);
     }
 
     @Override

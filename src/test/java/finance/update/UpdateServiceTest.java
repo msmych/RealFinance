@@ -32,7 +32,7 @@ public class UpdateServiceTest {
     @Test
     public void messageTextSlashCommand() {
         when(message.text()).thenReturn("/command");
-        assertTrue(updateService.isCommand(update, "command"));
+        assertTrue(updateService.isCommand("command", update));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class UpdateServiceTest {
         User botUser = mock(User.class);
         when(bot.getUser()).thenReturn(botUser);
         when(botUser.username()).thenReturn("BotUsername");
-        assertTrue(updateService.isCommand(update, "command"));
+        assertTrue(updateService.isCommand("command", update));
     }
 
     @Test
@@ -50,19 +50,19 @@ public class UpdateServiceTest {
         User botUser = mock(User.class);
         when(bot.getUser()).thenReturn(botUser);
         when(botUser.username()).thenReturn("BotUsername");
-        assertFalse(updateService.isCommand(update, "command"));
+        assertFalse(updateService.isCommand("command", update));
     }
 
     @Test
     public void messageNoText() {
         when(message.text()).thenReturn(null);
-        assertFalse(updateService.isCommand(update, "command"));
+        assertFalse(updateService.isCommand("command", update));
     }
 
     @Test
     public void noMessage() {
         when(update.message()).thenReturn(null);
-        assertFalse(updateService.isCommand(update, "command"));
+        assertFalse(updateService.isCommand("command", update));
     }
 
     @Test

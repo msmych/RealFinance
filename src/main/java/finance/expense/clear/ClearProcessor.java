@@ -32,7 +32,7 @@ public class ClearProcessor implements UpdateProcessor {
 
     @Override
     public boolean appliesTo(Update update) {
-        return updateService.isCommand(update, "clear");
+        return updateService.isCommand("clear", update);
     }
 
     @Override

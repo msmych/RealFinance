@@ -18,7 +18,7 @@ public class TotalUtilsTest {
     public void testFormatTotalEur() {
         when(totalCurrency.getAmount()).thenReturn(1500L);
         when(totalCurrency.getCurrency()).thenReturn("EUR");
-        assertEquals("`15.00 EUR`", formatTotalCurrency(totalCurrency));
+        assertEquals("`15.00 €`", formatTotalCurrency(totalCurrency));
     }
 
     @Test

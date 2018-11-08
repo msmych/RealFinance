@@ -25,7 +25,7 @@ public class MonthProcessor implements UpdateProcessor {
 
     @Override
     public boolean appliesTo(Update update) {
-        return updateService.isCommand(update, "month");
+        return updateService.isCommand("month", update);
     }
 
     @Override
