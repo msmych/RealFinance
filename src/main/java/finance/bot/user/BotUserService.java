@@ -29,12 +29,7 @@ public class BotUserService {
     private BotUser getBotUserToSave(int userId) {
         Optional<BotUser> optionalBotUser = botUserRepository.findById(userId);
         BotUser botUser;
-        if (optionalBotUser.isPresent()) {
-            botUser = optionalBotUser.get();
-        } else {
-            botUser = new BotUser();
-            botUser.id = userId;
-        }
+        botUser = optionalBotUser.orElseGet(() -> BotUser.fromId(userId));
         return botUser;
     }
 

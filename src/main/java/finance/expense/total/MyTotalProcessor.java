@@ -3,9 +3,10 @@ package finance.expense.total;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
-import finance.update.processor.UpdateProcessor;
-import finance.update.UpdateService;
+import finance.bot.user.BotUser;
 import finance.expense.ExpenseService;
+import finance.update.UpdateService;
+import finance.update.processor.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -33,8 +34,9 @@ public class MyTotalProcessor implements UpdateProcessor {
     @Override
     public void process(Update update) {
         long chatId = update.message().chat().id();
-        int userId = update.message().from().id();
-        String text = expenseService.getTotalByBotChatIdAndBotUserId(chatId, userId).stream()
+        BotUser botUser = BotUser.fromUser(update.message().from());
+        String text = "#total " + botUser.getShortName() + "\n\n" +
+                expenseService.getTotalByBotChatIdAndBotUserId(chatId, botUser.id).stream()
                 .map(TotalUtils::formatTotalCurrency)
                 .collect(Collectors.joining("\n"));
         if (text.isEmpty())
