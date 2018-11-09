@@ -1,6 +1,5 @@
-total - Total chat expenses
-my_total - User chat expenses
-month - This month expenses
+total - Total
+my_total - User chat total
 clear - Clear chat expenses
 reports - Chat reports settings
 help - Help message

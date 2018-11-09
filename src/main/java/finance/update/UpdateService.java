@@ -17,7 +17,7 @@ public class UpdateService {
         this.bot = bot;
     }
 
-    public boolean isCommand(Update update, String command) {
+    public boolean isCommand(String command, Update update) {
         Message message = update.message();
         if (message == null) return false;
         String text = message.text();
@@ -32,7 +32,7 @@ public class UpdateService {
         return Optional.ofNullable(data);
     }
 
-    public boolean equalsCallbackQueryData(String data, Update update) {
+    public boolean callbackQueryDataEquals(String data, Update update) {
         CallbackQuery callbackQuery = update.callbackQuery();
         if (callbackQuery == null) return false;
         String text = callbackQuery.data();

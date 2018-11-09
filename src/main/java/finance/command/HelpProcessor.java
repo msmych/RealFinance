@@ -25,7 +25,7 @@ public class HelpProcessor implements UpdateProcessor {
 
     @Override
     public boolean appliesTo(Update update) {
-        return updateService.isCommand(update, "help");
+        return updateService.isCommand("help", update);
     }
 
     @Override

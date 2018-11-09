@@ -124,7 +124,9 @@ public class ExpenseService {
         return expenseRepository.findTopByBotChatIdAndBotUserIdOrderByDateDesc(botChatId, botUserId);
     }
 
+    @Transactional
     public void deleteById(long expenseId) {
-        expenseRepository.deleteById(expenseId);
+        if (expenseRepository.existsById(expenseId))
+            expenseRepository.deleteById(expenseId);
     }
 }

@@ -33,15 +33,15 @@ To save this with food category, add 🍕 after the expense amount.
   
   You can find all category emojis by calling /help
   
-  *See total*
+  *Total*
   
-  Call /total. 
+  Call /total and click _All_
   
   You will see the totals for different currencies and categories. 
 After some time, you may want to see only current months' total. 
 To do so, 
   
-  call /month
+  call /month and click _This month_
   
   *Edit expense*
   Now let's say you want to change the category of the mobile app purchase from default to _Fun_. 
@@ -50,18 +50,19 @@ To do so,
   go to the message `/2.99 usd` and edit it so that it becomes `/2.99 usd 🎉`
   _Note: mind spaces between the amount, the currency, and the category emoji_
   
-  Now call `/total` again
-  
-  The default category _Any_ under the dollar total should become _Fun_
+  Now inspect total again. The default category _Any_ under the dollar total should become _Fun_
   
   *Remove expenses*
   
   Call `/clear`
   
   The top option is your last expense. 
-Click it to remove and call `/total`
+  
+  Click it to remove and inspect total
+  
   Now call `/clear` again and choose _All chat_ to clear all expenses. 
-Call `/total` to check that you have no expenses anymore
+  
+  Inspect total to check that you have no expenses anymore
   
   *Set reports*
   
@@ -70,4 +71,4 @@ Call `/total` to check that you have no expenses anymore
   If you want to receive monthly total reports, click the _Monthly_ button
   
   *Also*
-  Add me to your group chat if you want to save common expenses
+  Invite me to your group chat if you want to save common expenses
