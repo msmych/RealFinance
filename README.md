@@ -19,7 +19,7 @@ Possible categories:
 
 | Category | Emoji |
 |----------|-------|
-| Any:     | ☕️   |
+| Any      | ☕️   |
 | House    | 🏠    |
 | Food     | 🍞🍕🍌 |
 | Clothes  | 👔👠👖 |
@@ -33,15 +33,11 @@ To modify an expense, just modify its message
 
 `/total` -- Total chat expenses
 
-`/my_total` -- User chat expenses
-
-`/month` -- This month expenses
-
 `/clear` -- Clear chat expenses
 
 `/reports` -- Chat reports settings
 
-`/[currency]` -- Change user default currency
+`/<currency>` -- Change user default currency
 
 Examples:
 ```

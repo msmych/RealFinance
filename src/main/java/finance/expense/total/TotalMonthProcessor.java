@@ -9,7 +9,7 @@ import finance.update.processor.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
 import static com.pengrad.telegrambot.model.request.ParseMode.Markdown;
-import static finance.bot.Bot.TOTAL_MONTH;
+import static finance.update.InlineKeyboardUtils.TOTAL_MONTH;
 
 @Component
 public class TotalMonthProcessor implements UpdateProcessor {

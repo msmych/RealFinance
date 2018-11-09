@@ -1,16 +1,16 @@
 package finance.expense.total;
 
-import com.pengrad.telegrambot.model.Chat;
-import com.pengrad.telegrambot.model.Message;
-import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.User;
-import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.model.*;
+import com.pengrad.telegrambot.request.EditMessageText;
 import finance.bot.Bot;
-import finance.update.UpdateService;
 import finance.expense.ExpenseService;
+import finance.update.UpdateService;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Optional;
+
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.isA;
@@ -25,22 +25,33 @@ public class MyTotalProcessorTest {
     private MyTotalProcessor myTotalProcessor = new MyTotalProcessor(updateService, expenseService, bot);
 
     private Update update = mock(Update.class);
+    private CallbackQuery callbackQuery = mock(CallbackQuery.class);
     private Message message = mock(Message.class);
     private Chat chat = mock(Chat.class);
     private User user = mock(User.class);
 
     @Before
     public void setUp() {
-        when(update.message()).thenReturn(message);
+        when(update.callbackQuery()).thenReturn(callbackQuery);
+        when(callbackQuery.message()).thenReturn(message);
         when(message.chat()).thenReturn(chat);
-        when(message.from()).thenReturn(user);
+        when(callbackQuery.from()).thenReturn(user);
+        when(user.id()).thenReturn(1234567);
+
+        when(updateService.getCallbackQueryData(isA(Update.class)))
+                .thenReturn(Optional.of("total_" + 1234567));
+    }
+
+    @Test
+    public void total_1234567() {
+        assertTrue(myTotalProcessor.appliesTo(update));
     }
 
     @Test
     public void processing() {
         myTotalProcessor.process(update);
         verify(expenseService).getTotalByBotChatIdAndBotUserId(anyLong(), anyInt());
-        verify(bot).execute(isA(SendMessage.class));
+        verify(bot).execute(isA(EditMessageText.class));
     }
 
 }

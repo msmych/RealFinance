@@ -5,17 +5,17 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import finance.bot.Bot;
-import finance.update.processor.UpdateProcessor;
-import finance.update.UpdateService;
 import finance.expense.Expense;
 import finance.expense.ExpenseService;
+import finance.update.UpdateService;
+import finance.update.processor.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static finance.bot.Bot.CLEAR_ALL_BUTTON;
+import static finance.update.InlineKeyboardUtils.CLEAR_ALL_BUTTON;
 
 @Component
 public class ClearProcessor implements UpdateProcessor {

@@ -19,7 +19,8 @@ public class UpdateService {
 
     public boolean isCommand(String command, Update update) {
         Message message = update.message();
-        if (message == null) return false;
+        if (message == null)
+            return false;
         String text = message.text();
         return text != null
                 && (text.equals("/" + command) || text.equals("/" + command + "@" + bot.getUser().username()));
@@ -27,14 +28,16 @@ public class UpdateService {
 
     public Optional<String> getCallbackQueryData(Update update) {
         CallbackQuery callbackQuery = update.callbackQuery();
-        if (callbackQuery == null) return Optional.empty();
+        if (callbackQuery == null)
+            return Optional.empty();
         String data = callbackQuery.data();
         return Optional.ofNullable(data);
     }
 
     public boolean callbackQueryDataEquals(String data, Update update) {
         CallbackQuery callbackQuery = update.callbackQuery();
-        if (callbackQuery == null) return false;
+        if (callbackQuery == null)
+            return false;
         String text = callbackQuery.data();
         return text != null && text.equals(data);
     }

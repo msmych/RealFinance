@@ -1,7 +1,7 @@
 *What's new*
   Modified total interface. 
 Now /total command opens the list of options, 
-and `/month` became one of the options
+`/my_total` and `/month` became the options of that list
   
   *Real finance commands*
   
@@ -31,8 +31,6 @@ and `/month` became one of the options
   To modify an expense, just modify its message
   
   /total - Total chat expenses
-  
-  /my\_total - User chat expenses
   
   /clear - Clear chat expenses
   
