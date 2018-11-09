@@ -4,11 +4,11 @@ import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.DeleteMessage;
 import finance.bot.Bot;
-import finance.update.processor.UpdateProcessor;
 import finance.expense.ExpenseService;
+import finance.update.processor.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
-import static finance.bot.Bot.CLEAR_ALL_DATA;
+import static finance.update.InlineKeyboardUtils.CLEAR_ALL_DATA;
 
 @Component
 public class ClearAllProcessor implements UpdateProcessor {

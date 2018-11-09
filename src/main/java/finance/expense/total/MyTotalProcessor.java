@@ -1,7 +1,7 @@
 package finance.expense.total;
 
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.request.EditMessageText;
 import finance.bot.Bot;
 import finance.bot.user.BotUser;
 import finance.expense.ExpenseService;
@@ -9,9 +9,8 @@ import finance.update.UpdateService;
 import finance.update.processor.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-
 import static com.pengrad.telegrambot.model.request.ParseMode.Markdown;
+import static java.util.stream.Collectors.joining;
 
 @Component
 public class MyTotalProcessor implements UpdateProcessor {
@@ -28,19 +27,20 @@ public class MyTotalProcessor implements UpdateProcessor {
 
     @Override
     public boolean appliesTo(Update update) {
-        return updateService.isCommand("my_total", update);
+        return updateService.getCallbackQueryData(update)
+                .map(data -> data.equals("total_" + update.callbackQuery().from().id()))
+                .orElse(false);
     }
 
     @Override
     public void process(Update update) {
-        long chatId = update.message().chat().id();
-        BotUser botUser = BotUser.fromUser(update.message().from());
+        long chatId = update.callbackQuery().message().chat().id();
+        BotUser botUser = BotUser.fromUser(update.callbackQuery().from());
         String text = "#total " + botUser.getShortName() + "\n\n" +
                 expenseService.getTotalByBotChatIdAndBotUserId(chatId, botUser.id).stream()
                 .map(TotalUtils::formatTotalCurrency)
-                .collect(Collectors.joining("\n"));
-        if (text.isEmpty())
-            text = "`0.00`";
-        bot.execute(new SendMessage(chatId, text).parseMode(Markdown));
+                .collect(joining("\n"));
+        bot.execute(new EditMessageText(chatId, update.callbackQuery().message().messageId(), text)
+                .parseMode(Markdown));
     }
 }

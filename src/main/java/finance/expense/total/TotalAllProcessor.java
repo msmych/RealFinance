@@ -9,7 +9,7 @@ import finance.update.processor.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
 import static com.pengrad.telegrambot.model.request.ParseMode.Markdown;
-import static finance.bot.Bot.TOTAL_ALL;
+import static finance.update.InlineKeyboardUtils.TOTAL_ALL;
 
 @Component
 public class TotalAllProcessor implements UpdateProcessor {
