@@ -21,116 +21,122 @@ public class ExpenseUtilsTest {
     }
 
     @Test
-    public void testMessageTextCommandExpense() {
+    public void slash4() {
         when(message.text()).thenReturn("/4");
         assertTrue(isExpense(update));
     }
 
     @Test
-    public void testMessageTextCommandDecimalExpense() {
+    public void slash999999999999999() {
+        when(message.text()).thenReturn("/999999999999999");
+        assertFalse(isExpense(update));
+    }
+
+    @Test
+    public void slash7$77() {
         when(message.text()).thenReturn("/7.77");
         assertTrue(isExpense(update));
     }
 
     @Test
-    public void testMessageTextCommandExpenseCurrency() {
+    public void slash81_USD() {
         when(message.text()).thenReturn("/81 USD");
         assertTrue(isExpense(update));
     }
 
     @Test
-    public void testMessageTextCommandExpenseLowerCaseCurrency() {
+    public void slash57$00_usd() {
         when(message.text()).thenReturn("/57.00 usd");
         assertTrue(isExpense(update));
     }
 
     @Test
-    public void testMessageTextCommandExpenseWrongArg1() {
+    public void slash445_WRONG() {
         when(message.text()).thenReturn("/445 WRONG");
         assertFalse(isExpense(update));
     }
 
     @Test
-    public void testMessageTextCommandExpenseCurrencyWrongArg2() {
+    public void slash31_USD_WRONG() {
         when(message.text()).thenReturn("/31 USD WRONG");
         assertFalse(isExpense(update));
     }
 
     @Test
-    public void testMessageTextCommandExpenseCategory() {
+    public void slash63$36_Emoji() {
         when(message.text()).thenReturn("/63.36 \uD83C\uDFE0");
         assertTrue(isExpense(update));
     }
 
     @Test
-    public void testMessageTextCommandExpenseCurrencyCategory() {
+    public void slash29_rub_Emoji() {
         when(message.text()).thenReturn("/29 rub \uD83C\uDF5E");
         assertTrue(isExpense(update));
     }
 
     @Test
-    public void testMessageTextCommandExpenseCategoryCurrency() {
+    public void slash777_Emoji_USD() {
         when(message.text()).thenReturn("/777 \uD83D\uDC8A USD");
         assertFalse(isExpense(update));
     }
 
     @Test
-    public void testMessageTextCommandExpenseCurrencyWrongArg3() {
+    public void slash43$90_usd_Emoji_WRONG() {
         when(message.text()).thenReturn("/43.90 usd ✈️ WRONG");
         assertFalse(isExpense(update));
     }
 
     @Test
-    public void testMessageTextCommandExpenseCurrencyCurrency() {
+    public void slash552_usd_rub() {
         when(message.text()).thenReturn("/552 usd rub");
         assertFalse(isExpense(update));
     }
 
     @Test
-    public void testMessageTextCommandExpenseCategoryCategory() {
+    public void slash0$99_Emoji_Emoji() {
         when(message.text()).thenReturn("/0.99 \uD83C\uDF5E \uD83D\uDC8A");
         assertFalse(isExpense(update));
     }
 
     @Test
-    public void testNoMessage() {
+    public void noMessage() {
         when(update.message()).thenReturn(null);
         assertFalse(isExpense(update));
     }
 
     @Test
-    public void testMessageNoText() {
+    public void noMessageText() {
         when(message.text()).thenReturn(null);
         assertFalse(isExpense(update));
     }
 
     @Test
-    public void testParseIntAmount() {
+    public void slash100() {
         assertEquals(10000, parseAmount("/100"));
     }
 
     @Test
-    public void testParseDecimalAmount() {
+    public void slash22$22() {
         assertEquals(2222, parseAmount("/22.22"));
     }
 
     @Test
-    public void testParseAmountLessThanOne() {
+    public void slash0$99() {
         assertEquals(99, parseAmount("/0.99"));
     }
 
     @Test
-    public void testAmountLong() {
+    public void format15$00() {
         assertEquals("15.00", formatAmount(1500L));
     }
 
     @Test
-    public void testAmountLessThanOne() {
+    public void format0$12() {
         assertEquals("0.12", formatAmount(12L));
     }
 
     @Test
-    public void testAmountZero() {
+    public void format0$00() {
         assertEquals("0.00", formatAmount(0L));
     }
 }
