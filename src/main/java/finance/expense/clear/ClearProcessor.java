@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static finance.update.InlineKeyboardUtils.CLEAR_ALL_BUTTON;
+import static finance.update.InlineKeyboardUtils.CLEAR_UP_TO_THIS_MONTH_BUTTON;
 
 @Component
 public class ClearProcessor implements UpdateProcessor {
@@ -50,6 +51,7 @@ public class ClearProcessor implements UpdateProcessor {
             buttons.add(new InlineKeyboardButton[]{new InlineKeyboardButton(expense.toString())
                     .callbackData("clear_" + expense.id)});
         }
+        buttons.add(new InlineKeyboardButton[]{CLEAR_UP_TO_THIS_MONTH_BUTTON});
         buttons.add(new InlineKeyboardButton[]{CLEAR_ALL_BUTTON});
         return new InlineKeyboardMarkup(buttons.toArray(new InlineKeyboardButton[][]{}));
     }

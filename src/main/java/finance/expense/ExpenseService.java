@@ -8,22 +8,23 @@ import finance.expense.total.AmountCurrencyExpenseTotal;
 import finance.expense.total.TotalUtils;
 import finance.expense.total.selector.AllExpenseTotalsSelector;
 import finance.expense.total.selector.ExpenseTotalsSelector;
-import finance.expense.total.selector.LastMonthExpenseTotalsSelector;
 import finance.expense.total.selector.FromDateExpenseTotalSelector;
+import finance.expense.total.selector.LastMonthExpenseTotalsSelector;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static finance.update.UpdateUtils.*;
 import static finance.expense.CurrencyUtils.isCurrency;
 import static finance.expense.ExpenseCategory.ANY;
 import static finance.expense.ExpenseCategory.getByEmoji;
 import static finance.expense.ExpenseUtils.parseAmount;
 import static finance.expense.total.TotalUtils.formatTotalCurrency;
+import static finance.update.UpdateUtils.*;
 
 @Service
 public class ExpenseService {
@@ -104,7 +105,11 @@ public class ExpenseService {
         return getTotalText(new FromDateExpenseTotalSelector(
                 expenseRepository,
                 botChatId,
-                new DateTime().withDayOfMonth(1).withMillisOfDay(0).toDate()));
+                getThisMonthBeginning()));
+    }
+
+    private Date getThisMonthBeginning() {
+        return new DateTime().withDayOfMonth(1).withMillisOfDay(0).toDate();
     }
 
     @Transactional
@@ -128,5 +133,10 @@ public class ExpenseService {
     public void deleteById(long expenseId) {
         if (expenseRepository.existsById(expenseId))
             expenseRepository.deleteById(expenseId);
+    }
+
+    @Transactional
+    public void removeUpToThisMonth(long botChatId) {
+        expenseRepository.deleteByBotChatIdAndDateBefore(botChatId, getThisMonthBeginning());
     }
 }

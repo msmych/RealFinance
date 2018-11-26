@@ -8,16 +8,19 @@ public class InlineKeyboardUtils {
 
     public final static String TOTAL_ALL = "total_all";
     public final static String TOTAL_MONTH = "total_month";
-    public final static String CLEAR_ALL_DATA = "clear_all";
+
 
     private final static InlineKeyboardButton TOTAL_MONTH_BUTTON =
             new InlineKeyboardButton("This month").callbackData(TOTAL_MONTH);
     private final static InlineKeyboardButton TOTAL_ALL_BUTTON =
             new InlineKeyboardButton("All chat").callbackData(TOTAL_ALL);
 
+    public final static String CLEAR_ALL_DATA = "clear_all";
+    public final static String CLEAR_UP_TO_THIS_MONTH_DATA = "clear_up_to_this_month";
+    public final static InlineKeyboardButton CLEAR_UP_TO_THIS_MONTH_BUTTON =
+            new InlineKeyboardButton("Up to this month").callbackData(CLEAR_UP_TO_THIS_MONTH_DATA);
     public final static InlineKeyboardButton CLEAR_ALL_BUTTON =
             new InlineKeyboardButton("All chat").callbackData(CLEAR_ALL_DATA);
-
 
     public static InlineKeyboardMarkup getTotalMarkup(BotUser botUser) {
         return new InlineKeyboardMarkup(new InlineKeyboardButton[][]{

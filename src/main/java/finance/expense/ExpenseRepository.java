@@ -61,6 +61,8 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long> {
 
     void deleteByBotChatId(long botChatId);
 
+    void deleteByBotChatIdAndDateBefore(long botChatId, Date date);
+
     Optional<Expense> findOneByBotChatIdAndMessageId(long botChatId, int messageId);
 
     Optional<Expense> findTopByBotChatIdAndBotUserIdOrderByDateDesc(long botChatId, int botUserId);
