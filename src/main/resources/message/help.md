@@ -1,7 +1,6 @@
 *What's new*
-  Modified total interface. 
-Now /total command opens the list of options, 
-`/my_total` and `/month` became the options of that list
+  New clearing option: _Up to this month_
+  Now it is possible to clear all chat expenses except for the currency month's
   
   *Real finance commands*
   
