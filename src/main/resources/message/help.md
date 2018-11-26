@@ -1,6 +1,6 @@
 *What's new*
   New clearing option: _Up to this month_
-  Now it is possible to clear all chat expenses except for the currency month's
+  Now it is possible to clear all chat expenses except for the current month's
   
   *Real finance commands*
   
