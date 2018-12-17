@@ -1,27 +1,27 @@
 package finance.expense.total;
 
+import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.EditMessageText;
 import finance.bot.Bot;
-import finance.bot.user.BotUser;
-import finance.expense.ExpenseService;
+import finance.bot.user.BotUserService;
 import finance.update.UpdateService;
 import finance.update.processor.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
 import static com.pengrad.telegrambot.model.request.ParseMode.Markdown;
-import static java.util.stream.Collectors.joining;
+import static finance.update.InlineKeyboardUtils.getMyTotalMarkup;
 
 @Component
 public class MyTotalProcessor implements UpdateProcessor {
 
     private final UpdateService updateService;
-    private final ExpenseService expenseService;
+    private final BotUserService botUserService;
     private final Bot bot;
 
-    public MyTotalProcessor(UpdateService updateService, ExpenseService expenseService, Bot bot) {
+    public MyTotalProcessor(UpdateService updateService, BotUserService botUserService, Bot bot) {
         this.updateService = updateService;
-        this.expenseService = expenseService;
+        this.botUserService = botUserService;
         this.bot = bot;
     }
 
@@ -34,13 +34,11 @@ public class MyTotalProcessor implements UpdateProcessor {
 
     @Override
     public void process(Update update) {
-        long chatId = update.callbackQuery().message().chat().id();
-        BotUser botUser = BotUser.fromUser(update.callbackQuery().from());
-        String text = "#total " + botUser.getShortName() + "\n\n" +
-                expenseService.getTotalByBotChatIdAndBotUserId(chatId, botUser.id).stream()
-                .map(TotalUtils::formatTotalCurrency)
-                .collect(joining("\n"));
-        bot.execute(new EditMessageText(chatId, update.callbackQuery().message().messageId(), text)
+        Message message = update.callbackQuery().message();
+        int userId = update.callbackQuery().from().id();
+        bot.execute(new EditMessageText(message.chat().id(), message.messageId(),
+                "*" + botUserService.findById(userId).get().getShortName() + "*, select total option")
+                .replyMarkup(getMyTotalMarkup(userId))
                 .parseMode(Markdown));
     }
 }

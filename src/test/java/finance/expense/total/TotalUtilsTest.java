@@ -1,6 +1,8 @@
 package finance.expense.total;
 
 import finance.expense.ExpenseCategory;
+import finance.expense.ExpenseRepository.AmountCategoryExpenseTotal;
+import finance.expense.ExpenseRepository.AmountCurrencyExpenseTotal;
 import org.junit.Test;
 
 import static finance.expense.total.TotalUtils.formatTotalCategory;

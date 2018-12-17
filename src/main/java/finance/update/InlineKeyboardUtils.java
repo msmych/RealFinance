@@ -28,4 +28,9 @@ public class InlineKeyboardUtils {
                 {new InlineKeyboardButton(botUser.getShortName()).callbackData("total_" + botUser.id)},
                 {TOTAL_ALL_BUTTON}});
     }
+
+    public static InlineKeyboardMarkup getMyTotalMarkup(int botUserId) {
+        return new InlineKeyboardMarkup(new InlineKeyboardButton[][]{
+                {new InlineKeyboardButton("All chat").callbackData("total_all_" + botUserId)}});
+    }
 }

@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.model.Update;
 import finance.bot.chat.BotChatService;
 import finance.bot.user.BotUser;
 import finance.bot.user.BotUserService;
-import finance.expense.total.AmountCurrencyExpenseTotal;
+import finance.expense.ExpenseRepository.AmountCurrencyExpenseTotal;
 import finance.expense.total.TotalUtils;
 import finance.expense.total.selector.AllExpenseTotalsSelector;
 import finance.expense.total.selector.ExpenseTotalsSelector;
