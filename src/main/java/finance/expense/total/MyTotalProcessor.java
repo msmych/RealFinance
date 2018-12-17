@@ -1,27 +1,23 @@
 package finance.expense.total;
 
+import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.request.EditMessageText;
+import com.pengrad.telegrambot.request.EditMessageReplyMarkup;
 import finance.bot.Bot;
-import finance.bot.user.BotUser;
-import finance.expense.ExpenseService;
 import finance.update.UpdateService;
 import finance.update.processor.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
-import static com.pengrad.telegrambot.model.request.ParseMode.Markdown;
-import static java.util.stream.Collectors.joining;
+import static finance.update.InlineKeyboardUtils.getMyTotalMarkup;
 
 @Component
 public class MyTotalProcessor implements UpdateProcessor {
 
     private final UpdateService updateService;
-    private final ExpenseService expenseService;
     private final Bot bot;
 
-    public MyTotalProcessor(UpdateService updateService, ExpenseService expenseService, Bot bot) {
+    public MyTotalProcessor(UpdateService updateService, Bot bot) {
         this.updateService = updateService;
-        this.expenseService = expenseService;
         this.bot = bot;
     }
 
@@ -34,13 +30,8 @@ public class MyTotalProcessor implements UpdateProcessor {
 
     @Override
     public void process(Update update) {
-        long chatId = update.callbackQuery().message().chat().id();
-        BotUser botUser = BotUser.fromUser(update.callbackQuery().from());
-        String text = "#total " + botUser.getShortName() + "\n\n" +
-                expenseService.getTotalByBotChatIdAndBotUserId(chatId, botUser.id).stream()
-                .map(TotalUtils::formatTotalCurrency)
-                .collect(joining("\n"));
-        bot.execute(new EditMessageText(chatId, update.callbackQuery().message().messageId(), text)
-                .parseMode(Markdown));
+        Message message = update.callbackQuery().message();
+        bot.execute(new EditMessageReplyMarkup(message.chat().id(), message.messageId())
+                .replyMarkup(getMyTotalMarkup(update.callbackQuery().from().id())));
     }
 }
