@@ -1,5 +1,8 @@
 package finance.expense.total;
 
+import finance.expense.ExpenseRepository.AmountCategoryExpenseTotal;
+import finance.expense.ExpenseRepository.AmountCurrencyExpenseTotal;
+
 import java.util.Currency;
 
 import static finance.expense.ExpenseUtils.formatAmount;

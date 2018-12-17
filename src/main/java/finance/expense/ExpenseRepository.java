@@ -1,7 +1,5 @@
 package finance.expense;
 
-import finance.expense.total.AmountCategoryExpenseTotal;
-import finance.expense.total.AmountCurrencyExpenseTotal;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +17,11 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long> {
                     "group by currency")
     List<AmountCurrencyExpenseTotal> totalCurrencyByBotChatId(@Param("botChatId") long botChatId);
 
+    interface AmountCurrencyExpenseTotal {
+        long getAmount();
+        String getCurrency();
+    }
+
     @Query(nativeQuery = true,
             value = "select sum(amount) as amount, category " +
                     "from expense " +
@@ -26,6 +29,11 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long> {
                     "group by category")
     List<AmountCategoryExpenseTotal> totalCategoryByBotChatIdAndCurrency(@Param("botChatId") long botChatId,
                                                                          @Param("currency") String currency);
+
+    interface AmountCategoryExpenseTotal {
+        long getAmount();
+        ExpenseCategory getCategory();
+    }
 
     @Query(nativeQuery = true,
             value = "select sum(amount) as amount, currency " +

@@ -1,7 +1,7 @@
 package finance.expense.total.selector;
 
-import finance.expense.total.AmountCategoryExpenseTotal;
-import finance.expense.total.AmountCurrencyExpenseTotal;
+import finance.expense.ExpenseRepository.AmountCategoryExpenseTotal;
+import finance.expense.ExpenseRepository.AmountCurrencyExpenseTotal;
 
 import java.util.List;
 
