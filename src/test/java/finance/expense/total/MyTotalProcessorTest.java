@@ -1,7 +1,7 @@
 package finance.expense.total;
 
 import com.pengrad.telegrambot.model.*;
-import com.pengrad.telegrambot.request.EditMessageReplyMarkup;
+import com.pengrad.telegrambot.request.EditMessageText;
 import finance.bot.Bot;
 import finance.bot.user.BotUser;
 import finance.bot.user.BotUserService;
@@ -18,9 +18,10 @@ import static org.mockito.Mockito.*;
 public class MyTotalProcessorTest {
 
     private UpdateService updateService = mock(UpdateService.class);
+    private BotUserService botUserService = mock(BotUserService.class);
     private Bot bot = mock(Bot.class);
 
-    private MyTotalProcessor myTotalProcessor = new MyTotalProcessor(updateService, bot);
+    private MyTotalProcessor myTotalProcessor = new MyTotalProcessor(updateService, botUserService, bot);
 
     private Update update = mock(Update.class);
     private CallbackQuery callbackQuery = mock(CallbackQuery.class);
@@ -37,6 +38,7 @@ public class MyTotalProcessorTest {
         when(message.chat()).thenReturn(chat);
 
         when(updateService.getCallbackQueryData(isA(Update.class))).thenReturn(Optional.of("total_" + 1234567));
+        when(botUserService.findById(anyInt())).thenReturn(Optional.of(new BotUser()));
     }
 
     @Test
@@ -47,6 +49,6 @@ public class MyTotalProcessorTest {
     @Test
     public void processing() {
         myTotalProcessor.process(update);
-        verify(bot).execute(isA(EditMessageReplyMarkup.class));
+        verify(bot).execute(isA(EditMessageText.class));
     }
 }

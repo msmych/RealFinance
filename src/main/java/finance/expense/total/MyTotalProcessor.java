@@ -2,22 +2,26 @@ package finance.expense.total;
 
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.request.EditMessageReplyMarkup;
+import com.pengrad.telegrambot.request.EditMessageText;
 import finance.bot.Bot;
+import finance.bot.user.BotUserService;
 import finance.update.UpdateService;
 import finance.update.processor.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
+import static com.pengrad.telegrambot.model.request.ParseMode.Markdown;
 import static finance.update.InlineKeyboardUtils.getMyTotalMarkup;
 
 @Component
 public class MyTotalProcessor implements UpdateProcessor {
 
     private final UpdateService updateService;
+    private final BotUserService botUserService;
     private final Bot bot;
 
-    public MyTotalProcessor(UpdateService updateService, Bot bot) {
+    public MyTotalProcessor(UpdateService updateService, BotUserService botUserService, Bot bot) {
         this.updateService = updateService;
+        this.botUserService = botUserService;
         this.bot = bot;
     }
 
@@ -31,7 +35,10 @@ public class MyTotalProcessor implements UpdateProcessor {
     @Override
     public void process(Update update) {
         Message message = update.callbackQuery().message();
-        bot.execute(new EditMessageReplyMarkup(message.chat().id(), message.messageId())
-                .replyMarkup(getMyTotalMarkup(update.callbackQuery().from().id())));
+        int userId = update.callbackQuery().from().id();
+        bot.execute(new EditMessageText(message.chat().id(), message.messageId(),
+                "*" + botUserService.findById(userId).get().getShortName() + "*, select total option")
+                .replyMarkup(getMyTotalMarkup(userId))
+                .parseMode(Markdown));
     }
 }

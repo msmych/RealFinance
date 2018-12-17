@@ -1,6 +1,9 @@
 *What's new*
-  New clearing option: _Up to this month_
-  Now it is possible to clear all chat expenses except for the current month's
+  User total has now its own options 
+(only _All chat_ for now, but more are coming soon)
+  
+  So if you call /total and then click your name, 
+you will see the list of options specifically for your total
   
   *Real finance commands*
   
