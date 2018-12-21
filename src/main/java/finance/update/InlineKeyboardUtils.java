@@ -31,6 +31,7 @@ public class InlineKeyboardUtils {
 
     public static InlineKeyboardMarkup getMyTotalMarkup(int botUserId) {
         return new InlineKeyboardMarkup(new InlineKeyboardButton[][]{
+                {new InlineKeyboardButton("This month").callbackData("total_month_" + botUserId)},
                 {new InlineKeyboardButton("All chat").callbackData("total_all_" + botUserId)}});
     }
 }

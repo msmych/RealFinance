@@ -6,10 +6,7 @@ import finance.bot.user.BotUser;
 import finance.bot.user.BotUserService;
 import finance.expense.ExpenseRepository.AmountCurrencyExpenseTotal;
 import finance.expense.total.TotalUtils;
-import finance.expense.total.selector.AllExpenseTotalsSelector;
-import finance.expense.total.selector.ExpenseTotalsSelector;
-import finance.expense.total.selector.FromDateExpenseTotalSelector;
-import finance.expense.total.selector.LastMonthExpenseTotalsSelector;
+import finance.expense.total.selector.*;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
@@ -108,6 +105,14 @@ public class ExpenseService {
                 getThisMonthBeginning()));
     }
 
+    public String getMyTotalMonthText(long botChatId, int botUserId) {
+        return getTotalText(new FromDateMyExpenseTotalSelector(
+                expenseRepository,
+                botChatId,
+                botUserId,
+                getThisMonthBeginning()));
+    }
+
     private Date getThisMonthBeginning() {
         return new DateTime().withDayOfMonth(1).withMillisOfDay(0).toDate();
     }
@@ -122,7 +127,7 @@ public class ExpenseService {
     }
 
     public List<AmountCurrencyExpenseTotal> getTotalByBotChatIdAndBotUserId(long botChatId, int botUserId) {
-        return expenseRepository.totalCategoryByBotChatIdAndBotUserId(botChatId, botUserId);
+        return expenseRepository.totalCurrencyByBotChatIdAndBotUserId(botChatId, botUserId);
     }
 
     public Optional<Expense> getLastBotUserIdExpense(long botChatId, int botUserId) {
