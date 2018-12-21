@@ -1,9 +1,5 @@
 *What's new*
-  User total has now its own options 
-(only _All chat_ for now, but more are coming soon)
-  
-  So if you call /total and then click your name, 
-you will see the list of options specifically for your total
+  Added user month total option
   
   *Real finance commands*
   
