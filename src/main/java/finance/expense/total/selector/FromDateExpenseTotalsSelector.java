@@ -7,14 +7,14 @@ import finance.expense.ExpenseRepository.AmountCurrencyExpenseTotal;
 import java.util.Date;
 import java.util.List;
 
-public class FromDateExpenseTotalSelector implements ExpenseTotalsSelector {
+public class FromDateExpenseTotalsSelector implements ExpenseTotalsSelector {
 
     private final ExpenseRepository expenseRepository;
     private final long botChatId;
     private final Date from;
     private final Date to = new Date();
 
-    public FromDateExpenseTotalSelector(ExpenseRepository expenseRepository, long botChatId, Date from) {
+    public FromDateExpenseTotalsSelector(ExpenseRepository expenseRepository, long botChatId, Date from) {
         this.expenseRepository = expenseRepository;
         this.botChatId = botChatId;
         this.from = from;

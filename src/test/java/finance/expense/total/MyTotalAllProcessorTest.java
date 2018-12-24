@@ -50,7 +50,7 @@ public class MyTotalAllProcessorTest {
     @Test
     public void processing() {
         myTotalAllProcessor.process(update);
-        verify(expenseService).getTotalByBotChatIdAndBotUserId(anyLong(), anyInt());
+        verify(expenseService).getAllMyTotalText(anyLong(), anyInt());
         verify(bot).execute(isA(EditMessageText.class));
     }
 

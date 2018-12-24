@@ -10,7 +10,6 @@ import finance.update.processor.UpdateProcessor;
 import org.springframework.stereotype.Component;
 
 import static com.pengrad.telegrambot.model.request.ParseMode.Markdown;
-import static java.util.stream.Collectors.joining;
 
 @Component
 public class MyTotalAllProcessor implements UpdateProcessor {
@@ -36,11 +35,9 @@ public class MyTotalAllProcessor implements UpdateProcessor {
     public void process(Update update) {
         long chatId = update.callbackQuery().message().chat().id();
         BotUser botUser = BotUser.fromUser(update.callbackQuery().from());
-        String text = "#total " + botUser.getShortName() + "\n\n" +
-                expenseService.getTotalByBotChatIdAndBotUserId(chatId, botUser.id).stream()
-                .map(TotalUtils::formatTotalCurrency)
-                .collect(joining("\n"));
-        bot.execute(new EditMessageText(chatId, update.callbackQuery().message().messageId(), text)
+        bot.execute(new EditMessageText(chatId, update.callbackQuery().message().messageId(),
+                "#total " + botUser.getShortName() + "\n\n" +
+                expenseService.getAllMyTotalText(chatId, botUser.id))
                 .parseMode(Markdown));
     }
 }
