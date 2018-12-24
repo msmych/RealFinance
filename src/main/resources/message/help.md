@@ -1,5 +1,5 @@
 *What's new*
-  Added user month total option
+  Added totals by categories to the "All by user" totals
   
   *Real finance commands*
   
