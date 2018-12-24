@@ -4,7 +4,6 @@ import com.pengrad.telegrambot.model.Update;
 import finance.bot.chat.BotChatService;
 import finance.bot.user.BotUser;
 import finance.bot.user.BotUserService;
-import finance.expense.ExpenseRepository.AmountCurrencyExpenseTotal;
 import finance.expense.total.TotalUtils;
 import finance.expense.total.selector.*;
 import org.joda.time.DateTime;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -85,6 +83,10 @@ public class ExpenseService {
         return getTotalText(new AllExpenseTotalsSelector(expenseRepository, botChatId));
     }
 
+    public String getAllMyTotalText(long botChatId, int botUserId) {
+        return getTotalText(new AllMyExpenseTotalsSelector(expenseRepository, botChatId, botUserId));
+    }
+
     public String getMonthlyReportText(long botChatId) {
         return getTotalText(new LastMonthExpenseTotalsSelector(expenseRepository, botChatId));
     }
@@ -99,14 +101,14 @@ public class ExpenseService {
     }
 
     public String getTotalMonthText(long botChatId) {
-        return getTotalText(new FromDateExpenseTotalSelector(
+        return getTotalText(new FromDateExpenseTotalsSelector(
                 expenseRepository,
                 botChatId,
                 getThisMonthBeginning()));
     }
 
     public String getMyTotalMonthText(long botChatId, int botUserId) {
-        return getTotalText(new FromDateMyExpenseTotalSelector(
+        return getTotalText(new FromDateMyExpenseTotalsSelector(
                 expenseRepository,
                 botChatId,
                 botUserId,
@@ -124,10 +126,6 @@ public class ExpenseService {
 
     public Optional<Expense> getExpenseByBotChatIdAndMessageId(long botChatId, int messageId) {
         return expenseRepository.findOneByBotChatIdAndMessageId(botChatId, messageId);
-    }
-
-    public List<AmountCurrencyExpenseTotal> getTotalByBotChatIdAndBotUserId(long botChatId, int botUserId) {
-        return expenseRepository.totalCurrencyByBotChatIdAndBotUserId(botChatId, botUserId);
     }
 
     public Optional<Expense> getLastBotUserIdExpense(long botChatId, int botUserId) {
