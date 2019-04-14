@@ -7,8 +7,11 @@ import finance.bot.user.BotUserService;
 import finance.expense.total.TotalUtils;
 import finance.expense.total.selector.*;
 import org.joda.time.DateTime;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Optional;
@@ -24,6 +27,7 @@ import static finance.update.UpdateUtils.*;
 @Service
 public class ExpenseService {
 
+    private final RestTemplate restTemplate = new RestTemplate();
     private final ExpenseRepository expenseRepository;
     private final BotChatService botChatService;
     private final BotUserService botUserService;
@@ -34,6 +38,12 @@ public class ExpenseService {
         this.expenseRepository = expenseRepository;
         this.botChatService = botChatService;
         this.botUserService = botUserService;
+    }
+
+    @PostConstruct void moveExpensesToWastedCash() {
+        expenseRepository.findAll()
+                .forEach(expense -> {
+                });
     }
 
     public Expense save(Update update) {
