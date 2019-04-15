@@ -8,6 +8,7 @@ import finance.expense.total.TotalUtils;
 import finance.expense.total.selector.*;
 import org.joda.time.DateTime;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -41,9 +42,40 @@ public class ExpenseService {
     }
 
     @PostConstruct void moveExpensesToWastedCash() {
-        expenseRepository.findAll()
-                .forEach(expense -> {
-                });
+        expenseRepository.findAll().forEach(expense -> {
+            WastedCashExpense wastedCashExpense = restTemplate.postForEntity(
+                    "http://localhost:8080/expense",
+                    new PostExpenseRequest() {{
+                        userId = expense.botUser.id;
+                        groupId = expense.botChat.id;
+                        telegramMessageId = expense.messageId;
+                        amount = expense.amount;
+                    }},
+                    WastedCashExpense.class)
+                    .getBody();
+            wastedCashExpense.currency = expense.currency;
+            wastedCashExpense.category = expense.category.getName();
+            wastedCashExpense.date = expense.date;
+            restTemplate.put("http://localhost:8080/expense", wastedCashExpense);
+        });
+    }
+
+    static class PostExpenseRequest {
+        int userId;
+        long groupId;
+        int telegramMessageId;
+        long amount;
+    }
+
+    static class WastedCashExpense {
+        long id;
+        int userId;
+        long groupId;
+        int telegramMessageId;
+        long amount;
+        String currency;
+        String category;
+        Date date;
     }
 
     public Expense save(Update update) {
