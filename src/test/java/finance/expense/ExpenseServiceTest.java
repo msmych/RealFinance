@@ -1,5 +1,8 @@
 package finance.expense;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
@@ -8,12 +11,18 @@ import finance.bot.chat.BotChat;
 import finance.bot.chat.BotChatService;
 import finance.bot.user.BotUser;
 import finance.bot.user.BotUserService;
+import finance.expense.ExpenseService.WastedCashExpense;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
+import java.util.Date;
 import java.util.Optional;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static finance.expense.ExpenseCategory.FUN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -31,6 +40,32 @@ public class ExpenseServiceTest {
     private final Message message = mock(Message.class);
     private final Chat chat = mock(Chat.class);
     private final User user = mock(User.class);
+
+    @ClassRule
+    static WireMockClassRule wireMockClassRule = new WireMockClassRule();
+
+    @BeforeClass
+    public static void setUpStubs() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        wireMockClassRule.stubFor(post(urlEqualTo("/expense"))
+                .withRequestBody(matchingJsonPath("$.userId"))
+                .withRequestBody(matchingJsonPath("$.groupId"))
+                .withRequestBody(matchingJsonPath("$.telegramMessageId"))
+                .withRequestBody(matchingJsonPath("$.amount"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withBody(objectMapper.writeValueAsString(
+                                new WastedCashExpense() {{
+                                    id = 1;
+                                    userId = 2;
+                                    groupId = 3;
+                                    telegramMessageId = 4;
+                                    amount = 1000;
+                                    currency = "USD";
+                                    category = "SHOPPING";
+                                    date = new Date();
+                                }}))));
+    }
 
     @Before
     public void setUp() {
@@ -98,4 +133,6 @@ public class ExpenseServiceTest {
         assertEquals(message.messageId(), expense.messageId);
         assertEquals(1500, expense.amount);
     }
+
+
 }
