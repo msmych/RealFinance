@@ -30,17 +30,19 @@ public class ExpenseService {
 
     private final static Logger log = LoggerFactory.getLogger(ExpenseService.class);
 
-    private final RestTemplate restTemplate = new RestTemplate();
     private final ExpenseRepository expenseRepository;
     private final BotChatService botChatService;
     private final BotUserService botUserService;
+    private final RestTemplate restTemplate;
 
     public ExpenseService(ExpenseRepository expenseRepository,
                           BotChatService botChatService,
-                          BotUserService botUserService) {
+                          BotUserService botUserService,
+                          RestTemplate restTemplate) {
         this.expenseRepository = expenseRepository;
         this.botChatService = botChatService;
         this.botUserService = botUserService;
+        this.restTemplate = restTemplate;
     }
 
     @PostConstruct void moveExpensesToWastedCash() {
