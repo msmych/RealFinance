@@ -103,6 +103,8 @@ public class ExpenseService {
         int telegramMessageId;
         long amount;
 
+        PostExpenseRequest(){}
+
         @Override
         public String toString() {
             return "PostExpenseRequest{" +
@@ -123,6 +125,8 @@ public class ExpenseService {
         String currency;
         String category;
         Date date;
+
+        WastedCashExpense(){}
 
         @Override
         public String toString() {
