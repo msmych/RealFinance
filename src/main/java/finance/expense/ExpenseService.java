@@ -9,6 +9,7 @@ import finance.expense.total.selector.*;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,7 +39,7 @@ public class ExpenseService {
     public ExpenseService(ExpenseRepository expenseRepository,
                           BotChatService botChatService,
                           BotUserService botUserService,
-                          RestTemplate restTemplate) {
+                          @Qualifier("any-rest-template") RestTemplate restTemplate) {
         this.expenseRepository = expenseRepository;
         this.botChatService = botChatService;
         this.botUserService = botUserService;

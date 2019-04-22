@@ -15,7 +15,7 @@ import static org.springframework.http.MediaType.ALL;
 @Configuration
 public class Config {
 
-    @Bean
+    @Bean("any-rest-template")
     public RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
