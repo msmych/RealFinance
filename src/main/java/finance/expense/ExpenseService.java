@@ -1,6 +1,5 @@
 package finance.expense;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pengrad.telegrambot.model.Update;
 import finance.bot.chat.BotChatService;
 import finance.bot.user.BotUser;
@@ -8,8 +7,8 @@ import finance.bot.user.BotUserService;
 import finance.expense.total.TotalUtils;
 import finance.expense.total.selector.*;
 import org.joda.time.DateTime;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -29,6 +28,8 @@ import static finance.update.UpdateUtils.*;
 @Service
 public class ExpenseService {
 
+    private final static Logger log = LoggerFactory.getLogger(ExpenseService.class);
+
     private final RestTemplate restTemplate = new RestTemplate();
     private final ExpenseRepository expenseRepository;
     private final BotChatService botChatService;
@@ -44,21 +45,53 @@ public class ExpenseService {
 
     @PostConstruct void moveExpensesToWastedCash() {
         expenseRepository.findAll().forEach(expense -> {
+            log.info("Copying expense {}", expense);
+            PostExpenseRequest request = new PostExpenseRequest();
+            request.userId = expense.botUser.id;
+            request.groupId = expense.botChat.id;
+            request.telegramMessageId = expense.messageId;
+            request.amount = expense.amount;
+            log.info("Creating wasted cash expense {}", request);
             WastedCashExpense wastedCashExpense = restTemplate.postForEntity(
                     "http://localhost:8080/expense",
-                    new PostExpenseRequest() {{
-                        userId = expense.botUser.id;
-                        groupId = expense.botChat.id;
-                        telegramMessageId = expense.messageId;
-                        amount = expense.amount;
-                    }},
+                    request,
                     WastedCashExpense.class)
                     .getBody();
+            if (wastedCashExpense == null) {
+                log.error("Wasted cash returned null");
+                return;
+            }
+            log.info("Wasted cash expense: {}", wastedCashExpense);
             wastedCashExpense.currency = expense.currency;
-            wastedCashExpense.category = expense.category.getName();
+            wastedCashExpense.category = convertToWastedCashExpenseCategory(expense.category);
             wastedCashExpense.date = expense.date;
+            log.info("Saving wasted cash expense {}", wastedCashExpense);
             restTemplate.put("http://localhost:8080/expense", wastedCashExpense);
         });
+    }
+
+    private String convertToWastedCashExpenseCategory(ExpenseCategory expenseCategory) {
+        switch (expenseCategory) {
+            case ANY:
+                return "OTHER";
+            case HOUSE:
+                return "HOME";
+            case FOOD:
+                return "GROCERIES";
+            case CLOTHES:
+                return "SHOPPING";
+            case HEALTH:
+                return "HEALTH";
+            case CAREER:
+                return "CAREER";
+            case SPORT:
+                return "SPORT";
+            case FUN:
+                return "ENTERTAINMENT";
+            case TRAVEL:
+                return "TRAVEL";
+        }
+        return "OTHER";
     }
 
     static class PostExpenseRequest {
@@ -66,6 +99,16 @@ public class ExpenseService {
         long groupId;
         int telegramMessageId;
         long amount;
+
+        @Override
+        public String toString() {
+            return "PostExpenseRequest{" +
+                    "userId=" + userId +
+                    ", groupId=" + groupId +
+                    ", telegramMessageId=" + telegramMessageId +
+                    ", amount=" + amount +
+                    '}';
+        }
     }
 
     static class WastedCashExpense {
@@ -77,6 +120,20 @@ public class ExpenseService {
         String currency;
         String category;
         Date date;
+
+        @Override
+        public String toString() {
+            return "WastedCashExpense{" +
+                    "id=" + id +
+                    ", userId=" + userId +
+                    ", groupId=" + groupId +
+                    ", telegramMessageId=" + telegramMessageId +
+                    ", amount=" + amount +
+                    ", currency='" + currency + '\'' +
+                    ", category='" + category + '\'' +
+                    ", date=" + date +
+                    '}';
+        }
     }
 
     public Expense save(Update update) {

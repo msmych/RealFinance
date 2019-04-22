@@ -13,11 +13,9 @@ import finance.bot.user.BotUser;
 import finance.bot.user.BotUserService;
 import finance.expense.ExpenseService.WastedCashExpense;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.util.Date;
 import java.util.Optional;
@@ -26,6 +24,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static finance.expense.ExpenseCategory.FUN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.*;
 
 public class ExpenseServiceTest {
@@ -42,9 +41,8 @@ public class ExpenseServiceTest {
     private final User user = mock(User.class);
 
     @ClassRule
-    static WireMockClassRule wireMockClassRule = new WireMockClassRule();
+    public static WireMockClassRule wireMockClassRule = new WireMockClassRule();
 
-    @BeforeClass
     public static void setUpStubs() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         wireMockClassRule.stubFor(post(urlEqualTo("/expense"))
