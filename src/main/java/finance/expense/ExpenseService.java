@@ -99,7 +99,7 @@ public class ExpenseService {
     public static class PostExpenseRequest {
         int userId;
         long groupId;
-        int telegramMessageId;
+        Integer telegramMessageId;
         long amount;
 
         PostExpenseRequest(){}
@@ -120,11 +120,11 @@ public class ExpenseService {
             this.groupId = groupId;
         }
 
-        public int getTelegramMessageId() {
+        public Integer getTelegramMessageId() {
             return telegramMessageId;
         }
 
-        public void setTelegramMessageId(int telegramMessageId) {
+        public void setTelegramMessageId(Integer telegramMessageId) {
             this.telegramMessageId = telegramMessageId;
         }
 
