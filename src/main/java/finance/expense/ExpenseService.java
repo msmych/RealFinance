@@ -38,12 +38,11 @@ public class ExpenseService {
 
     public ExpenseService(ExpenseRepository expenseRepository,
                           BotChatService botChatService,
-                          BotUserService botUserService,
-                          @Qualifier("any-rest-template") RestTemplate restTemplate) {
+                          BotUserService botUserService) {
         this.expenseRepository = expenseRepository;
         this.botChatService = botChatService;
         this.botUserService = botUserService;
-        this.restTemplate = restTemplate;
+        this.restTemplate = new RestTemplate();
     }
 
     @PostConstruct void moveExpensesToWastedCash() {

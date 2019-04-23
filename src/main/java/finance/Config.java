@@ -15,14 +15,14 @@ import static org.springframework.http.MediaType.ALL;
 @Configuration
 public class Config {
 
-    @Bean("any-rest-template")
-    public RestTemplate getRestTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setSupportedMediaTypes(singletonList(ALL));
-        messageConverters.add(converter);
-        restTemplate.setMessageConverters(messageConverters);
-        return restTemplate;
-    }
+//    @Bean("any-rest-template")
+//    public RestTemplate getRestTemplate() {
+//        RestTemplate restTemplate = new RestTemplate();
+//        List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
+//        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+//        converter.setSupportedMediaTypes(singletonList(ALL));
+//        messageConverters.add(converter);
+//        restTemplate.setMessageConverters(messageConverters);
+//        return restTemplate;
+//    }
 }
