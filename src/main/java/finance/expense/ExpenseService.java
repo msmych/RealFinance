@@ -38,12 +38,11 @@ public class ExpenseService {
 
     public ExpenseService(ExpenseRepository expenseRepository,
                           BotChatService botChatService,
-                          BotUserService botUserService,
-                          @Qualifier("any-rest-template") RestTemplate restTemplate) {
+                          BotUserService botUserService) {
         this.expenseRepository = expenseRepository;
         this.botChatService = botChatService;
         this.botUserService = botUserService;
-        this.restTemplate = restTemplate;
+        this.restTemplate = new RestTemplate();
     }
 
     @PostConstruct void moveExpensesToWastedCash() {
@@ -99,13 +98,45 @@ public class ExpenseService {
         return "OTHER";
     }
 
-    static class PostExpenseRequest {
+    public static class PostExpenseRequest {
         int userId;
         long groupId;
-        int telegramMessageId;
+        Integer telegramMessageId;
         long amount;
 
         PostExpenseRequest(){}
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
+
+        public long getGroupId() {
+            return groupId;
+        }
+
+        public void setGroupId(long groupId) {
+            this.groupId = groupId;
+        }
+
+        public Integer getTelegramMessageId() {
+            return telegramMessageId;
+        }
+
+        public void setTelegramMessageId(Integer telegramMessageId) {
+            this.telegramMessageId = telegramMessageId;
+        }
+
+        public long getAmount() {
+            return amount;
+        }
+
+        public void setAmount(long amount) {
+            this.amount = amount;
+        }
 
         @Override
         public String toString() {
@@ -118,7 +149,7 @@ public class ExpenseService {
         }
     }
 
-    static class WastedCashExpense {
+    public static class WastedCashExpense {
         long id;
         int userId;
         long groupId;
@@ -129,6 +160,70 @@ public class ExpenseService {
         Date date;
 
         WastedCashExpense(){}
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
+
+        public long getGroupId() {
+            return groupId;
+        }
+
+        public void setGroupId(long groupId) {
+            this.groupId = groupId;
+        }
+
+        public int getTelegramMessageId() {
+            return telegramMessageId;
+        }
+
+        public void setTelegramMessageId(int telegramMessageId) {
+            this.telegramMessageId = telegramMessageId;
+        }
+
+        public long getAmount() {
+            return amount;
+        }
+
+        public void setAmount(long amount) {
+            this.amount = amount;
+        }
+
+        public String getCurrency() {
+            return currency;
+        }
+
+        public void setCurrency(String currency) {
+            this.currency = currency;
+        }
+
+        public String getCategory() {
+            return category;
+        }
+
+        public void setCategory(String category) {
+            this.category = category;
+        }
+
+        public Date getDate() {
+            return date;
+        }
+
+        public void setDate(Date date) {
+            this.date = date;
+        }
 
         @Override
         public String toString() {
