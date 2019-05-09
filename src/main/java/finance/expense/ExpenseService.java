@@ -47,30 +47,32 @@ public class ExpenseService {
     }
 
     @PostConstruct void moveExpensesToWastedCash() {
-        expenseRepository.findAll().forEach(expense -> {
-            log.info("Copying expense {}", expense);
-            PostExpenseRequest request = new PostExpenseRequest();
-            request.userId = expense.botUser.id;
-            request.groupId = expense.botChat.id;
-            request.telegramMessageId = expense.messageId;
-            request.amount = expense.amount;
-            log.info("Creating wasted cash expense {}", request);
-            WastedCashExpense wastedCashExpense = restTemplate.postForEntity(
-                    "http://localhost:8080/expense",
-                    request,
-                    WastedCashExpense.class)
-                    .getBody();
-            if (wastedCashExpense == null) {
-                log.error("Wasted cash returned null");
-                return;
-            }
-            log.info("Wasted cash expense: {}", wastedCashExpense);
-            wastedCashExpense.currency = expense.currency;
-            wastedCashExpense.category = convertToWastedCashExpenseCategory(expense.category);
-            wastedCashExpense.date = expense.date;
-            log.info("Saving wasted cash expense {}", wastedCashExpense);
-            restTemplate.put("http://localhost:8080/expense", wastedCashExpense);
-        });
+        expenseRepository.findAll().forEach(this::saveToWastedCash);
+    }
+
+    private void saveToWastedCash(Expense expense) {
+        log.info("Copying expense {}", expense);
+        PostExpenseRequest request = new PostExpenseRequest();
+        request.userId = expense.botUser.id;
+        request.groupId = expense.botChat.id;
+        request.telegramMessageId = expense.messageId;
+        request.amount = expense.amount;
+        log.info("Creating wasted cash expense {}", request);
+        WastedCashExpense wastedCashExpense = restTemplate.postForEntity(
+                "http://localhost:8080/expense",
+                request,
+                WastedCashExpense.class)
+                .getBody();
+        if (wastedCashExpense == null) {
+            log.error("Wasted cash returned null");
+            return;
+        }
+        log.info("Wasted cash expense: {}", wastedCashExpense);
+        wastedCashExpense.currency = expense.currency;
+        wastedCashExpense.category = convertToWastedCashExpenseCategory(expense.category);
+        wastedCashExpense.date = expense.date;
+        log.info("Saving wasted cash expense {}", wastedCashExpense);
+        restTemplate.put("http://localhost:8080/expense", wastedCashExpense);
     }
 
     private String convertToWastedCashExpenseCategory(ExpenseCategory expenseCategory) {
@@ -158,7 +160,9 @@ public class ExpenseService {
                 .orElse(botUser.defaultCurrency);
         expense.category = getCategory(text)
                 .orElse(ANY);
-        return expenseRepository.save(expense);
+        expense = expenseRepository.save(expense);
+        saveToWastedCash(expense);
+        return expense;
     }
 
     private Optional<ExpenseCategory> getCategory(String text) {
