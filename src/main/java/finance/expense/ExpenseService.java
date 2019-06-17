@@ -29,12 +29,9 @@ import static finance.update.UpdateUtils.*;
 @Service
 public class ExpenseService {
 
-    private final static Logger log = LoggerFactory.getLogger(ExpenseService.class);
-
     private final ExpenseRepository expenseRepository;
     private final BotChatService botChatService;
     private final BotUserService botUserService;
-    private final RestTemplate restTemplate;
 
     public ExpenseService(ExpenseRepository expenseRepository,
                           BotChatService botChatService,
@@ -42,36 +39,10 @@ public class ExpenseService {
         this.expenseRepository = expenseRepository;
         this.botChatService = botChatService;
         this.botUserService = botUserService;
-        this.restTemplate = new RestTemplate();
     }
 
     @PostConstruct void moveExpensesToWastedCash() {
-        expenseRepository.findAll().forEach(this::saveToWastedCash);
-    }
-
-    private void saveToWastedCash(Expense expense) {
-        log.info("Copying expense {}", expense);
-        PostExpenseRequest request = new PostExpenseRequest();
-        request.userId = expense.botUser.id;
-        request.groupId = expense.botChat.id;
-        request.telegramMessageId = expense.messageId;
-        request.amount = expense.amount;
-        log.info("Creating wasted cash expense {}", request);
-        WastedCashExpense wastedCashExpense = restTemplate.postForEntity(
-                "http://localhost:8080/expense",
-                request,
-                WastedCashExpense.class)
-                .getBody();
-        if (wastedCashExpense == null) {
-            log.error("Wasted cash returned null");
-            return;
-        }
-        log.info("Wasted cash expense: {}", wastedCashExpense);
-        wastedCashExpense.currency = expense.currency;
-        wastedCashExpense.category = convertToWastedCashExpenseCategory(expense.category);
-        wastedCashExpense.date = expense.date;
-        log.info("Saving wasted cash expense {}", wastedCashExpense);
-        restTemplate.put("http://localhost:8080/expense", wastedCashExpense);
+        expenseRepository.findAll();
     }
 
     private String convertToWastedCashExpenseCategory(ExpenseCategory expenseCategory) {
@@ -98,57 +69,6 @@ public class ExpenseService {
         return "OTHER";
     }
 
-    public static class PostExpenseRequest {
-        int userId;
-        long groupId;
-        Integer telegramMessageId;
-        long amount;
-
-        PostExpenseRequest(){}
-
-        public int getUserId() {
-            return userId;
-        }
-
-        public void setUserId(int userId) {
-            this.userId = userId;
-        }
-
-        public long getGroupId() {
-            return groupId;
-        }
-
-        public void setGroupId(long groupId) {
-            this.groupId = groupId;
-        }
-
-        public Integer getTelegramMessageId() {
-            return telegramMessageId;
-        }
-
-        public void setTelegramMessageId(Integer telegramMessageId) {
-            this.telegramMessageId = telegramMessageId;
-        }
-
-        public long getAmount() {
-            return amount;
-        }
-
-        public void setAmount(long amount) {
-            this.amount = amount;
-        }
-
-        @Override
-        public String toString() {
-            return "PostExpenseRequest{" +
-                    "userId=" + userId +
-                    ", groupId=" + groupId +
-                    ", telegramMessageId=" + telegramMessageId +
-                    ", amount=" + amount +
-                    '}';
-        }
-    }
-
     public static class WastedCashExpense {
         long id;
         int userId;
@@ -158,86 +78,6 @@ public class ExpenseService {
         String currency;
         String category;
         Date date;
-
-        WastedCashExpense(){}
-
-        public long getId() {
-            return id;
-        }
-
-        public void setId(long id) {
-            this.id = id;
-        }
-
-        public int getUserId() {
-            return userId;
-        }
-
-        public void setUserId(int userId) {
-            this.userId = userId;
-        }
-
-        public long getGroupId() {
-            return groupId;
-        }
-
-        public void setGroupId(long groupId) {
-            this.groupId = groupId;
-        }
-
-        public int getTelegramMessageId() {
-            return telegramMessageId;
-        }
-
-        public void setTelegramMessageId(int telegramMessageId) {
-            this.telegramMessageId = telegramMessageId;
-        }
-
-        public long getAmount() {
-            return amount;
-        }
-
-        public void setAmount(long amount) {
-            this.amount = amount;
-        }
-
-        public String getCurrency() {
-            return currency;
-        }
-
-        public void setCurrency(String currency) {
-            this.currency = currency;
-        }
-
-        public String getCategory() {
-            return category;
-        }
-
-        public void setCategory(String category) {
-            this.category = category;
-        }
-
-        public Date getDate() {
-            return date;
-        }
-
-        public void setDate(Date date) {
-            this.date = date;
-        }
-
-        @Override
-        public String toString() {
-            return "WastedCashExpense{" +
-                    "id=" + id +
-                    ", userId=" + userId +
-                    ", groupId=" + groupId +
-                    ", telegramMessageId=" + telegramMessageId +
-                    ", amount=" + amount +
-                    ", currency='" + currency + '\'' +
-                    ", category='" + category + '\'' +
-                    ", date=" + date +
-                    '}';
-        }
     }
 
     public Expense save(Update update) {
@@ -256,7 +96,6 @@ public class ExpenseService {
         expense.category = getCategory(text)
                 .orElse(ANY);
         expense = expenseRepository.save(expense);
-        saveToWastedCash(expense);
         return expense;
     }
 
