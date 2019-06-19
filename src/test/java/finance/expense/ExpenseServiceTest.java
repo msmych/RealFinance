@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.Optional;
@@ -34,7 +33,7 @@ public class ExpenseServiceTest {
     private final BotChatService botChatService = mock(BotChatService.class);
     private final BotUserService botUserService = mock(BotUserService.class);
 
-    private final ExpenseService expenseService = new ExpenseService(expenseRepository, botChatService, botUserService);
+    private final ExpenseService expenseService = new ExpenseService(expenseRepository, botChatService, botUserService, objectMapper);
 
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);

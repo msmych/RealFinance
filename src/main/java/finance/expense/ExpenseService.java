@@ -1,5 +1,7 @@
 package finance.expense;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pengrad.telegrambot.model.Update;
 import finance.bot.chat.BotChatService;
 import finance.bot.user.BotUser;
@@ -7,14 +9,13 @@ import finance.bot.user.BotUserService;
 import finance.expense.total.TotalUtils;
 import finance.expense.total.selector.*;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,20 +33,37 @@ public class ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final BotChatService botChatService;
     private final BotUserService botUserService;
+    private final ObjectMapper objectMapper;
 
     public ExpenseService(ExpenseRepository expenseRepository,
                           BotChatService botChatService,
-                          BotUserService botUserService) {
+                          BotUserService botUserService,
+                          ObjectMapper objectMapper) {
         this.expenseRepository = expenseRepository;
         this.botChatService = botChatService;
         this.botUserService = botUserService;
+        this.objectMapper = objectMapper;
     }
 
     @PostConstruct void moveExpensesToWastedCash() {
-        expenseRepository.findAll();
+        Iterable<Expense> expenses = expenseRepository.findAll();
+        StringBuilder sb = new StringBuilder("{\"expenses\": [");
+        expenses.forEach(e -> {
+            try {
+                sb.append(objectMapper.writeValueAsString(WastedCashExpense.fromExpense(e))).append(',');
+            } catch (JsonProcessingException ex) {
+                ex.printStackTrace();
+            }
+        });
+        sb.deleteCharAt(sb.length() - 1).append("]}");
+        try (PrintStream out = new PrintStream(new FileOutputStream("expenses.json"))) {
+            out.println(sb.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    private String convertToWastedCashExpenseCategory(ExpenseCategory expenseCategory) {
+    private static String convertToWastedCashExpenseCategory(ExpenseCategory expenseCategory) {
         switch (expenseCategory) {
             case ANY:
                 return "OTHER";
@@ -77,7 +95,18 @@ public class ExpenseService {
         long amount;
         String currency;
         String category;
-        Date date;
+        Date date = new Date();
+
+        static WastedCashExpense fromExpense(Expense expense) {
+            return new WastedCashExpense() {{
+                userId = expense.botUser.id;
+                groupId = expense.botChat.id;
+                telegramMessageId = expense.messageId;
+                amount = expense.amount;
+                currency = expense.currency;
+                category = convertToWastedCashExpenseCategory(expense.category);
+            }};
+        }
     }
 
     public Expense save(Update update) {
