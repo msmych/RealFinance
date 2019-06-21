@@ -55,7 +55,9 @@ public class ExpenseService {
                 ex.printStackTrace();
             }
         });
-        sb.deleteCharAt(sb.length() - 1).append("]}");
+        if (sb.charAt(sb.length() - 1) != '[')
+            sb.deleteCharAt(sb.length() - 1);
+        sb.append("]}");
         try (PrintStream out = new PrintStream(new FileOutputStream("expenses.json"))) {
             out.println(sb.toString());
         } catch (FileNotFoundException e) {
@@ -97,6 +99,8 @@ public class ExpenseService {
         String category;
         Date date = new Date();
 
+        public WastedCashExpense() {}
+
         static WastedCashExpense fromExpense(Expense expense) {
             return new WastedCashExpense() {{
                 userId = expense.botUser.id;
@@ -106,6 +110,70 @@ public class ExpenseService {
                 currency = expense.currency;
                 category = convertToWastedCashExpenseCategory(expense.category);
             }};
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
+
+        public long getGroupId() {
+            return groupId;
+        }
+
+        public void setGroupId(long groupId) {
+            this.groupId = groupId;
+        }
+
+        public Integer getTelegramMessageId() {
+            return telegramMessageId;
+        }
+
+        public void setTelegramMessageId(Integer telegramMessageId) {
+            this.telegramMessageId = telegramMessageId;
+        }
+
+        public long getAmount() {
+            return amount;
+        }
+
+        public void setAmount(long amount) {
+            this.amount = amount;
+        }
+
+        public String getCurrency() {
+            return currency;
+        }
+
+        public void setCurrency(String currency) {
+            this.currency = currency;
+        }
+
+        public String getCategory() {
+            return category;
+        }
+
+        public void setCategory(String category) {
+            this.category = category;
+        }
+
+        public Date getDate() {
+            return date;
+        }
+
+        public void setDate(Date date) {
+            this.date = date;
         }
     }
 
