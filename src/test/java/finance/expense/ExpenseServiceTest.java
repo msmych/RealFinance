@@ -33,7 +33,7 @@ public class ExpenseServiceTest {
     private final BotChatService botChatService = mock(BotChatService.class);
     private final BotUserService botUserService = mock(BotUserService.class);
 
-    private final ExpenseService expenseService = new ExpenseService(expenseRepository, botChatService, botUserService, objectMapper);
+    private final ExpenseService expenseService = new ExpenseService(expenseRepository, botChatService, botUserService, new ObjectMapper());
 
     private final Update update = mock(Update.class);
     private final Message message = mock(Message.class);
