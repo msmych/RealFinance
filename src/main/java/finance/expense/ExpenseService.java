@@ -93,7 +93,6 @@ public class ExpenseService {
         long id;
         int userId;
         long groupId;
-        Integer telegramMessageId;
         long amount;
         String currency;
         String category;
@@ -105,7 +104,6 @@ public class ExpenseService {
             return new WastedCashExpense() {{
                 userId = expense.botUser.id;
                 groupId = expense.botChat.id;
-                telegramMessageId = expense.messageId;
                 amount = expense.amount;
                 currency = expense.currency;
                 category = convertToWastedCashExpenseCategory(expense.category);
@@ -134,14 +132,6 @@ public class ExpenseService {
 
         public void setGroupId(long groupId) {
             this.groupId = groupId;
-        }
-
-        public Integer getTelegramMessageId() {
-            return telegramMessageId;
-        }
-
-        public void setTelegramMessageId(Integer telegramMessageId) {
-            this.telegramMessageId = telegramMessageId;
         }
 
         public long getAmount() {
