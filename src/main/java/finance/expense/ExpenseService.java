@@ -91,7 +91,7 @@ public class ExpenseService {
         long id;
         int userId;
         long groupId;
-        int telegramMessageId;
+        Integer telegramMessageId;
         long amount;
         String currency;
         String category;
