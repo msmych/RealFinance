@@ -48,7 +48,6 @@ public class ExpenseServiceTest {
         wireMockClassRule.stubFor(post(urlEqualTo("/expense"))
                 .withRequestBody(matchingJsonPath("$.userId"))
                 .withRequestBody(matchingJsonPath("$.groupId"))
-                .withRequestBody(matchingJsonPath("$.telegramMessageId"))
                 .withRequestBody(matchingJsonPath("$.amount"))
                 .willReturn(aResponse()
                         .withStatus(200)
@@ -57,7 +56,6 @@ public class ExpenseServiceTest {
                                     id = 1;
                                     userId = 2;
                                     groupId = 3;
-                                    telegramMessageId = 4;
                                     amount = 1000;
                                     currency = "USD";
                                     category = "SHOPPING";
