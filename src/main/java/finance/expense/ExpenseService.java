@@ -97,18 +97,27 @@ public class ExpenseService {
         long amount;
         String currency;
         String category;
-        Date date = new Date();
+        Date date;
 
         public WastedCashExpense() {}
 
+        public WastedCashExpense(int userId, long groupId, long amount, String currency, String category, Date date) {
+            this.userId = userId;
+            this.groupId = groupId;
+            this.amount = amount;
+            this.currency = currency;
+            this.category = category;
+            this.date = date;
+        }
+
         static WastedCashExpense fromExpense(Expense expense) {
-            return new WastedCashExpense() {{
-                userId = expense.botUser.id;
-                groupId = expense.botChat.id;
-                amount = expense.amount;
-                currency = expense.currency;
-                category = convertToWastedCashExpenseCategory(expense.category);
-            }};
+            return new WastedCashExpense(
+                expense.botUser.id,
+                expense.botChat.id,
+                expense.amount,
+                expense.currency,
+                convertToWastedCashExpenseCategory(expense.category),
+                    expense.date);
         }
 
         public long getId() {
