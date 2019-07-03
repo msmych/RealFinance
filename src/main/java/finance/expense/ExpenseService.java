@@ -26,6 +26,7 @@ import static finance.expense.ExpenseCategory.getByEmoji;
 import static finance.expense.ExpenseUtils.parseAmount;
 import static finance.expense.total.TotalUtils.formatTotalCurrency;
 import static finance.update.UpdateUtils.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
 public class ExpenseService {
@@ -58,7 +59,7 @@ public class ExpenseService {
         if (sb.charAt(sb.length() - 1) != '[')
             sb.deleteCharAt(sb.length() - 1);
         sb.append("]}");
-        try (PrintStream out = new PrintStream(new FileOutputStream("expenses.json"))) {
+        try (PrintStream out = new PrintStream(new FileOutputStream("expenses.json"), false, UTF_8)) {
             out.println(sb.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
